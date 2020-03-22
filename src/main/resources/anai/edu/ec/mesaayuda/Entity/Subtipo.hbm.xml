@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 19/03/2020 10:05:00 by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="anai.edu.ec.mesaayuda.Entity.Subtipo" table="SUBTIPO" schema="MA01" optimistic-lock="version">
+        <id name="idSubtipo" type="integer">
+            <column name="ID_SUBTIPO" precision="22" scale="0" />
+            <generator class="sequence">
+                <param name="sequence">subtipo_seq</param>
+            </generator>
+        </id>
+        <many-to-one name="tipoGrupo" class="anai.edu.ec.mesaayuda.Entity.TipoGrupo" fetch="select">
+            <column name="ID_TIPO" precision="22" scale="0" not-null="true" />
+        </many-to-one>
+        <property name="nombreSubtipo" type="string">
+            <column name="NOMBRE_SUBTIPO" length="50" not-null="true" unique="true" />
+        </property>
+        <property name="estadoBorrado" type="integer">
+            <column name="ESTADO_BORRADO" precision="22" scale="0" />
+        </property>
+        <set name="solicitudAyudas" table="SOLICITUD_AYUDA" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="ID_SUBTIPO" precision="22" scale="0" />
+            </key>
+            <one-to-many class="anai.edu.ec.mesaayuda.Entity.SolicitudAyuda" />
+        </set>
+    </class>
+</hibernate-mapping>

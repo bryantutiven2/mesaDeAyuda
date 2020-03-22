@@ -1,0 +1,59 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 19/03/2020 10:05:00 by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="anai.edu.ec.mesaayuda.Entity.Usuario" table="USUARIO" schema="MA01" optimistic-lock="version">
+        <id name="idUsuario" type="integer">
+            <column name="ID_USUARIO" precision="22" scale="0" />
+            <generator class="sequence">
+                <param name="sequence">usuario_seq</param>
+            </generator>
+        </id>
+        <many-to-one name="tipoGrupo" class="anai.edu.ec.mesaayuda.Entity.TipoGrupo" fetch="select">
+            <column name="ID_TIPO" precision="22" scale="0" />
+        </many-to-one>
+        <property name="nombre" type="string">
+            <column name="NOMBRE" length="50" not-null="true" />
+        </property>
+        <property name="apellido" type="string">
+            <column name="APELLIDO" length="50" not-null="true" />
+        </property>
+        <property name="usuario" type="string">
+            <column name="USUARIO" length="50" not-null="true" unique="true" />
+        </property>
+        <property name="contrasena" type="string">
+            <column name="CONTRASENA" length="50" not-null="true" />
+        </property>
+        <property name="correo" type="string">
+            <column name="CORREO" length="200" not-null="true" unique="true" />
+        </property>
+        <property name="departamento" type="string">
+            <column name="DEPARTAMENTO" length="50" />
+        </property>
+        <property name="rol" type="string">
+            <column name="ROL" length="50" not-null="true" />
+        </property>
+        <property name="estadoBorrado" type="integer">
+            <column name="ESTADO_BORRADO" precision="22" scale="0" />
+        </property>
+        <set name="solicitudAyudasForIdUserTecnico" table="SOLICITUD_AYUDA" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="ID_USER_TECNICO" precision="22" scale="0" />
+            </key>
+            <one-to-many class="anai.edu.ec.mesaayuda.Entity.SolicitudAyuda" />
+        </set>
+        <set name="solicitudAyudasForIdUserAdmin" table="SOLICITUD_AYUDA" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="ID_USER_ADMIN" precision="22" scale="0" />
+            </key>
+            <one-to-many class="anai.edu.ec.mesaayuda.Entity.SolicitudAyuda" />
+        </set>
+        <set name="solicitudAyudasForIdUserSolicitaAyuda" table="SOLICITUD_AYUDA" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="ID_USER_SOLICITA_AYUDA" precision="22" scale="0" />
+            </key>
+            <one-to-many class="anai.edu.ec.mesaayuda.Entity.SolicitudAyuda" />
+        </set>
+    </class>
+</hibernate-mapping>

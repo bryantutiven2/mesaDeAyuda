@@ -1,0 +1,44 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 19/03/2020 10:05:00 by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="anai.edu.ec.mesaayuda.Entity.Auditoria" table="AUDITORIA" schema="MA01" optimistic-lock="version">
+        <id name="idAuditoria" type="integer">
+            <column name="ID_AUDITORIA" precision="22" scale="0" />
+            <generator class="sequence">
+                <param name="sequence">auditoria_seq</param>
+            </generator>
+        </id>
+        <property name="tipoEvento" type="string">
+            <column name="TIPO_EVENTO" length="50" />
+        </property>
+        <property name="fechaTransaccion" type="date">
+            <column name="FECHA_TRANSACCION" length="7" />
+        </property>
+        <property name="fechaGra" type="date">
+            <column name="FECHA_GRA" length="7" />
+        </property>
+        <property name="tablaMod" type="string">
+            <column name="TABLA_MOD" length="50" />
+        </property>
+        <property name="campoMod" type="string">
+            <column name="CAMPO_MOD" length="50" />
+        </property>
+        <property name="datoAnterior" type="string">
+            <column name="DATO_ANTERIOR" length="1000" />
+        </property>
+        <property name="datoNuevo" type="string">
+            <column name="DATO_NUEVO" length="1000" />
+        </property>
+        <property name="usuario" type="string">
+            <column name="USUARIO" length="15" />
+        </property>
+        <property name="pcid" type="string">
+            <column name="PCID" length="50" />
+        </property>
+        <property name="ip" type="string">
+            <column name="IP" length="50" />
+        </property>
+    </class>
+</hibernate-mapping>

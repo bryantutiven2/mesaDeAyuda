@@ -1,0 +1,58 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 19/03/2020 10:05:00 by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="anai.edu.ec.mesaayuda.Entity.SolicitudAyuda" table="SOLICITUD_AYUDA" schema="MA01" optimistic-lock="version">
+        <composite-id name="id" class="anai.edu.ec.mesaayuda.Entity.SolicitudAyudaId">
+            <key-property name="idSolicitud" type="integer">
+                <column name="ID_SOLICITUD" precision="22" scale="0" />
+            </key-property>
+            <key-property name="idGrupo" type="string">
+                <column name="ID_GRUPO" length="5" />
+            </key-property>
+        </composite-id>
+        <many-to-one name="grupo" class="anai.edu.ec.mesaayuda.Entity.Grupo" update="false" insert="false" fetch="select">
+            <column name="ID_GRUPO" length="5" not-null="true" />
+        </many-to-one>
+        <many-to-one name="tipoGrupo" class="anai.edu.ec.mesaayuda.Entity.TipoGrupo" fetch="select">
+            <column name="ID_TIPO" precision="22" scale="0" />
+        </many-to-one>
+        <many-to-one name="subtipo" class="anai.edu.ec.mesaayuda.Entity.Subtipo" fetch="select">
+            <column name="ID_SUBTIPO" precision="22" scale="0" />
+        </many-to-one>
+        <many-to-one name="usuarioByIdUserTecnico" class="anai.edu.ec.mesaayuda.Entity.Usuario" fetch="select">
+            <column name="ID_USER_TECNICO" precision="22" scale="0" />
+        </many-to-one>
+        <many-to-one name="usuarioByIdUserAdmin" class="anai.edu.ec.mesaayuda.Entity.Usuario" fetch="select">
+            <column name="ID_USER_ADMIN" precision="22" scale="0" />
+        </many-to-one>
+        <many-to-one name="usuarioByIdUserSolicitaAyuda" class="anai.edu.ec.mesaayuda.Entity.Usuario" fetch="select">
+            <column name="ID_USER_SOLICITA_AYUDA" precision="22" scale="0" />
+        </many-to-one>
+        <property name="descripcion" type="string">
+            <column name="DESCRIPCION" length="1000" not-null="true" />
+        </property>
+        <property name="mensajeUserTecnico" type="string">
+            <column name="MENSAJE_USER_TECNICO" length="1000" />
+        </property>
+        <property name="ayudaNVez" type="integer">
+            <column name="AYUDA_N_VEZ" precision="22" scale="0" not-null="true" />
+        </property>
+        <property name="idsSolicitudNVez" type="string">
+            <column name="IDS_SOLICITUD_N_VEZ" length="500" not-null="true" />
+        </property>
+        <property name="fechaInicio" type="date">
+            <column name="FECHA_INICIO" length="7" not-null="true" />
+        </property>
+        <property name="fechaFin" type="date">
+            <column name="FECHA_FIN" length="7" />
+        </property>
+        <property name="estadoSolicitud" type="string">
+            <column name="ESTADO_SOLICITUD" length="25" />
+        </property>
+        <property name="estadoBorrado" type="integer">
+            <column name="ESTADO_BORRADO" precision="22" scale="0" />
+        </property>
+    </class>
+</hibernate-mapping>
