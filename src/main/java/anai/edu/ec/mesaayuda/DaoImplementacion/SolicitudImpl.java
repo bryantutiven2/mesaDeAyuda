@@ -12,6 +12,8 @@ import anai.edu.ec.mesaayuda.Util.HibernateUtil;
 import java.util.List;
 import org.hibernate.SQLQuery;
 import org.hibernate.Session;
+import org.hibernate.Transaction;
+import org.hibernate.query.Query;
 
 /**
  *
@@ -19,10 +21,32 @@ import org.hibernate.Session;
  */
 public class SolicitudImpl implements ISolicitudDao{
     private final String generarIdSolicitud = "select solicitud_seq.nextval from dual";
+    private final String obtenerSolicitudes = "from SolicitudAyuda sa join fetch sa.usuarioByIdUserSolicitaAyuda "
+                                            + "join fetch sa.grupo gru where gru.idGrupo= :grupo and "
+                                            + "sa.estadoSolicitud= :estado";
     
     @Override
     public Boolean insertar(SolicitudAyuda o) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Transaction transaction = null;
+        Boolean retorno = null;
+        try{
+            HibernateUtil.abrirSession();
+            Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+            session.save(o);
+            transaction = session.beginTransaction();
+            transaction.commit();
+            retorno = true;
+        }
+        catch(Exception e){
+            if(transaction != null)
+                transaction.rollback();
+            e.printStackTrace();
+            retorno = false;
+        }
+        finally{
+            HibernateUtil.cerrarSession();
+        }
+        return retorno;
     }
 
     @Override
@@ -36,8 +60,23 @@ public class SolicitudImpl implements ISolicitudDao{
     }
 
     @Override
-    public List<SolicitudAyuda> obtenerElementos() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public List<SolicitudAyuda> obtenerElementos(String grupo, String estado) {
+        List<SolicitudAyuda> listaSolicitud = null;
+        try{
+            HibernateUtil.abrirSession();
+            Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+            Query query = session.createQuery(obtenerSolicitudes, SolicitudAyuda.class);
+            query.setParameter("grupo", grupo);
+            query.setParameter("estado", estado);
+            listaSolicitud = query.getResultList();
+        }
+        catch(Exception exc){
+            exc.printStackTrace();
+        }
+        finally{
+            HibernateUtil.cerrarSession();
+        }
+        return listaSolicitud;
     }
 
     @Override

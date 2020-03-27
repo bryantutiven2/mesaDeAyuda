@@ -7,7 +7,9 @@ import org.hibernate.boot.Metadata;
 import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
+import org.hibernate.cfg.Configuration;
 import org.hibernate.context.internal.ThreadLocalSessionContext;
+import org.hibernate.service.ServiceRegistry;
 
 /**
  * Hibernate Utility class with a convenient method to get Session Factory
@@ -17,18 +19,23 @@ import org.hibernate.context.internal.ThreadLocalSessionContext;
  */
 public class HibernateUtil {
     private static SessionFactory sessionFactory;
+    private static StandardServiceRegistry registry;
     
     public static synchronized void construirSessionFactory() {
+        
         try{
-            StandardServiceRegistry registry = new StandardServiceRegistryBuilder().configure().build();
+            registry = new StandardServiceRegistryBuilder().configure().build();
             MetadataSources sources = new MetadataSources(registry);
             Metadata metadata = sources.getMetadataBuilder().build();
             sessionFactory = metadata.getSessionFactoryBuilder().build();
         }
         catch(Exception e){
-            System.err.println("Exception while initializing hibernate util.. " + e.getMessage());
             e.printStackTrace();
+            if (registry != null) {
+                StandardServiceRegistryBuilder.destroy(registry);
+            }
         }
+        
     }
     
     public static void abrirSession() {

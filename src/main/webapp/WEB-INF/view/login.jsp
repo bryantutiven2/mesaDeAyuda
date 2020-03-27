@@ -1,11 +1,5 @@
-<%-- 
-    Document   : login
-    Created on : 05/03/2020, 12:25:48
-    Author     : examen
---%>
-
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
     <head>
@@ -16,10 +10,16 @@
     </head>
     <body>
         <div class="container col-lg-3">
-            <form action="mostrarMenuUsuario" method="post">
-                <div class=" form-group text-center">
-                    <img src="images/logo.png" style="width: 90%"/>
-                </div>
+            <div class=" form-group text-center">
+                <img src="images/logo.png" style="width: 90%"/>
+            </div>
+            <c:if test="${not empty error}">
+                <div class="error">${error}</div>
+            </c:if>
+            <c:if test="${not empty msg}">
+                <div class="msg">${msg}</div>
+            </c:if>
+            <form action="menuUsuario" method="post">
                 <div class=" form-group" >
                   <label for="exampleInputEmail1">Usuario</label>
                   <input type="text" name="usuario" class="form-control" id="user" aria-describedby="emailHelp" placeholder="Enter email" />

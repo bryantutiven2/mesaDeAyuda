@@ -16,6 +16,7 @@ public class UsuarioImpl implements IUsuarioDao{
     /***
      * Tanto select y selectId sirven para cargar usuarios sin importar si tienen un tipo o no
      */
+    private final String selectUser = "from Usuario u where u.usuario= :user and u.contrasena= :password";
     private final String select = "from Usuario u";
     private final String selectId = "from Usuario u where u.idUsuario= :id";
     /***
@@ -43,7 +44,7 @@ public class UsuarioImpl implements IUsuarioDao{
     public List<Usuario> obtenerElementos() {
         List<Usuario> listaUsuarios = null;
         try{
-            HibernateUtil.abrirSession();
+            //HibernateUtil.abrirSession();
             Session session = HibernateUtil.getSessionFactory().getCurrentSession();
             Query query = session.createQuery(select,Usuario.class);
             listaUsuarios = query.getResultList();
@@ -61,7 +62,7 @@ public class UsuarioImpl implements IUsuarioDao{
     public Usuario obtenerElemento(Integer id) {
         Usuario usuario = null;
         try{
-            HibernateUtil.abrirSession();
+            //HibernateUtil.abrirSession();
             Session session = HibernateUtil.getSessionFactory().getCurrentSession();
             Query query = session.createQuery(selectId, Usuario.class);
             query.setParameter("id", id);
@@ -98,7 +99,7 @@ public class UsuarioImpl implements IUsuarioDao{
     public Usuario obtenerElementoUtp(Integer id) {
         Usuario usuario = null;
         try{
-            HibernateUtil.abrirSession();
+            //HibernateUtil.abrirSession();
             Session session = HibernateUtil.getSessionFactory().getCurrentSession();
             Query query = session.createQuery(selectIdUtp, Usuario.class);
             query.setParameter("id", id);
@@ -112,4 +113,27 @@ public class UsuarioImpl implements IUsuarioDao{
         }
         return usuario;
     } 
+
+    @Override
+    public Usuario verificarUsuario(String user, String password) {
+        Usuario usuario = null;
+        try{
+            //HibernateUtil.abrirSession();
+            //long startTime = System.nanoTime();
+            Session session = HibernateUtil.getSessionFactory().openSession();
+            //long endTime = System.nanoTime() - startTime;
+            //System.out.println(endTime);
+            Query query = session.createQuery(selectUser, Usuario.class);
+            query.setParameter("user", user);
+            query.setParameter("password", password);
+            usuario = (Usuario)query.uniqueResult();
+        }
+        catch(Exception exc){
+            exc.printStackTrace();
+        }
+        finally{
+            HibernateUtil.cerrarSession();
+        }
+        return usuario;
+    }
 }
