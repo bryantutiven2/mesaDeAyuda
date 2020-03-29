@@ -17,11 +17,22 @@ public class fechaSolicitud {
             DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
             Date date = new Date();
             fecha = dateFormat.parse(dateFormat.format(date));
-            System.out.println(fecha);
         }
         catch(Exception e){
             e.printStackTrace();
         }
         return fecha;
+    }
+    
+    public static Date convertirFecha(String fecha){
+        Date date = null;
+        try{
+            DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+            date = dateFormat.parse(fecha);
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
+        return date;
     }
 }

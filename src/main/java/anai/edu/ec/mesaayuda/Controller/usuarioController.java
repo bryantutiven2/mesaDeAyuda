@@ -77,7 +77,7 @@ public class usuarioController {
             objetoSolicitud.setDescripcion(descripcion);
             objetoSolicitud.setAyudaNVez(nvez);
             objetoSolicitud.setIdsSolicitudNVez(id_nvez);
-            objetoSolicitud.setEstadoBorrado(1);
+            objetoSolicitud.setEstadoBorrado(0);
             objetoSolicitud.setEstadoSolicitud("pendiente");
             objetoSolicitud.setFechaInicio(fechaInicio);
             objetoSolicitud.setUsuarioByIdUserSolicitaAyuda(usuario);

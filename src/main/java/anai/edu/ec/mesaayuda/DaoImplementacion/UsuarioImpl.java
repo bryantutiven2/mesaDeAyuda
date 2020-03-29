@@ -17,7 +17,7 @@ public class UsuarioImpl implements IUsuarioDao{
      * Tanto select y selectId sirven para cargar usuarios sin importar si tienen un tipo o no
      */
     private final String selectUser = "from Usuario u where u.usuario= :user and u.contrasena= :password";
-    private final String select = "from Usuario u";
+    private final String select = "from Usuario u join fetch u.tipoGrupo tp join fetch tp.grupo gru where gru.idGrupo= :grupo";
     private final String selectId = "from Usuario u where u.idUsuario= :id";
     /***
      * Tanto selectUtp y selectIdUtp son para cargar usuarios que tienen un tipo y a su vez pertenece a un grupo
@@ -41,12 +41,13 @@ public class UsuarioImpl implements IUsuarioDao{
     }
 
     @Override
-    public List<Usuario> obtenerElementos() {
+    public List<Usuario> obtenerElementos(String grupo) {
         List<Usuario> listaUsuarios = null;
         try{
-            //HibernateUtil.abrirSession();
+            HibernateUtil.abrirSession();
             Session session = HibernateUtil.getSessionFactory().getCurrentSession();
             Query query = session.createQuery(select,Usuario.class);
+            query.setParameter("grupo", grupo);
             listaUsuarios = query.getResultList();
         }
         catch(Exception exc){
@@ -62,7 +63,7 @@ public class UsuarioImpl implements IUsuarioDao{
     public Usuario obtenerElemento(Integer id) {
         Usuario usuario = null;
         try{
-            //HibernateUtil.abrirSession();
+            HibernateUtil.abrirSession();
             Session session = HibernateUtil.getSessionFactory().getCurrentSession();
             Query query = session.createQuery(selectId, Usuario.class);
             query.setParameter("id", id);

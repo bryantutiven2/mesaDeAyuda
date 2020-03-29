@@ -23,9 +23,9 @@ public class probar {
         
         
         ITipoGrupoDao tipoDao = new TipoGrupoImpl();
-        for(TipoGrupo tp : tipoDao.obtenerElementos()){
-            System.out.println(tp.toString());
-        }
+//        for(TipoGrupo tp : tipoDao.obtenerElementos()){
+//            System.out.println(tp.toString());
+//        }
 //        System.out.println(tipoDao.obtenerElemento(1).toString());
         
 //        ISubtipoDao subtipoDao = new SubtipoImpl();

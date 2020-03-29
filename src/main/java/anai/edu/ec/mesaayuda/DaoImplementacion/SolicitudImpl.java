@@ -24,6 +24,7 @@ public class SolicitudImpl implements ISolicitudDao{
     private final String obtenerSolicitudes = "from SolicitudAyuda sa join fetch sa.usuarioByIdUserSolicitaAyuda "
                                             + "join fetch sa.grupo gru where gru.idGrupo= :grupo and "
                                             + "sa.estadoSolicitud= :estado";
+    private final String selectId = "from SolicitudAyuda sa where sa.id= : id";
     
     @Override
     public Boolean insertar(SolicitudAyuda o) {
@@ -51,7 +52,26 @@ public class SolicitudImpl implements ISolicitudDao{
 
     @Override
     public Boolean actualizar(SolicitudAyuda o) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Transaction transaction = null;
+        Boolean retorno = null;
+        try{
+            HibernateUtil.abrirSession();
+            Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+            session.update(o);
+            transaction = session.beginTransaction();
+            transaction.commit();
+            retorno = true;
+        }
+        catch(Exception e){
+            if(transaction != null)
+                transaction.rollback();
+            e.printStackTrace();
+            retorno = false;
+        }
+        finally{
+            HibernateUtil.cerrarSession();
+        }
+        return retorno;
     }
 
     @Override
@@ -81,7 +101,21 @@ public class SolicitudImpl implements ISolicitudDao{
 
     @Override
     public SolicitudAyuda obtenerElemento(SolicitudAyudaId id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        SolicitudAyuda solicitud = null;
+        try{
+            HibernateUtil.abrirSession();
+            Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+            Query query = session.createQuery(selectId, SolicitudAyuda.class);
+            query.setParameter("id", id);
+            solicitud = (SolicitudAyuda)query.uniqueResult();
+        }
+        catch(Exception exc){
+            exc.printStackTrace();
+        }
+        finally{
+            HibernateUtil.cerrarSession();
+        }
+        return solicitud;
     }
 
     @Override

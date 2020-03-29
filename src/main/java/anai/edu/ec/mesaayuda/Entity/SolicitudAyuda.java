@@ -44,7 +44,14 @@ public class SolicitudAyuda  implements java.io.Serializable {
     public SolicitudAyuda() {
     }
 
-	
+    public SolicitudAyuda(SolicitudAyudaId id, TipoGrupo tipoGrupo, Usuario usuarioByIdUserTecnico, Date fechaFin, String estadoSolicitud) {
+        this.id = id;
+        this.tipoGrupo = tipoGrupo;
+        this.usuarioByIdUserTecnico = usuarioByIdUserTecnico;
+        this.fechaFin = fechaFin;
+        this.estadoSolicitud = estadoSolicitud;
+    }
+    
     public SolicitudAyuda(SolicitudAyudaId id, Grupo grupo, String descripcion, Integer ayudaNVez, String idsSolicitudNVez, Date fechaInicio) {
         this.id = id;
         this.grupo = grupo;

@@ -13,7 +13,7 @@ import org.hibernate.query.Query;
  * @author bryan
  */
 public class TipoGrupoImpl implements ITipoGrupoDao{
-    private String select = "from TipoGrupo tp join fetch tp.grupo";
+    private String select = "from TipoGrupo tp join fetch tp.grupo gru where gru.idGrupo= :grupo";
     private String selectId = "from TipoGrupo tp join fetch tp.grupo where tp.idTipo= :id";
     
     @Override
@@ -32,12 +32,13 @@ public class TipoGrupoImpl implements ITipoGrupoDao{
     }
 
     @Override
-    public List<TipoGrupo> obtenerElementos() {
+    public List<TipoGrupo> obtenerElementos(String grupo) {
         List<TipoGrupo> listaTipos = null;
         try{
             HibernateUtil.abrirSession();
             Session session = HibernateUtil.getSessionFactory().getCurrentSession();
             Query query = session.createQuery(select, TipoGrupo.class);
+            query.setParameter("grupo", grupo);
             listaTipos = query.getResultList();
         }
         catch(Exception exc){
@@ -67,6 +68,4 @@ public class TipoGrupoImpl implements ITipoGrupoDao{
         }
         return tipo;
     }
-    
-    
 }
