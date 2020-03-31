@@ -9,7 +9,7 @@
         
         <c:if test="${rol == 'admin_sist'}">
             <span class="list-group-item list-group-item-action bg-light"></span>
-            <a href="crearSolicitud" class="list-group-item list-group-item-action bg-light"><i class="fas fa-file-alt"></i>&nbsp &nbsp Crear Solicitud</a>
+            <a href="crearSolictudAdmin" class="list-group-item list-group-item-action bg-light"><i class="fas fa-file-alt"></i>&nbsp &nbsp Crear Solicitud</a>
             <a href="consultarSolicitud" class="list-group-item list-group-item-action bg-light"><i class="fas fa-tasks"></i>&nbsp &nbsp Consultar Solicitudes</a>
 
             <span class="list-group-item list-group-item-action bg-light"></span>

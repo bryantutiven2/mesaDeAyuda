@@ -3,11 +3,17 @@ package anai.edu.ec.mesaayuda.Controller;
 
 
 import anai.edu.ec.mesaayuda.DAO.ISolicitudDao;
+import anai.edu.ec.mesaayuda.DAO.ISubtipoDao;
+import anai.edu.ec.mesaayuda.DAO.ITipoGrupoDao;
 import anai.edu.ec.mesaayuda.DAO.IUsuarioDao;
 import anai.edu.ec.mesaayuda.DaoImplementacion.SolicitudImpl;
+import anai.edu.ec.mesaayuda.DaoImplementacion.SubtipoImpl;
+import anai.edu.ec.mesaayuda.DaoImplementacion.TipoGrupoImpl;
 import anai.edu.ec.mesaayuda.DaoImplementacion.UsuarioImpl;
 import anai.edu.ec.mesaayuda.Entity.SolicitudAyuda;
 import anai.edu.ec.mesaayuda.Entity.SolicitudTabla;
+import anai.edu.ec.mesaayuda.Entity.Subtipo;
+import anai.edu.ec.mesaayuda.Entity.TipoGrupo;
 import anai.edu.ec.mesaayuda.Entity.Usuario;
 import static anai.edu.ec.mesaayuda.Service.SessionUsuario.crearSessionUsuario;
 import anai.edu.ec.mesaayuda.Util.HibernateUtil;
@@ -30,6 +36,8 @@ public class loginController {
     private String user = null;
     private String pass = null;
     private Usuario usuario;
+    private ISubtipoDao subtipoDao = new SubtipoImpl();
+    private ITipoGrupoDao tipoDao = new TipoGrupoImpl();
     private ISolicitudDao solicitudDao = new SolicitudImpl();
     private List<SolicitudAyuda> listaSolicitudAyuda;
     private IUsuarioDao usuarioDao = new UsuarioImpl();
@@ -67,33 +75,43 @@ public class loginController {
         if(usuario != null){
             crearSessionUsuario(request, response, usuario);
             String rol = usuario.getRol();
+            DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
             if( rol.equals("admin_sist") || rol.equals("tecnico_sist") || rol.equals("general_acad") ){
-                
-                if(rol.equals("admin_sist"))
+                if(rol.equals("admin_sist")){
+                    String grupo = usuario.getRol().split("_")[1];
+                    List<Usuario> listaTecnicos = usuarioDao.obtenerElementos(grupo);
+                    List<Usuario> listaUsuarios = usuarioDao.obtenerUsuarios();
+                    List<TipoGrupo> listaTipos = tipoDao.obtenerElementos(grupo);
+                    List<Subtipo> listaSubtipos = subtipoDao.obtenerElementos(grupo);
+                    model.addObject("idAdmin", usuario.getIdUsuario());
+                    model.addObject("listarTiposCS",listaTipos);
+                    model.addObject("listarTecnicoCS", listaTecnicos);
+                    model.addObject("listaUsuariosSA", listaUsuarios);
+                    model.addObject("listarSubtipo_CS",listaSubtipos);
                     model.addObject("viewMain","crearSolicitudAdmin");
-                else if(rol.equals("general_acad"))
-                    model.addObject("viewMain","crearSolicitud");
-                
-                DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-                String tipoG;
-                try{
-                    Map<String, String> mapaSolicitud = new HashMap<>();
-                    mapaSolicitud.put("idUserSolicitaAyuda", String.valueOf(usuario.getIdUsuario()));
-                    listaSolicitudAyuda = solicitudDao.obtenerElementos(mapaSolicitud);
-                    if(listaSolicitudAyuda != null){
-                        for(SolicitudAyuda lista : listaSolicitudAyuda){
-                            if(lista.getTipoGrupo() != null){
-                                tipoG = lista.getTipoGrupo().getNombreTipo();
-                                listaTabla.add(
-                                new SolicitudTabla(lista.getId().getIdSolicitud(), lista.getGrupo().getNombreGrupo(),
-                                        tipoG, lista.getDescripcion()));
-                            }
-                        }
-                        model.addObject("listaSolicitudesModal",listaTabla);
-                    }
                 }
-                catch(Exception exc){
-                    exc.printStackTrace();
+                else if(rol.equals("general_acad")){
+                    String tipoG;
+                    try{
+                        Map<String, String> mapaSolicitud = new HashMap<>();
+                        mapaSolicitud.put("idUserSolicitaAyuda", String.valueOf(usuario.getIdUsuario()));
+                        listaSolicitudAyuda = solicitudDao.obtenerElementos(mapaSolicitud);
+                        if(listaSolicitudAyuda != null){
+                            for(SolicitudAyuda lista : listaSolicitudAyuda){
+                                if(lista.getTipoGrupo() != null){
+                                    tipoG = lista.getTipoGrupo().getNombreTipo();
+                                    listaTabla.add(
+                                    new SolicitudTabla(lista.getId().getIdSolicitud(), lista.getGrupo().getNombreGrupo(),
+                                            tipoG, lista.getDescripcion()));
+                                }
+                            }
+                            model.addObject("listaSolicitudesModal",listaTabla);
+                        }
+                    }
+                    catch(Exception exc){
+                        exc.printStackTrace();
+                    }
+                    model.addObject("viewMain","crearSolicitud");
                 }
                 retornoVista = "menuUsuario";
                 model.addObject("rol",rol);

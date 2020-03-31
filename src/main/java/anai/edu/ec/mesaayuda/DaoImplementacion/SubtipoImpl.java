@@ -13,8 +13,8 @@ import org.hibernate.query.Query;
  * @author bryan
  */
 public class SubtipoImpl implements ISubtipoDao {
-    private String select = "from Subtipo";
-    private String selectId = "from Subtipo s where idSubtipo=:id";
+    private String select = "from Subtipo st join fetch st.tipoGrupo tp join fetch tp.grupo gru where gru.idGrupo= :grupo";
+    private String selectId = "from Subtipo s where s.idSubtipo=:id";
     
     @Override
     public Boolean insertar(Subtipo o) {
@@ -32,12 +32,13 @@ public class SubtipoImpl implements ISubtipoDao {
     }
 
     @Override
-    public List<Subtipo> obtenerElementos() {
+    public List<Subtipo> obtenerElementos(String grupo) {
         List<Subtipo> listaSubtipos = null;
         try{
             HibernateUtil.abrirSession();
             Session session = HibernateUtil.getSessionFactory().getCurrentSession();
             Query query = session.createQuery(select, Subtipo.class);
+            query.setParameter("grupo", grupo);
             listaSubtipos = query.getResultList();
         }
         catch(Exception exc){

@@ -47,6 +47,7 @@
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment-with-locales.min.js"></script>
         <script src="script/jquery.datetimepicker.full.min.js"></script>
+        <script src="script/crearSolicitudAdmin.js"></script>
         <script src="script/datetimepicker.js"></script>
         <script src="script/toggle.js"></script>
         <script src="script/modal.js"></script>

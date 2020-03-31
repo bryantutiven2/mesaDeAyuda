@@ -1,15 +1,21 @@
 
 package anai.edu.ec.mesaayuda.Controller;
 
+import anai.edu.ec.mesaayuda.DAO.IGrupoDao;
 import anai.edu.ec.mesaayuda.DAO.ISolicitudDao;
+import anai.edu.ec.mesaayuda.DAO.ISubtipoDao;
 import anai.edu.ec.mesaayuda.DAO.ITipoGrupoDao;
 import anai.edu.ec.mesaayuda.DAO.IUsuarioDao;
+import anai.edu.ec.mesaayuda.DaoImplementacion.GrupoImpl;
 import anai.edu.ec.mesaayuda.DaoImplementacion.SolicitudImpl;
+import anai.edu.ec.mesaayuda.DaoImplementacion.SubtipoImpl;
 import anai.edu.ec.mesaayuda.DaoImplementacion.TipoGrupoImpl;
 import anai.edu.ec.mesaayuda.DaoImplementacion.UsuarioImpl;
+import anai.edu.ec.mesaayuda.Entity.Grupo;
 import anai.edu.ec.mesaayuda.Entity.SolicitudAyuda;
 import anai.edu.ec.mesaayuda.Entity.SolicitudAyudaId;
 import anai.edu.ec.mesaayuda.Entity.SolicitudTabla;
+import anai.edu.ec.mesaayuda.Entity.Subtipo;
 import anai.edu.ec.mesaayuda.Entity.TipoGrupo;
 import anai.edu.ec.mesaayuda.Entity.Usuario;
 import anai.edu.ec.mesaayuda.Enum.EstadoSolicitud;
@@ -37,15 +43,70 @@ import org.springframework.web.servlet.ModelAndView;
 public class adminController {
     private ModelAndView model = new ModelAndView();
     private Usuario usuario;
+    private IGrupoDao grupoDao = new GrupoImpl();
+    private ISubtipoDao subtipoDao = new SubtipoImpl();
     private ISolicitudDao solicitudDao = new SolicitudImpl();
     private ITipoGrupoDao tipoDao = new TipoGrupoImpl();
     private IUsuarioDao usuarioDao = new UsuarioImpl();
     private List<SolicitudAyuda> listaSolicitudAyuda;
+    private Boolean retornoSolicitud = null;
     
     @RequestMapping(value = { "gestionarNuevaSolicitud"}, method = RequestMethod.GET)
     public ModelAndView gestionarNuevaSolicitud(){
         
         return model;
+    }
+    
+    @RequestMapping(value = { "enviarSolicitudAdmin"}, method = RequestMethod.POST)
+    public ModelAndView enviarSolicitudAdmin(HttpServletRequest request, HttpServletResponse response){
+        try{
+            String idgrupo = request.getParameter("grupo");
+            Integer idTipo = Integer.parseInt(request.getParameter("tipoGrupo_CS"));
+            Integer idSubtipo = Integer.parseInt(request.getParameter("subtipo_CS"));
+            Integer idTecnico = Integer.parseInt(request.getParameter("tecnico_cs"));
+            Integer idUserSolicitaAyuda = Integer.parseInt(request.getParameter("idUserSolicitaA"));
+            String descripcion = request.getParameter("descripcion");
+            Integer nvez = Integer.parseInt(request.getParameter("nvez"));
+            String id_nvez = request.getParameter("idsnvez");
+            String fechaInicio = request.getParameter("fechaInicio_cs");
+            String fechafin = request.getParameter("fechaFin_cs");
+            String estadoSolicitud = request.getParameter("estado_cs");
+            
+            Grupo grupo = grupoDao.obtenerElemento(idgrupo);
+            TipoGrupo tipoGrupo = tipoDao.obtenerElemento(idTipo);
+            Subtipo subtipo = subtipoDao.obtenerElemento(idSubtipo);
+            Usuario tecnico = usuarioDao.obtenerElemento(idTecnico);
+            Usuario userSolicitaAyuda = usuarioDao.obtenerElemento(idUserSolicitaAyuda);
+            Date datefi = convertirFecha(fechaInicio);
+            Date dateff = convertirFecha(fechafin);
+            
+            Integer idSolicitud = solicitudDao.generarIdSolicitud();
+            SolicitudAyudaId solicitudAyudaId = new SolicitudAyudaId(idSolicitud, idgrupo);
+            
+            usuario = obtenerSessionUsuario(request, response);
+            
+            SolicitudAyuda objetoSolicitud = new SolicitudAyuda();
+            objetoSolicitud.setId(solicitudAyudaId);
+            objetoSolicitud.setDescripcion(descripcion);
+            objetoSolicitud.setAyudaNVez(nvez);
+            objetoSolicitud.setIdsSolicitudNVez(id_nvez);
+            objetoSolicitud.setEstadoBorrado(0);
+            objetoSolicitud.setEstadoSolicitud(estadoSolicitud);
+            objetoSolicitud.setFechaInicio(datefi);
+            objetoSolicitud.setFechaFin(dateff);
+            objetoSolicitud.setUsuarioByIdUserSolicitaAyuda(userSolicitaAyuda);
+            objetoSolicitud.setUsuarioByIdUserAdmin(usuario);
+            objetoSolicitud.setUsuarioByIdUserTecnico(tecnico);
+            objetoSolicitud.setGrupo(grupo);
+            objetoSolicitud.setTipoGrupo(tipoGrupo);
+            objetoSolicitud.setSubtipo(subtipo);
+            
+            retornoSolicitud = solicitudDao.insertar(objetoSolicitud);
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
+        return crearSolicitudAdmin(request, response);
     }
     
     
@@ -122,6 +183,24 @@ public class adminController {
         return nuevasSolicitudes(request, response);
     }
     
+    @RequestMapping(value = { "/crearSolictudAdmin"}, method = RequestMethod.GET)
+    public ModelAndView crearSolicitudAdmin(HttpServletRequest request, HttpServletResponse response){
+        usuario = obtenerSessionUsuario(request, response);
+        String grupoId = usuario.getRol().split("_")[1];
+        List<Usuario> listaTecnicos = usuarioDao.obtenerElementos(grupoId);
+        List<Usuario> listaUsuarios = usuarioDao.obtenerUsuarios();
+        List<TipoGrupo> listaTipos = tipoDao.obtenerElementos(grupoId);
+        List<Subtipo> listaSubtipos = subtipoDao.obtenerElementos(grupoId);
+        model.addObject("idAdmin", usuario.getIdUsuario());
+        model.addObject("listarTiposCS",listaTipos);
+        model.addObject("listarTecnicoCS", listaTecnicos);
+        model.addObject("listaUsuariosSA", listaUsuarios);
+        model.addObject("listarSubtipo_CS",listaSubtipos);
+        model.addObject("viewMain","crearSolicitudAdmin");
+        model.setViewName("menuUsuario");
+        datosUsuario();
+        return model;
+    }
     private void datosUsuario(){
         
         String rol = usuario.getRol();

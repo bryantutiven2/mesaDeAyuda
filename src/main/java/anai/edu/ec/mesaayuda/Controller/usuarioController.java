@@ -78,11 +78,8 @@ public class usuarioController {
     public ModelAndView enviarSolicitud(HttpServletRequest request, HttpServletResponse response){
         try{
             String idgrupo = request.getParameter("grupo");
-            System.out.println(idgrupo);
             String descripcion = request.getParameter("descripcion");
-            System.out.println(descripcion);
             Integer nvez = Integer.parseInt(request.getParameter("nvez"));
-            System.out.println(nvez);
             if(nvez>1)
                 id_nvez = request.getParameter("idsnvez");
             else

@@ -13,6 +13,8 @@ import org.hibernate.query.Query;
  * @author bryan
  */
 public class UsuarioImpl implements IUsuarioDao{
+    
+    private final String selectUsuarios = "from Usuario u";
     /***
      * Tanto select y selectId sirven para cargar usuarios sin importar si tienen un tipo o no
      */
@@ -100,7 +102,7 @@ public class UsuarioImpl implements IUsuarioDao{
     public Usuario obtenerElementoUtp(Integer id) {
         Usuario usuario = null;
         try{
-            //HibernateUtil.abrirSession();
+            HibernateUtil.abrirSession();
             Session session = HibernateUtil.getSessionFactory().getCurrentSession();
             Query query = session.createQuery(selectIdUtp, Usuario.class);
             query.setParameter("id", id);
@@ -136,5 +138,23 @@ public class UsuarioImpl implements IUsuarioDao{
             HibernateUtil.cerrarSession();
         }
         return usuario;
+    }
+
+    @Override
+    public List<Usuario> obtenerUsuarios() {
+        List<Usuario> listaUsuarios = null;
+        try{
+            HibernateUtil.abrirSession();
+            Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+            Query query = session.createQuery(selectUsuarios,Usuario.class);
+            listaUsuarios = query.getResultList();
+        }
+        catch(Exception exc){
+            exc.printStackTrace();
+        }
+        finally{
+            HibernateUtil.cerrarSession();
+        }
+        return listaUsuarios;
     }
 }

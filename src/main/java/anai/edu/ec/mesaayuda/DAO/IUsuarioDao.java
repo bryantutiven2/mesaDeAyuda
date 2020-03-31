@@ -16,6 +16,7 @@ public interface IUsuarioDao{
     List<Usuario> obtenerElementos(String rol);
     Usuario obtenerElemento(Integer id);
     List<Usuario> obtenerElementosUtp();
+    List<Usuario> obtenerUsuarios();
     Usuario obtenerElementoUtp(Integer id);
     Usuario verificarUsuario(String user, String password);
 }

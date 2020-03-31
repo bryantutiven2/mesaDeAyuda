@@ -10,18 +10,18 @@
         <section class="page-section about-heading">
             <div class="col-xl-10 col-lg-8 mx-auto">
                 <div class="bg-faded rounded p-5">
-                    <form action="enviarSolicitud" method="post" style="font-size: 0.95em">
+                    <form action="enviarSolicitudAdmin" method="post" style="font-size: 0.95em">
                         <div class="form-row">
                             <div class="form-group col-md-4">
                                 <label>Grupo</label>
                                 <fieldset>
                                     <div class="form-group col-md-11 borderDiv">
                                         <div>
-                                            <input type="radio" id="grupoSistema" name="grupo" id="g1" value="sist"checked>
+                                            <input type="radio" id="grupoSistemaCS" name="grupo" id="g1" value="sist"checked>
                                             <label for="sistemas">Sistemas</label>
                                         </div>
                                         <div>
-                                            <input type="radio" id="grupoMantenimiento" name="grupo" id="g2" value="mant">
+                                            <input type="radio" id="grupoMantenimientoCS" name="grupo" id="g2" value="mant">
                                             <label for="mantenimiento">Mantenimiento</label>
                                         </div>
                                     </div>
@@ -50,12 +50,12 @@
                         <div class="form-row">
                             <div class="form-group col-md-8">
                                 <label>Descripcion</label>
-                                <textarea class="form-control" name="descripcion" id="descripcion" v-model="text" rows="5" required></textarea>
+                                <textarea class="form-control" name="descripcion" id="descripcionCS" v-model="text" rows="5" required></textarea>
                             </div>
                             <div class="form-group col-md-1"></div>
                             <div class="form-group col-md-3">
                                 <label>Reincidencia del Problema</label>
-                                <select id="reincidencia" name="nvez" class="form-control" model="selected" onchange = "myFunction()">
+                                <select id="reincidencia" name="nvez" class="form-control" model="selected">
                                     <option value="1">1vez</option>   
                                     <option value="2">2vez</option>
                                     <option value="3">3vez</option>
@@ -63,24 +63,28 @@
                                 </select>
                                 <br>
                                 <label>IDs de ayudas</label>
-                                <input type="text" class="form-control" name="idsnvez" id="ids_aydudaas" readonly="readonly">
+                                <input type="text" class="form-control" name="idsnvez" id="ids_aydudasCS" value="null" readonly="readonly">
                             </div>
                         </div>
                         <br>
                         <div class="form-row">
                             <div class="form-group col-md-3">
                                 <label>Administrador</label>
-                                <input type="text" class="form-control" name="idAdmin" value="" readonly="readonly">
+                                <input type="text" class="form-control" name="idAdmin" value="${idAdmin}" readonly="readonly">
                             </div>
                             <div class="form-group col-md-1"></div>
                             <div class="form-group col-md-3">
                                 <label>Tecnico</label>
-                                <input type="text" class="form-control" name="idAdmin" value="" readonly="readonly">
+                                <select id="selectTecnico" name="tecnico_cs" class="form-control" model="selected">
+                                    <c:forEach items="${listarTecnicoCS}" var="tecnico">
+                                        <option value="${tecnico.idUsuario}">${tecnico.nombre} ${tecnico.apellido}</option> 
+                                    </c:forEach>
+                                </select>
                             </div>
-                            <div class="form-group col-md-1"></div>
+                            <div class="form-group col-md-2"></div>
                             <div class="form-group col-md-3">
                                 <label>Usuario Solicita Ayuda</label>
-                                <input type="text" class="form-control" name="idAdmin" value="" readonly="readonly">
+                                <input type="text" class="form-control cargarTogleUsuarios" name="idUserSolicitaA" id="idUserSolicitaA">
                             </div>
                         </div>
                         <br>
@@ -91,20 +95,20 @@
                                 <label>Fecha Fin</label>
                             </div>
                             <div class="form-group col-md-1"></div>
-                            <div class="form-group col-md-3">
+                            <div class="form-group col-md-4">
                                 <div class="input-group">
-                                    <input type='text' class="form-control" name="fechaInicio_cs" id='dtPicker' required="true"/>
+                                    <input type='text' class="form-control" name="fechaInicio_cs" id='dtPickerFI' required="true"/>
                                     <div class='input-group-prepend' >
-                                        <button type="button" id="toggle" class="input-group-text">
+                                        <button type="button" id="toggleFI" class="input-group-text">
                                             <i class="fa fa-calendar-alt"></i>
                                         </button>
                                     </div>
                                 </div>
                                 <br>
                                 <div class="input-group">
-                                    <input type='text' class="form-control" name="fechaFin_cs" id='dtPicker' required="true"/>
+                                    <input type='text' class="form-control" name="fechaFin_cs" id='dtPickerFF' required="true"/>
                                     <div class='input-group-prepend' >
-                                        <button type="button" id="toggle" class="input-group-text">
+                                        <button type="button" id="toggleFF" class="input-group-text">
                                             <i class="fa fa-calendar-alt"></i>
                                         </button>
                                     </div>
@@ -132,35 +136,31 @@
 </div>
 
 <!--Modal o mop up de la tabla emergente para escoger las ayudas solicitidas-->
-  <div id="myModal" class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-      <div class="modal-dialog modal-lg" role="document">
+  <div id="myModalCS" class="modal fade bd-example" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
           <div class="modal-content">
               <div class="modal-header">
-                  <h5 class="modal-title">Seleccione Ayudas realizadas</h5>
+                  <h5 class="modal-title">Seleccione el Usuario que solicita ayuda</h5>
                   <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                       <span aria-hidden="true">&times;</span>
                   </button>
               </div>
               <div class="modal-body">
-                  <form id="idsItems">
-                      <table id="dtBasicExample" class="table table-striped table-bordered table-sm" cellspacing="0" width="100%">
+                  <form id="idsUSA">
+                      <table id="dtUsuariosSA" class="table table-striped table-bordered table-sm" cellspacing="0" width="100%">
                         <thead>
                             <tr>
-                                <th class="th-sm">Cod</th>
-                                <th class="th-sm">Grupo</th>
-                                <th class="th-sm">Tipo</th>
-                                <th class="th-sm" style="max-width: 260px; text-align: justify">Descripcion</th>
+                                <th class="th-sm">Id</th>
+                                <th class="th-sm">Usuario</th>
                                 <th class="th-sm"></th>
                             </tr>
                         </thead>
                         <tbody>
-                            <c:forEach items="${listaSolicitudesModal}" var="solicitudM">
+                            <c:forEach items="${listaUsuariosSA}" var="usuariosSA">
                                 <tr>
-                                    <th class="idsolicitud" scope="row">${solicitudM.id}</th>
-                                    <td>${solicitudM.grupo}</td>
-                                    <td>${solicitudM.tipo}</td>
-                                    <td style="max-width: 260px; text-align: justify">${solicitudM.descripcion}</td>
-                                    <td><input type="checkbox" name="name1" value="${solicitudM.id}"/>&nbsp;</td>
+                                    <th class="idsolicitud" scope="row">${usuariosSA.idUsuario}</th>
+                                    <td>${usuariosSA.nombre} ${usuariosSA.apellido}</td>
+                                    <td><input type="checkbox" name="name1" value="${usuariosSA.idUsuario}"/>&nbsp;</td>
                                 </tr>
                             </c:forEach>
                         </tbody>
@@ -168,7 +168,7 @@
                   </form>
               </div>
               <div class="modal-footer">
-                  <button type="button" class="btn btn-primary" id="cargarIds" data-dismiss="modal">Aceptar</button>
+                  <button type="button" class="btn btn-primary" id="cargarIdUSA" data-dismiss="modal">Aceptar</button>
                   <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
               </div>
           </div>
