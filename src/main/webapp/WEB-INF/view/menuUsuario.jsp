@@ -27,8 +27,14 @@
             <div id="page-content-wrapper">
                 <%@ include file="nav.jsp" %>  
                 <!-- main contenido -->
+                <c:if test="${viewMain == 'crearSolicitudAdmin'}">
+                    <%@ include file="crearSolicitudAdmin.jsp" %>
+                </c:if>
                 <c:if test="${viewMain == 'crearSolicitud'}">
                     <%@ include file="crearSolicitud.jsp" %>
+                </c:if>
+                <c:if test="${viewMain == 'consultaSolicitudes'}">
+                    <%@ include file="consultarSolicitudes.jsp" %>
                 </c:if>
                 <c:if test="${viewMain == 'solicitudesNuevasAdmin'}">
                     <%@ include file="solicitudesNuevasAdmin.jsp" %>

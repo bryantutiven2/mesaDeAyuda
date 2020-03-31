@@ -12,13 +12,16 @@ import anai.edu.ec.mesaayuda.Entity.SolicitudAyudaId;
 import anai.edu.ec.mesaayuda.Entity.SolicitudTabla;
 import anai.edu.ec.mesaayuda.Entity.TipoGrupo;
 import anai.edu.ec.mesaayuda.Entity.Usuario;
+import anai.edu.ec.mesaayuda.Enum.EstadoSolicitud;
 import static anai.edu.ec.mesaayuda.Service.SessionUsuario.obtenerSessionUsuario;
 import static anai.edu.ec.mesaayuda.Service.fechaSolicitud.convertirFecha;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.springframework.stereotype.Controller;
@@ -34,7 +37,7 @@ import org.springframework.web.servlet.ModelAndView;
 public class adminController {
     private ModelAndView model = new ModelAndView();
     private Usuario usuario;
-    private ISolicitudDao solicitudDao = new SolicitudImpl();;
+    private ISolicitudDao solicitudDao = new SolicitudImpl();
     private ITipoGrupoDao tipoDao = new TipoGrupoImpl();
     private IUsuarioDao usuarioDao = new UsuarioImpl();
     private List<SolicitudAyuda> listaSolicitudAyuda;
@@ -49,14 +52,16 @@ public class adminController {
     @RequestMapping(value = { "/nuevasSolicitudes"}, method = RequestMethod.GET)
     public ModelAndView nuevasSolicitudes(HttpServletRequest request, HttpServletResponse response){
         List<SolicitudTabla> listaTabla = new ArrayList<>();
+        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
         usuario = obtenerSessionUsuario(request, response);
         String grupo = usuario.getRol().split("_")[1];
-        String estado = "pendiente";
         try{
-            listaSolicitudAyuda = solicitudDao.obtenerElementos(grupo,estado);
+            Map<String, String> mapaSolicitud = new HashMap<>();
+            mapaSolicitud.put("grupo", grupo);
+            mapaSolicitud.put("estado", String.valueOf(EstadoSolicitud.pendiente));
+            listaSolicitudAyuda = solicitudDao.obtenerElementos(mapaSolicitud);
             if(listaSolicitudAyuda != null){
                 for(SolicitudAyuda lista : listaSolicitudAyuda){
-                    DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
                     listaTabla.add(
                             new SolicitudTabla(lista.getId().getIdSolicitud(), lista.getAyudaNVez(), lista.getIdsSolicitudNVez(),
                                     lista.getDescripcion(),

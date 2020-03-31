@@ -14,7 +14,7 @@
                 <img src="images/logo.png" style="width: 90%"/>
             </div>
             <c:if test="${not empty error}">
-                <div class="error">${error}</div>
+                <div class="error text-center">${error}</div>
             </c:if>
             <c:if test="${not empty msg}">
                 <div class="msg">${msg}</div>

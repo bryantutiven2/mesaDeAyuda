@@ -25,7 +25,7 @@ public class SolicitudTabla {
         this.tipo = tipo;
         this.descripcion = descripcion;
     }
-
+    
     public SolicitudTabla(Integer id, Integer n_vez, String ids_n_vez, String descripcion, String userSolicitaAyuda, String fechaInicio) {
         this.id = id;
         this.n_vez = n_vez;

@@ -8,12 +8,17 @@ import anai.edu.ec.mesaayuda.DaoImplementacion.SolicitudImpl;
 import anai.edu.ec.mesaayuda.Entity.Grupo;
 import anai.edu.ec.mesaayuda.Entity.SolicitudAyuda;
 import anai.edu.ec.mesaayuda.Entity.SolicitudAyudaId;
+import anai.edu.ec.mesaayuda.Entity.SolicitudTabla;
 import anai.edu.ec.mesaayuda.Entity.Usuario;
 import static anai.edu.ec.mesaayuda.Service.SessionUsuario.obtenerSessionUsuario;
 import anai.edu.ec.mesaayuda.Service.fechaSolicitud;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.springframework.stereotype.Controller;
@@ -28,32 +33,49 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class usuarioController {
     
-    private ISolicitudDao solicitudDao;
-    private IGrupoDao grupoDao;
+    private ISolicitudDao solicitudDao = new SolicitudImpl();
+    private IGrupoDao grupoDao = new GrupoImpl();
     private String id_nvez = null;
     private Boolean retornoSolicitud = null;
     private Date fechaInicio;
     private String retornoVista = null;
-    private ModelAndView model;
+    private ModelAndView model = new ModelAndView();
     private Usuario usuario;
+    private List<SolicitudAyuda> listaSolicitudAyuda;
     
     @RequestMapping(value = { "/crearSolicitud" }, method = RequestMethod.GET)
     public ModelAndView crearSolicitud(HttpServletRequest request, HttpServletResponse response){
-        model = new ModelAndView();
+        List<SolicitudTabla> listaTabla = new ArrayList<>();
         usuario = obtenerSessionUsuario(request, response);
-        evaluarUsuario();
-        retornoVista = "menuUsuario";
+        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+        String tipoG;
+        try{
+            Map<String, String> mapaSolicitud = new HashMap<>();
+            mapaSolicitud.put("idUserSolicitaAyuda", String.valueOf(usuario.getIdUsuario()));
+            listaSolicitudAyuda = solicitudDao.obtenerElementos(mapaSolicitud);
+            if(listaSolicitudAyuda != null){
+                for(SolicitudAyuda lista : listaSolicitudAyuda){
+                    if(lista.getTipoGrupo() != null){
+                        tipoG = lista.getTipoGrupo().getNombreTipo();
+                        listaTabla.add(
+                        new SolicitudTabla(lista.getId().getIdSolicitud(), lista.getGrupo().getNombreGrupo(),
+                                tipoG, lista.getDescripcion()));
+                    }
+                }
+                model.addObject("listaSolicitudesModal",listaTabla);
+            }
+        }
+        catch(Exception exc){
+            exc.printStackTrace();
+        }
+        datosUsuario();
         model.addObject("viewMain","crearSolicitud");
-        model.setViewName(retornoVista);
+        model.setViewName("menuUsuario");
         return model;
     }
     
     @RequestMapping(value = { "/enviarSolicitud" }, method = RequestMethod.POST)
     public ModelAndView enviarSolicitud(HttpServletRequest request, HttpServletResponse response){
-        model = new ModelAndView();
-        solicitudDao = new SolicitudImpl();
-        grupoDao = new GrupoImpl();
-        
         try{
             String idgrupo = request.getParameter("grupo");
             System.out.println(idgrupo);
@@ -69,7 +91,6 @@ public class usuarioController {
             Integer idSolicitud = solicitudDao.generarIdSolicitud();
             SolicitudAyudaId solicitudAyudaId = new SolicitudAyudaId(idSolicitud, idgrupo);
             usuario = obtenerSessionUsuario(request, response);
-            evaluarUsuario();
             fechaInicio = fechaSolicitud.obtenerFechaInicio();
             
             SolicitudAyuda objetoSolicitud = new SolicitudAyuda();
@@ -88,12 +109,55 @@ public class usuarioController {
         catch(Exception e){
             e.printStackTrace();
         }
+        datosUsuario();
         model.addObject("viewMain","crearSolicitud");
         model.setViewName(retornoVista);
         return model;
     }
+    @RequestMapping(value = { "/consultarSolicitud" }, method = RequestMethod.GET)
+    public ModelAndView consultarSolicitud(HttpServletRequest request, HttpServletResponse response){
+        List<SolicitudTabla> listaTabla = new ArrayList<>();
+        usuario = obtenerSessionUsuario(request, response);
+        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+        String fechaF, userTecnico, tipoG;
+        try{
+            Map<String, String> mapaSolicitud = new HashMap<>();
+            mapaSolicitud.put("idUserSolicitaAyuda", String.valueOf(usuario.getIdUsuario()));
+            listaSolicitudAyuda = solicitudDao.obtenerElementos(mapaSolicitud);
+            if(listaSolicitudAyuda != null){
+                for(SolicitudAyuda lista : listaSolicitudAyuda){
+                    if(lista.getFechaFin() != null)
+                        fechaF = String.valueOf(dateFormat.format(lista.getFechaFin()));
+                    else
+                        fechaF = "";
+                    if(lista.getUsuarioByIdUserTecnico() != null)
+                        userTecnico = lista.getUsuarioByIdUserTecnico().getNombre() + " " + lista.getUsuarioByIdUserTecnico().getApellido();
+                    else
+                        userTecnico = "";
+                    if(lista.getTipoGrupo() != null)
+                        tipoG = lista.getTipoGrupo().getNombreTipo();
+                    else
+                        tipoG = "";
+                    listaTabla.add(
+                        new SolicitudTabla(lista.getId().getIdSolicitud(), lista.getGrupo().getNombreGrupo(),
+                                tipoG, lista.getDescripcion(), userTecnico,
+                                String.valueOf(dateFormat.format(lista.getFechaInicio())),
+                                fechaF, lista.getEstadoSolicitud()));
+                }
+                model.addObject("listaConsultaSolicitudes",listaTabla);
+            }
+        }
+        catch(Exception exc){
+            exc.printStackTrace();
+        }
+        datosUsuario();
+        model.addObject("viewMain","consultaSolicitudes");
+        model.setViewName("menuUsuario");
+        return model;
+    }
     
-    private void evaluarUsuario(){
+    
+    private void datosUsuario(){
         String rol = usuario.getRol();
         model.addObject("rol",rol);
         model.addObject("username", usuario.getNombre() + " " + usuario.getApellido());

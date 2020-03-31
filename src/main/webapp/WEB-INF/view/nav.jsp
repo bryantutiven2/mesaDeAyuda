@@ -16,24 +16,8 @@
                 <span class="dropdown-item-text"><i class="fas fa-user"></i>&nbsp;${usuario}</span>
                 <span class="dropdown-item-text">${correo}</span>
                 <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="login">Cerrar Sesión &nbsp;<i class="far fa-times-circle"></i> </a>
+                <a class="dropdown-item" href="login">Cerrar Sesión &nbsp;<i class="fas fa-key"></i></a>
             </div>
         </div>
-                
-        <!--
-        <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
-            <li class="nav-item active">
-                <span class="nav-link">${username}</span>
-            </li>
-            <li class="nav-item active">
-                <span class="nav-link">           </span>
-            </li>
-            <li class="nav-item dropdown">
-                <a class="nav-link" href="/mesaayuda">
-                  Cerrar Sesion <i class="far fa-times-circle"></i>
-                </a>
-            </li>
-        </ul>
-        -->
     </div>
 </nav>

@@ -78,18 +78,18 @@
                                 <th class="th-sm">Cod</th>
                                 <th class="th-sm">Grupo</th>
                                 <th class="th-sm">Tipo</th>
-                                <th class="th-sm">Descripcion</th>
+                                <th class="th-sm" style="max-width: 260px; text-align: justify">Descripcion</th>
                                 <th class="th-sm"></th>
                             </tr>
                         </thead>
                         <tbody>
-                            <c:forEach items="${listaSolicitudes}" var="solicitud">
+                            <c:forEach items="${listaSolicitudesModal}" var="solicitudM">
                                 <tr>
-                                    <th class="idsolicitud" scope="row">${solicitud.id}</th>
-                                    <td>${solicitud.grupo}</td>
-                                    <td>${solicitud.tipo}</td>
-                                    <td>${solicitud.descripcion}</td>
-                                    <td><input type="checkbox" name="name1" value="${solicitud.id}"/>&nbsp;</td>
+                                    <th class="idsolicitud" scope="row">${solicitudM.id}</th>
+                                    <td>${solicitudM.grupo}</td>
+                                    <td>${solicitudM.tipo}</td>
+                                    <td style="max-width: 260px; text-align: justify">${solicitudM.descripcion}</td>
+                                    <td><input type="checkbox" name="name1" value="${solicitudM.id}"/>&nbsp;</td>
                                 </tr>
                             </c:forEach>
                         </tbody>
@@ -103,3 +103,4 @@
           </div>
       </div>
   </div>
+                                

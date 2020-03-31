@@ -9,13 +9,13 @@
 <div style="margin-top: 20px">
     <div class="col-xl-12 col-lg-8 mx-auto">
         <div class="bg-faded rounded p-3">
-            <table id="tablaNuevaS" class="table table-striped table-bordered table-sm" cellspacing="0" width="100%">
+            <table id="tablaNuevaS" class="table table-striped table-bordered table-sm" cellspacing="0"  width="100%">
                 <thead>
                     <tr>
-                        <th class="th-sm" style="font-size: 0.85em">Cod</th>
-                        <th class="th-sm" style="font-size: 0.85em">Descripción</th>
+                        <th class="th-sm" style="font-size: 0.85em ">Cod</th>
+                        <th class="th-sm" style="font-size: 0.85em; max-width: 150px;overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">Descripción</th>
                         <th class="th-sm" style="font-size: 0.85em">Usuario</th>
-                        <th class="th-sm" style="font-size: 0.85em">N° problema</th>
+                        <th class="th-sm" style="font-size: 0.85em; max-width: 85px">N° problema</th>
                         <th class="th-sm" style="font-size: 0.85em">Ids n vez</th>
                         <th class="th-sm" style="font-size: 0.85em">Fecha Inicio</th>
                         <th class="th-sm" style="font-size: 0.85em">Acción</th>
@@ -24,15 +24,15 @@
                 <tbody>
                     <c:forEach items="${listaNuevasSolicitudes}" var="nSolicitud">
                         <tr>
-                            <th class="id_sn" scope="row" style="font-size: 0.85em">${nSolicitud.id}</th>
-                            <td class="descrip_sn" style="font-size: 0.8em">${nSolicitud.descripcion}</td>
+                            <th class="id_sn" scope="row" style="font-size: 0.8em">${nSolicitud.id}</th>
+                            <td class="descrip_sn" style="font-size: 0.8em; max-width: 150px;overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">${nSolicitud.descripcion}</td>
                             <td class="user_sn" style="font-size: 0.8em">${nSolicitud.userSolicitaAyuda}</td>
-                            <td class="n_sn" style="font-size: 0.8em">${nSolicitud.n_vez}</td>
+                            <td class="n_sn" style="font-size: 0.8em; max-width: 85px">${nSolicitud.n_vez}</td>
                             <td class="ids_sn" style="font-size: 0.8em">${nSolicitud.ids_n_vez}</td>
                             <td class="fechaInicio_sn" style="font-size: 0.8em">${nSolicitud.fechaInicio}</td>
                             <td class="text-center">
-                                <button type="button" class="btn btn-success btn-sm asignarSolicitud" value="${solicitud.id}">Asignar</button>
-                                <button type="button" class="btn btn-danger btn-sm" value="${solicitud.id}">Finalizar</button>
+                                <button type="button" class="btn btn-success btn-sm asignarSolicitud" value="${solicitud.id}"><i class="far fa-edit"></i> Asignar</button>
+                                <button type="button" class="btn btn-danger btn-sm" value="${solicitud.id}"><i class="far fa-window-close"></i> Finalizar</button>
                             </td>
                         </tr>
                     </c:forEach>
@@ -79,7 +79,7 @@
                                     <div class="form-group">
                                         <div class="form-group col-md-10">
                                           <label for="validationTextarea">Descripción</label>
-                                          <textarea class="form-control" id="descripcion_sn" name="descripcion_sn" v-model="text" readonly="readonly"></textarea>
+                                          <textarea class="form-control text-justify" id="descripcion_sn" name="descripcion_sn" v-model="text" readonly="readonly"></textarea>
                                         </div>
                                     </div>
                                     <div class="form-row">
