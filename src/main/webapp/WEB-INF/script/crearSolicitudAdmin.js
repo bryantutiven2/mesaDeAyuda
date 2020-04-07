@@ -1,26 +1,20 @@
-jQuery.datetimepicker.setDateFormatter('moment');
-$("#dtPickerFI").datetimepicker({
-    timepicker: true,
-    datepicker: true,
-    format: 'DD/MM/YYYY HH:mm',
-    hours12: false
-});
-$('#toggleFI').on('click', function(){
-    $('#dtPickerFI').datetimepicker('toggleFI');
-});
 
-
-jQuery.datetimepicker.setDateFormatter('moment');
-$("#dtPickerFF").datetimepicker({
-    timepicker: true,
-    datepicker: true,
-    format: 'DD/MM/YYYY HH:mm',
-    hours12: false
+$(function () {
+    $('#dtPickerFI').datetimepicker({
+        format: "DD/MM/YYYY hh:mm a"
+    });
+    $('#dtPickerFF').datetimepicker({
+        format: "DD/MM/YYYY hh:mm a",
+        useCurrent: false
+    });
+    $("#dtPickerFI").on("change.datetimepicker", function (e) {
+        $('#dtPickerFF').datetimepicker('minDate', e.date);
+    });
+    $("#dtPickerFF").on("change.datetimepicker", function (e) {
+        $('dtPickerFI').datetimepicker('maxDate', e.date);
+    });
 });
-$('#toggleFF').on('click', function(){
-    $('#dtPickerFF').datetimepicker('toggleFF');
-});
-
+            
 $(document).ready(function() {
     $('.cargarTogleUsuarios').click(function(){
         $("#myModalCS").modal();

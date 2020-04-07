@@ -31,7 +31,8 @@ import org.springframework.web.servlet.ModelAndView;
  * @author bryan
  */
 @Controller
-public class usuarioController {
+@RequestMapping( "/usuario" )
+public class UsuarioController {
     
     private ISolicitudDao solicitudDao = new SolicitudImpl();
     private IGrupoDao grupoDao = new GrupoImpl();

@@ -1,4 +1,9 @@
-
+$(function () {
+    $('#dtPicker').datetimepicker({
+        format: "DD/MM/YYYY hh:mm a"
+    });
+});
+            
 $(document).ready(function() {
     $('.asignarSolicitud').click(function(){
         

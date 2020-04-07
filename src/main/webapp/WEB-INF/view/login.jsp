@@ -6,12 +6,12 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Mesa de Ayuda</title>
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous" />
-         <link href="css/login.css" rel="stylesheet" type="text/css"/>
+        <link href="${pageContext.request.contextPath}/css/login.css" rel="stylesheet" type="text/css"/>
     </head>
     <body>
         <div class="container col-lg-3">
             <div class=" form-group text-center">
-                <img src="images/logo.png" style="width: 90%"/>
+                <img src="${pageContext.request.contextPath}/images/logo.png" style="width: 90%"/>
             </div>
             <c:if test="${not empty error}">
                 <div class="error text-center">${error}</div>
@@ -19,7 +19,7 @@
             <c:if test="${not empty msg}">
                 <div class="msg">${msg}</div>
             </c:if>
-            <form action="menuUsuario" method="post">
+            <form action="${pageContext.request.contextPath}/menuUsuario" method="post">
                 <div class=" form-group" >
                   <label for="exampleInputEmail1">Usuario</label>
                   <input type="text" name="usuario" class="form-control" id="user" aria-describedby="emailHelp" placeholder="Enter email" />

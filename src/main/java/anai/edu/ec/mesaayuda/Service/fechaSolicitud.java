@@ -14,7 +14,7 @@ public class fechaSolicitud {
     public static Date obtenerFechaInicio(){
         Date fecha = null;
         try{
-            DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+            DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
             Date date = new Date();
             fecha = dateFormat.parse(dateFormat.format(date));
         }
@@ -27,8 +27,10 @@ public class fechaSolicitud {
     public static Date convertirFecha(String fecha){
         Date date = null;
         try{
-            DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
-            date = dateFormat.parse(fecha);
+            SimpleDateFormat parseFormat = new SimpleDateFormat("dd/MM/yyyy hh:mm a");
+            Date date1 = parseFormat.parse(fecha);
+            SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+            date = dateFormat.parse(dateFormat.format(date1));
         }
         catch(Exception e){
             e.printStackTrace();

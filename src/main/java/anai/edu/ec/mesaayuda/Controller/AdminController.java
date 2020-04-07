@@ -40,7 +40,8 @@ import org.springframework.web.servlet.ModelAndView;
  * @author bryan
  */
 @Controller
-public class adminController {
+@RequestMapping( "/admin" )
+public class AdminController {
     private ModelAndView model = new ModelAndView();
     private Usuario usuario;
     private IGrupoDao grupoDao = new GrupoImpl();
@@ -51,13 +52,8 @@ public class adminController {
     private List<SolicitudAyuda> listaSolicitudAyuda;
     private Boolean retornoSolicitud = null;
     
-    @RequestMapping(value = { "gestionarNuevaSolicitud"}, method = RequestMethod.GET)
-    public ModelAndView gestionarNuevaSolicitud(){
-        
-        return model;
-    }
     
-    @RequestMapping(value = { "enviarSolicitudAdmin"}, method = RequestMethod.POST)
+    @RequestMapping(value = { "/enviarSolicitud"}, method = RequestMethod.POST)
     public ModelAndView enviarSolicitudAdmin(HttpServletRequest request, HttpServletResponse response){
         try{
             String idgrupo = request.getParameter("grupo");
@@ -113,6 +109,7 @@ public class adminController {
     @RequestMapping(value = { "/nuevasSolicitudes"}, method = RequestMethod.GET)
     public ModelAndView nuevasSolicitudes(HttpServletRequest request, HttpServletResponse response){
         List<SolicitudTabla> listaTabla = new ArrayList<>();
+        String listaIds = null;
         DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
         usuario = obtenerSessionUsuario(request, response);
         String grupo = usuario.getRol().split("_")[1];
@@ -123,8 +120,10 @@ public class adminController {
             listaSolicitudAyuda = solicitudDao.obtenerElementos(mapaSolicitud);
             if(listaSolicitudAyuda != null){
                 for(SolicitudAyuda lista : listaSolicitudAyuda){
+                    if(lista.getIdsSolicitudNVez().equals("null"))
+                        listaIds= "";
                     listaTabla.add(
-                            new SolicitudTabla(lista.getId().getIdSolicitud(), lista.getAyudaNVez(), lista.getIdsSolicitudNVez(),
+                            new SolicitudTabla(lista.getId().getIdSolicitud(), lista.getAyudaNVez(), listaIds,
                                     lista.getDescripcion(),
                                     lista.getUsuarioByIdUserSolicitaAyuda().getNombre()+" "+ lista.getUsuarioByIdUserSolicitaAyuda().getApellido(),
                                     String.valueOf(dateFormat.format(lista.getFechaInicio()))));
@@ -183,7 +182,7 @@ public class adminController {
         return nuevasSolicitudes(request, response);
     }
     
-    @RequestMapping(value = { "/crearSolictudAdmin"}, method = RequestMethod.GET)
+    @RequestMapping(value = { "/crearSolictud"}, method = RequestMethod.GET)
     public ModelAndView crearSolicitudAdmin(HttpServletRequest request, HttpServletResponse response){
         usuario = obtenerSessionUsuario(request, response);
         String grupoId = usuario.getRol().split("_")[1];
@@ -201,6 +200,50 @@ public class adminController {
         datosUsuario();
         return model;
     }
+    
+    @RequestMapping(value = { "/consultarSolicitud" }, method = RequestMethod.GET)
+    public ModelAndView consultarSolicitud(HttpServletRequest request, HttpServletResponse response){
+        List<SolicitudTabla> listaTabla = new ArrayList<>();
+        usuario = obtenerSessionUsuario(request, response);
+        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+        String fechaF, userTecnico, tipoG;
+        try{
+            Map<String, String> mapaSolicitud = new HashMap<>();
+            mapaSolicitud.put("idUserSolicitaAyuda", String.valueOf(usuario.getIdUsuario()));
+            listaSolicitudAyuda = solicitudDao.obtenerElementos(mapaSolicitud);
+            if(listaSolicitudAyuda != null){
+                for(SolicitudAyuda lista : listaSolicitudAyuda){
+                    if(lista.getFechaFin() != null)
+                        fechaF = String.valueOf(dateFormat.format(lista.getFechaFin()));
+                    else
+                        fechaF = "";
+                    if(lista.getUsuarioByIdUserTecnico() != null)
+                        userTecnico = lista.getUsuarioByIdUserTecnico().getNombre() + " " + lista.getUsuarioByIdUserTecnico().getApellido();
+                    else
+                        userTecnico = "";
+                    if(lista.getTipoGrupo() != null)
+                        tipoG = lista.getTipoGrupo().getNombreTipo();
+                    else
+                        tipoG = "";
+                    
+                    listaTabla.add(
+                        new SolicitudTabla(lista.getId().getIdSolicitud(), lista.getGrupo().getNombreGrupo(),
+                                tipoG, lista.getDescripcion(), userTecnico,
+                                String.valueOf(dateFormat.format(lista.getFechaInicio())),
+                                fechaF, lista.getEstadoSolicitud()));
+                }
+                model.addObject("listaConsultaSolicitudes",listaTabla);
+            }
+        }
+        catch(Exception exc){
+            exc.printStackTrace();
+        }
+        datosUsuario();
+        model.addObject("viewMain","consultaSolicitudes");
+        model.setViewName("menuUsuario");
+        return model;
+    }
+    
     private void datosUsuario(){
         
         String rol = usuario.getRol();

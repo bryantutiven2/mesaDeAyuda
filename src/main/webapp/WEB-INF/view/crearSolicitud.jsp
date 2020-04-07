@@ -4,13 +4,11 @@
     Author     : bryan
 --%>
 
-<div class="container-fluid">
+<div class="main col pt-2">
     <h2 class="mt-4 text-center">Crear Solicitud de Ayuda</h2>
-    <div>
-        <section class="page-section about-heading">
             <div class="col-xl-8 col-lg-8 mx-auto">
                 <div class="bg-faded rounded p-5">
-                    <form action="enviarSolicitud" method="post">
+                    <form action="${pageContext.request.contextPath}/usuario/enviarSolicitud" method="post">
                         <h5>Grupo</h5>
                         <br>
                         <fieldset>
@@ -29,14 +27,15 @@
                         <br>
                         <div class="form-group">
                             <div class="form-group col-md-11">
-                                <textarea class="form-control" name="descripcion" id="descripcion" v-model="text"  required></textarea>
+                                <textarea class="form-control" rows="3" name="descripcion" id="descripcion" v-model="text"  required></textarea>
                             </div>
                         </div>
                         <br>
                         <h5>Reincidencia del Problema</h5>
                         <div class="form-row">
                               <div class="form-group col-md-4">
-                                  <select id="reincidencia" name="nvez" class="form-control" model="selected" onchange = "myFunction()">
+                                  <select id="reincidencia" name="nvez" class="form-control" required model="selected" onchange = "myFunction()">
+                                      <option selected disabled hidden style='display: none' value=''></option>
                                       <option value="1">1vez</option>   
                                       <option value="2">2vez</option>
                                       <option value="3">3vez</option>
@@ -56,8 +55,6 @@
                     </form>
                 </div>
             </div>
-        </section>
-    </div>
 </div>
 
 <!--Modal o mop up de la tabla emergente para escoger las ayudas solicitidas-->
@@ -89,7 +86,7 @@
                                     <td>${solicitudM.grupo}</td>
                                     <td>${solicitudM.tipo}</td>
                                     <td style="max-width: 260px; text-align: justify">${solicitudM.descripcion}</td>
-                                    <td><input type="checkbox" name="name1" value="${solicitudM.id}"/>&nbsp;</td>
+                                    <td><input  type="checkbox" name="ug-checkbox" value="${solicitudM.id}"/>&nbsp;</td>
                                 </tr>
                             </c:forEach>
                         </tbody>

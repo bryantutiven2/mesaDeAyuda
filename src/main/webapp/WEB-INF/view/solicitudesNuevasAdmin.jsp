@@ -6,7 +6,7 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
-<div style="margin-top: 20px">
+<div class="main col pt-2" style="margin-top: 20px">
     <div class="col-xl-12 col-lg-8 mx-auto">
         <div class="bg-faded rounded p-3">
             <table id="tablaNuevaS" class="table table-striped table-bordered table-sm" cellspacing="0"  width="100%">
@@ -54,7 +54,7 @@
                     <div class="modal-body">
                         <div class="col-xl-12 col-lg-10 mx-auto">
                             <div class="bg-faded rounded p-2">
-                                <form action="actualizarSolicitud" method="post">
+                                <form action="${pageContext.request.contextPath}/admin/actualizarSolicitud" method="post" autocomplete="off" style="font-size: 0.95em">
                                     <div class="form-row">
                                         <div class="form-group col-md-1">
                                             <label>Cod</label>
@@ -79,13 +79,14 @@
                                     <div class="form-group">
                                         <div class="form-group col-md-10">
                                           <label for="validationTextarea">Descripción</label>
-                                          <textarea class="form-control text-justify" id="descripcion_sn" name="descripcion_sn" v-model="text" readonly="readonly"></textarea>
+                                          <textarea class="form-control text-justify" rows="4" id="descripcion_sn" name="descripcion_sn" v-model="text" readonly="readonly"></textarea>
                                         </div>
                                     </div>
                                     <div class="form-row">
                                         <div class="form-group col-md-4">
                                             <label>Técnico</label>
-                                            <select id="selectTecnico" name="tecnico_sn" class="form-control" model="selected">
+                                            <select id="selectTecnico" name="tecnico_sn" class="form-control" model="selected" required>
+                                                <option selected disabled hidden style='display: none' value=''></option>
                                                 <c:forEach items="${listarTecnicoSN}" var="tecnico">
                                                     <option value="${tecnico.idUsuario}">${tecnico.nombre} ${tecnico.apellido}</option> 
                                                 </c:forEach>
@@ -94,7 +95,8 @@
                                         <div class="form-group col-md-1"></div>
                                         <div class="form-group col-md-4">
                                             <label>Tipo Grupo</label>
-                                            <select id="selectTipo" name="tipoGrupo_sn" class="form-control" model="selected">
+                                            <select id="selectTipo" name="tipoGrupo_sn" class="form-control" model="selected" required>
+                                                <option selected disabled hidden style='display: none' value=''></option>
                                                 <c:forEach items="${listarTiposSN}" var="tipoGrupo">
                                                     <option value="${tipoGrupo.idTipo}">${tipoGrupo.nombreTipo}</option> 
                                                 </c:forEach>
@@ -109,12 +111,12 @@
                                         <div class="form-group col-md-1"></div>
                                         <div class="form-group col-md-4">
                                             <label>Fecha Fin</label>
-                                            <div class="input-group">
-                                                <input type='text' class="form-control" name="fechaFin_sn" id='dtPicker' required="true"/>
-                                                <div class='input-group-prepend' >
-                                                    <button type="button" id="toggle" class="input-group-text">
-                                                        <i class="fa fa-calendar-alt"></i>
-                                                    </button>
+                                            <div class="form-group">
+                                                <div class="input-group date" id="dtPicker" data-target-input="nearest">
+                                                    <input type="text" name="fechaFin_sn" class="form-control datetimepicker-input" data-target="#dtPicker" required="true"/>
+                                                    <div class="input-group-append" data-target="#dtPicker" data-toggle="datetimepicker">
+                                                        <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>  

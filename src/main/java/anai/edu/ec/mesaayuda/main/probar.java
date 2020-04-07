@@ -11,6 +11,7 @@ import anai.edu.ec.mesaayuda.DaoImplementacion.TipoGrupoImpl;
 import anai.edu.ec.mesaayuda.DaoImplementacion.UsuarioImpl;
 import anai.edu.ec.mesaayuda.Entity.TipoGrupo;
 import anai.edu.ec.mesaayuda.Entity.Usuario;
+import static anai.edu.ec.mesaayuda.Service.fechaSolicitud.convertirFecha;
 import anai.edu.ec.mesaayuda.Util.HibernateUtil;
 
 /**
@@ -19,10 +20,11 @@ import anai.edu.ec.mesaayuda.Util.HibernateUtil;
  */
 public class probar {
     public static void main(String[] args){
-        HibernateUtil.construirSessionFactory();
-        
-        
-        ITipoGrupoDao tipoDao = new TipoGrupoImpl();
+//        System.out.println(convertirFecha("04/04/2020 10:30 pm"));
+//        HibernateUtil.construirSessionFactory();
+//        
+//        
+//        ITipoGrupoDao tipoDao = new TipoGrupoImpl();
 //        for(TipoGrupo tp : tipoDao.obtenerElementos()){
 //            System.out.println(tp.toString());
 //        }
