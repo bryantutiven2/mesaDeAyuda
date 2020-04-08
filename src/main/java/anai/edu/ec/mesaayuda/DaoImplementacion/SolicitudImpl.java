@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package anai.edu.ec.mesaayuda.DaoImplementacion;
 
 import anai.edu.ec.mesaayuda.DAO.ISolicitudDao;
@@ -23,17 +19,20 @@ import org.hibernate.query.Query;
  */
 public class SolicitudImpl implements ISolicitudDao{
     private final String generarIdSolicitud = "select solicitud_seq.nextval from dual";
-    private final String obtenerSolicitudesGE = "from SolicitudAyuda sa join fetch sa.usuarioByIdUserSolicitaAyuda "
+    private final String nuevasSolicitudesAdmin = "from SolicitudAyuda sa join fetch sa.usuarioByIdUserSolicitaAyuda "
                                             + "join fetch sa.grupo gru where gru.idGrupo= :grupo and "
                                             + "sa.estadoSolicitud= :estado";
     private final String selectId = "from SolicitudAyuda sa where sa.id= : id";
-    private final String selectSolicitudUserSA = "from SolicitudAyuda sa join fetch sa.usuarioByIdUserSolicitaAyuda usa "
+    private final String buscarSolicitudesPorUser = "from SolicitudAyuda sa join fetch sa.usuarioByIdUserSolicitaAyuda usa "
                                             + "join fetch sa.usuarioByIdUserTecnico "
                                             + "join fetch sa.grupo join fetch sa.tipoGrupo "
                                             + "where usa.idUsuario= :idUserSA";
-    private final String selectSolicitudUserSA2 = "from SolicitudAyuda sa join fetch sa.usuarioByIdUserSolicitaAyuda usa "
+    private final String buscarSolicitudesPorUser2 = "from SolicitudAyuda sa join fetch sa.usuarioByIdUserSolicitaAyuda usa "
                                             + "join fetch sa.grupo "
                                             + "where sa.estadoSolicitud = 'pendiente' and usa.idUsuario= :idUserSA";
+    private final String cargarSolicitudes = "from SolicitudAyuda sa join fetch sa.usuarioByIdUserSolicitaAyuda usa "
+                                            + "join fetch sa.grupo "
+                                            + "where usa.idUsuario= :idUserSA and sa.estadoSolicitud= :estado";
     @Override
     public Boolean insertar(SolicitudAyuda o) {
         Transaction transaction = null;
@@ -88,33 +87,18 @@ public class SolicitudImpl implements ISolicitudDao{
     }
 
     @Override
-    public List<SolicitudAyuda> obtenerElementos(Map<String, String> mapaSolicitud) {
+    public List<SolicitudAyuda> nuevasSolicitudes(String grupo, String estado) {
         List<SolicitudAyuda> listaSolicitud = null;
         Query query = null;
         try{
             HibernateUtil.abrirSession();
             Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-            String grupo = mapaSolicitud.get("grupo");
-            String estado = mapaSolicitud.get("estado");
-            String idUserSolicitaAyuda = mapaSolicitud.get("idUserSolicitaAyuda");
-            if(grupo != null && estado != null){
-                if(grupo.equals("sist") && estado.equals(String.valueOf(EstadoSolicitud.pendiente))){
-                  query = session.createQuery(obtenerSolicitudesGE, SolicitudAyuda.class);
-                  query.setParameter("grupo", grupo);
-                  query.setParameter("estado", estado);
-                  listaSolicitud = query.getResultList();
-                }  
-            }
-            else if(idUserSolicitaAyuda != null){
-                query = session.createQuery(selectSolicitudUserSA, SolicitudAyuda.class);
-                query.setParameter("idUserSA", Integer.parseInt(idUserSolicitaAyuda));
-                listaSolicitud = query.getResultList();
-                
-                query = session.createQuery(selectSolicitudUserSA2, SolicitudAyuda.class);
-                query.setParameter("idUserSA", Integer.parseInt(idUserSolicitaAyuda));
-                listaSolicitud.addAll(query.getResultList());
-            }
             
+            query = session.createQuery(nuevasSolicitudesAdmin, SolicitudAyuda.class);
+            query.setParameter("grupo", grupo);
+            query.setParameter("estado", estado);
+            listaSolicitud = query.getResultList();
+                
         }
         catch(Exception exc){
             exc.printStackTrace();
@@ -160,6 +144,54 @@ public class SolicitudImpl implements ISolicitudDao{
             HibernateUtil.cerrarSession();
         }
         return id;
+    }
+
+    @Override
+    public List<SolicitudAyuda> buscarSolicitudes(Integer id) {
+        List<SolicitudAyuda> listaSolicitud = null;
+        Query query = null;
+        try{
+            HibernateUtil.abrirSession();
+            Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+            
+            query = session.createQuery(buscarSolicitudesPorUser, SolicitudAyuda.class);
+            query.setParameter("idUserSA", id);
+            listaSolicitud = query.getResultList();
+
+            query = session.createQuery(buscarSolicitudesPorUser2, SolicitudAyuda.class);
+            query.setParameter("idUserSA", id);
+            listaSolicitud.addAll(query.getResultList());
+        }
+        catch(Exception exc){
+            exc.printStackTrace();
+        }
+        finally{
+            HibernateUtil.cerrarSession();
+        }
+        return listaSolicitud;
+    }
+
+    @Override
+    public List<SolicitudAyuda> cargarSolicitudes(String estado, Integer id) {
+        List<SolicitudAyuda> listaSolicitud = null;
+        Query query = null;
+        try{
+            HibernateUtil.abrirSession();
+            Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+            
+            query = session.createQuery(cargarSolicitudes, SolicitudAyuda.class);
+            query.setParameter("estado", estado);
+            query.setParameter("idUserSA", id);
+            listaSolicitud = query.getResultList();
+                
+        }
+        catch(Exception exc){
+            exc.printStackTrace();
+        }
+        finally{
+            HibernateUtil.cerrarSession();
+        }
+        return listaSolicitud;
     }
     
 }

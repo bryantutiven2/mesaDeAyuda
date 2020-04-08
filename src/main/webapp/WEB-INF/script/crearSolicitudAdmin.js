@@ -24,7 +24,7 @@ $(document).ready(function() {
     
 });
 
-
+/*Activar estilo de tabla*/
 $(document).ready(function () {
   $('#dtUsuariosSA').DataTable({
     //para cambiar el lenguaje a español
@@ -58,4 +58,26 @@ $(document).ready(function() {
     document.getElementById("idUserSolicitaA").value= selected;
     $('#idUserSolicitaA').attr('value', selected);
     });         
-});  
+});
+
+
+/*filtrar subtipo por tipo*/
+
+function filtrarSubtipo(value){
+  var select=document.getElementById("selectSubtipo");
+  // Cogemos el listado de opciones en un array de valores
+  var op=select.getElementsByTagName("option");
+  // Seleccionamos la primera opción
+  select.options[0].selected=true;
+  // Recorremos todas las opciones del segundo select
+  for (var i = 0; i < op.length; i++) {
+      var subtipo = op[i].value;
+      var res = subtipo.split("-")[0];
+      if(res == value){
+        op[i].style.display="block";
+      }
+      else{
+        op[i].style.display="none";
+      }
+  }
+};  

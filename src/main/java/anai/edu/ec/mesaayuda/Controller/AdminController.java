@@ -26,6 +26,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
@@ -58,7 +59,7 @@ public class AdminController {
         try{
             String idgrupo = request.getParameter("grupo");
             Integer idTipo = Integer.parseInt(request.getParameter("tipoGrupo_CS"));
-            Integer idSubtipo = Integer.parseInt(request.getParameter("subtipo_CS"));
+            Integer idSubtipo = Integer.parseInt(request.getParameter("subtipo_CS").split("-")[1]);
             Integer idTecnico = Integer.parseInt(request.getParameter("tecnico_cs"));
             Integer idUserSolicitaAyuda = Integer.parseInt(request.getParameter("idUserSolicitaA"));
             String descripcion = request.getParameter("descripcion");
@@ -114,10 +115,8 @@ public class AdminController {
         usuario = obtenerSessionUsuario(request, response);
         String grupo = usuario.getRol().split("_")[1];
         try{
-            Map<String, String> mapaSolicitud = new HashMap<>();
-            mapaSolicitud.put("grupo", grupo);
-            mapaSolicitud.put("estado", String.valueOf(EstadoSolicitud.pendiente));
-            listaSolicitudAyuda = solicitudDao.obtenerElementos(mapaSolicitud);
+            String estado = "pendiente";
+            listaSolicitudAyuda = solicitudDao.nuevasSolicitudes(grupo, estado);
             if(listaSolicitudAyuda != null){
                 for(SolicitudAyuda lista : listaSolicitudAyuda){
                     if(lista.getIdsSolicitudNVez().equals("null"))
@@ -204,33 +203,35 @@ public class AdminController {
     @RequestMapping(value = { "/consultarSolicitud" }, method = RequestMethod.GET)
     public ModelAndView consultarSolicitud(HttpServletRequest request, HttpServletResponse response){
         List<SolicitudTabla> listaTabla = new ArrayList<>();
+        HashSet<Integer> listaIds = new HashSet<Integer>();
         usuario = obtenerSessionUsuario(request, response);
         DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
         String fechaF, userTecnico, tipoG;
         try{
-            Map<String, String> mapaSolicitud = new HashMap<>();
-            mapaSolicitud.put("idUserSolicitaAyuda", String.valueOf(usuario.getIdUsuario()));
-            listaSolicitudAyuda = solicitudDao.obtenerElementos(mapaSolicitud);
+            listaSolicitudAyuda = solicitudDao.buscarSolicitudes(usuario.getIdUsuario());
             if(listaSolicitudAyuda != null){
                 for(SolicitudAyuda lista : listaSolicitudAyuda){
-                    if(lista.getFechaFin() != null)
-                        fechaF = String.valueOf(dateFormat.format(lista.getFechaFin()));
-                    else
-                        fechaF = "";
-                    if(lista.getUsuarioByIdUserTecnico() != null)
-                        userTecnico = lista.getUsuarioByIdUserTecnico().getNombre() + " " + lista.getUsuarioByIdUserTecnico().getApellido();
-                    else
-                        userTecnico = "";
-                    if(lista.getTipoGrupo() != null)
-                        tipoG = lista.getTipoGrupo().getNombreTipo();
-                    else
-                        tipoG = "";
-                    
-                    listaTabla.add(
-                        new SolicitudTabla(lista.getId().getIdSolicitud(), lista.getGrupo().getNombreGrupo(),
-                                tipoG, lista.getDescripcion(), userTecnico,
-                                String.valueOf(dateFormat.format(lista.getFechaInicio())),
-                                fechaF, lista.getEstadoSolicitud()));
+                    if(!listaIds.contains(lista.getId().getIdSolicitud())){
+                        listaIds.add(lista.getId().getIdSolicitud());
+                        if(lista.getFechaFin() != null)
+                            fechaF = String.valueOf(dateFormat.format(lista.getFechaFin()));
+                        else
+                            fechaF = "";
+                        if(lista.getUsuarioByIdUserTecnico() != null)
+                            userTecnico = lista.getUsuarioByIdUserTecnico().getNombre() + " " + lista.getUsuarioByIdUserTecnico().getApellido();
+                        else
+                            userTecnico = "";
+                        if(lista.getTipoGrupo() != null)
+                            tipoG = lista.getTipoGrupo().getNombreTipo();
+                        else
+                            tipoG = "";
+
+                        listaTabla.add(
+                            new SolicitudTabla(lista.getId().getIdSolicitud(), lista.getGrupo().getNombreGrupo(),
+                                    tipoG, lista.getDescripcion(), userTecnico,
+                                    String.valueOf(dateFormat.format(lista.getFechaInicio())),
+                                    fechaF, lista.getEstadoSolicitud()));
+                    }
                 }
                 model.addObject("listaConsultaSolicitudes",listaTabla);
             }

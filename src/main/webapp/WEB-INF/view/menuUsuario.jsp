@@ -55,5 +55,6 @@
         <script src="${pageContext.request.contextPath}/script/crearSolicitud.js"></script>
         <script src="${pageContext.request.contextPath}/script/solicitudesNuevasAdmin.js"></script>
         <script src="${pageContext.request.contextPath}/script/datatables.js"></script>
+        <script src="${pageContext.request.contextPath}/script/consultarSolicitudes.js" type="text/javascript"></script>
     </body
 </html>

@@ -29,7 +29,7 @@
                         <div class="form-group col-md-1"></div>
                         <div class="form-group col-md-3">
                             <label><h6>Tipo</h6></label>
-                            <select id="selectTipo" name="tipoGrupo_CS" class="form-control" model="selected" required>
+                            <select id="selectTipo" name="tipoGrupo_CS" class="form-control" model="selected" onchange="filtrarSubtipo(this.value)" required>
                                 <option selected disabled hidden style='display: none' value=''></option>
                                 <c:forEach items="${listarTiposCS}" var="tipoGrupo">
                                     <option value="${tipoGrupo.idTipo}">${tipoGrupo.nombreTipo}</option> 
@@ -42,7 +42,7 @@
                             <select id="selectSubtipo" name="subtipo_CS" class="form-control" model="selected" required>
                                 <option selected disabled hidden style='display: none' value=''></option>
                                 <c:forEach items="${listarSubtipo_CS}" var="subtipo">
-                                    <option value="${subtipo.idSubtipo}">${subtipo.nombreSubtipo}</option> 
+                                    <option value="${subtipo.tipoGrupo.idTipo}-${subtipo.idSubtipo}">${subtipo.nombreSubtipo}</option> 
                                 </c:forEach>
                             </select>
                         </div>
