@@ -52,8 +52,7 @@ public class UsuarioController {
         DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
         String tipoG;
         try{
-            String estado = "finalizada";
-            listaSolicitudAyuda = solicitudDao.cargarSolicitudes(estado, usuario.getIdUsuario());
+            listaSolicitudAyuda = solicitudDao.obtenerElementos(usuario.getIdUsuario());
             if(listaSolicitudAyuda != null){
                 for(SolicitudAyuda lista : listaSolicitudAyuda){
                     if(lista.getTipoGrupo() != null){
@@ -112,15 +111,20 @@ public class UsuarioController {
         model.setViewName(retornoVista);
         return model;
     }
-    @RequestMapping(value = { "/consultarSolicitud" }, method = RequestMethod.GET)
-    public ModelAndView consultarSolicitud(HttpServletRequest request, HttpServletResponse response){
+    @RequestMapping(value = { "/filtroConsultarSolicitud" }, method = RequestMethod.POST)
+    public ModelAndView filtroConsultarSolicitud(HttpServletRequest request, HttpServletResponse response){
         List<SolicitudTabla> listaTabla = new ArrayList<>();
         HashSet<Integer> listaIds = new HashSet<Integer>();
         usuario = obtenerSessionUsuario(request, response);
         DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
         String fechaF, userTecnico, tipoG;
+        String grupo = request.getParameter("buscarGrupo");
+        String estado = request.getParameter("buscarEstado");
         try{
-            listaSolicitudAyuda = solicitudDao.buscarSolicitudes(usuario.getIdUsuario());
+            if(grupo != null && estado == null)
+                listaSolicitudAyuda = solicitudDao.buscarPorGrupo(grupo, usuario.getIdUsuario());
+            else if(estado != null && grupo == null)
+                listaSolicitudAyuda = solicitudDao.buscarPorEstado(estado, usuario.getIdUsuario());
             if(listaSolicitudAyuda != null){
                 for(SolicitudAyuda lista : listaSolicitudAyuda){
                     if(!listaIds.contains(lista.getId().getIdSolicitud())){
@@ -143,6 +147,7 @@ public class UsuarioController {
                                     String.valueOf(dateFormat.format(lista.getFechaInicio())),
                                     fechaF, lista.getEstadoSolicitud()));
                     }
+                    
                 }
                 model.addObject("listaConsultaSolicitudes",listaTabla);
             }
@@ -155,9 +160,17 @@ public class UsuarioController {
         model.setViewName("menuUsuario");
         return model;
     }
-    
+    @RequestMapping(value = { "/consultarSolicitud" }, method = RequestMethod.GET)
+    public ModelAndView consultarSolicitud(HttpServletRequest request, HttpServletResponse response){
+        usuario = obtenerSessionUsuario(request, response);
+        datosUsuario();
+        model.addObject("viewMain","consultaSolicitudes");
+        model.setViewName("menuUsuario");
+        return model;
+    }
     
     private void datosUsuario(){
+        
         String rol = usuario.getRol();
         model.addObject("rol",rol);
         model.addObject("username", usuario.getNombre() + " " + usuario.getApellido());

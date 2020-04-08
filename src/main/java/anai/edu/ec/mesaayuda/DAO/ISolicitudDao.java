@@ -14,9 +14,10 @@ public interface ISolicitudDao{
     Boolean insertar(SolicitudAyuda o);
     Boolean actualizar(SolicitudAyuda o);
     Boolean eliminar(SolicitudAyuda o);
-    List<SolicitudAyuda> cargarSolicitudes(String estado, Integer id);
     List<SolicitudAyuda> nuevasSolicitudes(String grupo, String estado);
-    List<SolicitudAyuda> buscarSolicitudes(Integer id);
+    List<SolicitudAyuda> obtenerElementos(Integer id);
     SolicitudAyuda obtenerElemento(SolicitudAyudaId id);
     Integer generarIdSolicitud();
+    List<SolicitudAyuda> buscarPorGrupo(String grupo, Integer idUserSA);
+    List<SolicitudAyuda> buscarPorEstado(String estado, Integer idUserSA);
 }

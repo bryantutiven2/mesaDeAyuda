@@ -1,4 +1,8 @@
-
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package anai.edu.ec.mesaayuda.DaoImplementacion;
 
 import anai.edu.ec.mesaayuda.DAO.ISolicitudDao;
@@ -19,20 +23,28 @@ import org.hibernate.query.Query;
  */
 public class SolicitudImpl implements ISolicitudDao{
     private final String generarIdSolicitud = "select solicitud_seq.nextval from dual";
-    private final String nuevasSolicitudesAdmin = "from SolicitudAyuda sa join fetch sa.usuarioByIdUserSolicitaAyuda "
+    private final String nuevasSolicitudes = "from SolicitudAyuda sa join fetch sa.usuarioByIdUserSolicitaAyuda "
                                             + "join fetch sa.grupo gru where gru.idGrupo= :grupo and "
                                             + "sa.estadoSolicitud= :estado";
+    private final String obtenerSolicitudesUserSa = "from SolicitudAyuda sa join fetch sa.usuarioByIdUserSolicitaAyuda usa "
+                                            + "join fetch sa.grupo join fetch sa.tipoGrupo "
+                                            + "where usa.idUsuario= :id and sa.estadoSolicitud = 'finalizada'";
     private final String selectId = "from SolicitudAyuda sa where sa.id= : id";
-    private final String buscarSolicitudesPorUser = "from SolicitudAyuda sa join fetch sa.usuarioByIdUserSolicitaAyuda usa "
+    private final String buscarPorGrupo1 = "from SolicitudAyuda sa join fetch sa.usuarioByIdUserSolicitaAyuda usa "
+                                            + "join fetch sa.usuarioByIdUserTecnico "
+                                            + "join fetch sa.grupo gru join fetch sa.tipoGrupo "
+                                            + "where gru.idGrupo= :grupo and usa.idUsuario= :idUserSA";
+    private final String buscarPorGrupo2 = "from SolicitudAyuda sa join fetch sa.usuarioByIdUserSolicitaAyuda usa "
+                                            + "join fetch sa.grupo gru "
+                                            + "where gru.idGrupo= :grupo and usa.idUsuario= :idUserSA";
+    
+    private final String bucsarPorEstado1 = "from SolicitudAyuda sa join fetch sa.usuarioByIdUserSolicitaAyuda usa "
                                             + "join fetch sa.usuarioByIdUserTecnico "
                                             + "join fetch sa.grupo join fetch sa.tipoGrupo "
-                                            + "where usa.idUsuario= :idUserSA";
-    private final String buscarSolicitudesPorUser2 = "from SolicitudAyuda sa join fetch sa.usuarioByIdUserSolicitaAyuda usa "
+                                            + "where sa.estadoSolicitud= :estado and usa.idUsuario= :idUserSA";
+    private final String bucsarPorEstado2 = "from SolicitudAyuda sa join fetch sa.usuarioByIdUserSolicitaAyuda usa "
                                             + "join fetch sa.grupo "
-                                            + "where sa.estadoSolicitud = 'pendiente' and usa.idUsuario= :idUserSA";
-    private final String cargarSolicitudes = "from SolicitudAyuda sa join fetch sa.usuarioByIdUserSolicitaAyuda usa "
-                                            + "join fetch sa.grupo "
-                                            + "where usa.idUsuario= :idUserSA and sa.estadoSolicitud= :estado";
+                                            + "where sa.estadoSolicitud= :estado and usa.idUsuario= :idUserSA";
     @Override
     public Boolean insertar(SolicitudAyuda o) {
         Transaction transaction = null;
@@ -93,12 +105,10 @@ public class SolicitudImpl implements ISolicitudDao{
         try{
             HibernateUtil.abrirSession();
             Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-            
-            query = session.createQuery(nuevasSolicitudesAdmin, SolicitudAyuda.class);
+            query = session.createQuery(nuevasSolicitudes, SolicitudAyuda.class);
             query.setParameter("grupo", grupo);
             query.setParameter("estado", estado);
             listaSolicitud = query.getResultList();
-                
         }
         catch(Exception exc){
             exc.printStackTrace();
@@ -147,20 +157,21 @@ public class SolicitudImpl implements ISolicitudDao{
     }
 
     @Override
-    public List<SolicitudAyuda> buscarSolicitudes(Integer id) {
+    public List<SolicitudAyuda> buscarPorGrupo(String grupo, Integer idUserSA) {
         List<SolicitudAyuda> listaSolicitud = null;
         Query query = null;
         try{
             HibernateUtil.abrirSession();
             Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-            
-            query = session.createQuery(buscarSolicitudesPorUser, SolicitudAyuda.class);
-            query.setParameter("idUserSA", id);
+            query = session.createQuery(buscarPorGrupo1, SolicitudAyuda.class);
+            query.setParameter("grupo", grupo);
+            query.setParameter("idUserSA", idUserSA);
             listaSolicitud = query.getResultList();
-
-            query = session.createQuery(buscarSolicitudesPorUser2, SolicitudAyuda.class);
-            query.setParameter("idUserSA", id);
-            listaSolicitud.addAll(query.getResultList());
+            
+            query = session.createQuery(buscarPorGrupo2, SolicitudAyuda.class);
+            query.setParameter("grupo", grupo);
+            query.setParameter("idUserSA", idUserSA);
+            listaSolicitud.addAll(query.getResultList()); 
         }
         catch(Exception exc){
             exc.printStackTrace();
@@ -172,18 +183,41 @@ public class SolicitudImpl implements ISolicitudDao{
     }
 
     @Override
-    public List<SolicitudAyuda> cargarSolicitudes(String estado, Integer id) {
+    public List<SolicitudAyuda> buscarPorEstado(String estado, Integer idUserSA) {
         List<SolicitudAyuda> listaSolicitud = null;
         Query query = null;
         try{
             HibernateUtil.abrirSession();
             Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-            
-            query = session.createQuery(cargarSolicitudes, SolicitudAyuda.class);
+            query = session.createQuery(bucsarPorEstado1, SolicitudAyuda.class);
             query.setParameter("estado", estado);
-            query.setParameter("idUserSA", id);
+            query.setParameter("idUserSA", idUserSA);
             listaSolicitud = query.getResultList();
-                
+            
+            query = session.createQuery(bucsarPorEstado2, SolicitudAyuda.class);
+            query.setParameter("estado", estado);
+            query.setParameter("idUserSA", idUserSA);
+            listaSolicitud.addAll(query.getResultList()); 
+        }
+        catch(Exception exc){
+            exc.printStackTrace();
+        }
+        finally{
+            HibernateUtil.cerrarSession();
+        }
+        return listaSolicitud;
+    }
+
+    @Override
+    public List<SolicitudAyuda> obtenerElementos(Integer id) {
+        List<SolicitudAyuda> listaSolicitud = null;
+        Query query = null;
+        try{
+            HibernateUtil.abrirSession();
+            Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+            query = session.createQuery(obtenerSolicitudesUserSa, SolicitudAyuda.class);
+            query.setParameter("id", id);
+            listaSolicitud = query.getResultList();
         }
         catch(Exception exc){
             exc.printStackTrace();

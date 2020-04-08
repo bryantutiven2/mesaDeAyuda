@@ -114,9 +114,9 @@ public class AdminController {
         DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
         usuario = obtenerSessionUsuario(request, response);
         String grupo = usuario.getRol().split("_")[1];
+        String estado = "pendiente";
         try{
-            String estado = "pendiente";
-            listaSolicitudAyuda = solicitudDao.nuevasSolicitudes(grupo, estado);
+            listaSolicitudAyuda = solicitudDao.nuevasSolicitudes(grupo,estado);
             if(listaSolicitudAyuda != null){
                 for(SolicitudAyuda lista : listaSolicitudAyuda){
                     if(lista.getIdsSolicitudNVez().equals("null"))
@@ -200,15 +200,20 @@ public class AdminController {
         return model;
     }
     
-    @RequestMapping(value = { "/consultarSolicitud" }, method = RequestMethod.GET)
-    public ModelAndView consultarSolicitud(HttpServletRequest request, HttpServletResponse response){
+    @RequestMapping(value = { "/filtroConsultarSolicitud" }, method = RequestMethod.POST)
+    public ModelAndView filtroConsultarSolicitud(HttpServletRequest request, HttpServletResponse response){
         List<SolicitudTabla> listaTabla = new ArrayList<>();
         HashSet<Integer> listaIds = new HashSet<Integer>();
         usuario = obtenerSessionUsuario(request, response);
         DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
         String fechaF, userTecnico, tipoG;
+        String grupo = request.getParameter("buscarGrupo");
+        String estado = request.getParameter("buscarEstado");
         try{
-            listaSolicitudAyuda = solicitudDao.buscarSolicitudes(usuario.getIdUsuario());
+            if(grupo != null && estado == null)
+                listaSolicitudAyuda = solicitudDao.buscarPorGrupo(grupo, usuario.getIdUsuario());
+            else if(estado != null && grupo == null)
+                listaSolicitudAyuda = solicitudDao.buscarPorEstado(estado, usuario.getIdUsuario());
             if(listaSolicitudAyuda != null){
                 for(SolicitudAyuda lista : listaSolicitudAyuda){
                     if(!listaIds.contains(lista.getId().getIdSolicitud())){
@@ -240,7 +245,16 @@ public class AdminController {
             exc.printStackTrace();
         }
         datosUsuario();
-        model.addObject("viewMain","consultaSolicitudes");
+        model.addObject("viewMain","consultaSolicitudesAdmin");
+        model.setViewName("menuUsuario");
+        return model;
+    }
+    
+    @RequestMapping(value = { "/consultarSolicitud" }, method = RequestMethod.GET)
+    public ModelAndView consultarSolicitud(HttpServletRequest request, HttpServletResponse response){
+        usuario = obtenerSessionUsuario(request, response);
+        datosUsuario();
+        model.addObject("viewMain","consultaSolicitudesAdmin");
         model.setViewName("menuUsuario");
         return model;
     }

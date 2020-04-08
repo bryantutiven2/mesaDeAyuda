@@ -8,7 +8,7 @@
     <div class="col-xl-12 col-lg-8 mx-auto">
         <div class="bg-faded rounded p-3">
             <div class="card">
-                <form action="${pageContext.request.contextPath}/usuario/filtroConsultarSolicitud" method="post" style="font-size: 0.95em" autocomplete="off">
+                <form action="${pageContext.request.contextPath}/admin/filtroConsultarSolicitud" method="post" style="font-size: 0.95em" autocomplete="off">
                     <div class="card-body">
                         <div class="form-row">
                             <div class="form-group col-md-1"></div>
@@ -38,7 +38,7 @@
                         </div>
                         <div class="text-center">
                             <div class="text-center">
-                                <button type="submit" class="btn btn-primary" id="cargarSelect">Cargar</button>
+                                <button type="submit" class="btn btn-primary" onclick="cargarSelect()"  id="cargarSelect">Cargar</button>
                             </div>
                         </div>
                     </div>
