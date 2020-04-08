@@ -9,7 +9,7 @@
 <div class="main col pt-2" style="margin-top: 20px">
     <div class="col-xl-12 col-lg-8 mx-auto">
         <div class="bg-faded rounded p-3">
-            <table id="tablaNuevaS" class="table table-striped table-bordered table-sm" cellspacing="0"  width="100%">
+            <table id="tablaNuevaS" class="table table-striped table-bordered" style="width:100%">
                 <thead>
                     <tr>
                         <th class="th-sm" style="font-size: 0.85em ">Cod</th>

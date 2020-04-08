@@ -13,7 +13,7 @@
             </li>
             <!-- Separator with title -->
             <li class="list-group-item text-muted text-center bg-light">
-                <h5>Menu</h5>
+                <h5>Menú</h5>
             </li>
             <c:if test="${rol == 'admin_sist'}">
                 <a href="${pageContext.request.contextPath}/admin/crearSolictud" aria-expanded="false" class="bg-light list-group-item list-group-item-action flex-column align-items-start">

@@ -1,4 +1,5 @@
 
+/*DateTimePicker para fecha inicio y fin en crearSolicitudAdmin.jsp*/
 $(function () {
     $('#dtPickerFI').datetimepicker({
         format: "DD/MM/YYYY hh:mm a"
@@ -14,7 +15,8 @@ $(function () {
         $('dtPickerFI').datetimepicker('maxDate', e.date);
     });
 });
-            
+
+/*Activar toggle de cargar usuarios en crearSolicitudAdmin.jsp */
 $(document).ready(function() {
     $('.cargarTogleUsuarios').click(function(){
         $("#myModalCS").modal();
@@ -24,10 +26,27 @@ $(document).ready(function() {
 
 
 $(document).ready(function () {
-  $('#dtUsuariosSA').DataTable();
-  $('.dataTables_length').addClass('bs-select');
+  $('#dtUsuariosSA').DataTable({
+    //para cambiar el lenguaje a español
+        "language": {
+            "lengthMenu": "Mostrar _MENU_ registros",
+            "zeroRecords": "No se encontraron resultados",
+            "info": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+            "infoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+            "infoFiltered": "(filtrado de un total de _MAX_ registros)",
+            "sSearch": "Buscar:",
+            "oPaginate": {
+                "sFirst": "Primero",
+                "sLast":"Último",
+                "sNext":"Siguiente",
+                "sPrevious": "Anterior"
+                         },
+                         "sProcessing":"Procesando...",
+        }
+    });
 });
 
+/*Permite cargar el usuario seleccionado en el toggle en crearSolicitudAdmin.jsp*/
 $(document).ready(function() {
     $('#cargarIdUSA').click(function(){
         var selected = '';    

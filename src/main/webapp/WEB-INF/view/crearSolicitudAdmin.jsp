@@ -158,7 +158,7 @@
               </div>
               <div class="modal-body">
                   <form id="idsUSA">
-                      <table id="dtUsuariosSA" class="table table-striped table-bordered table-sm" cellspacing="0" width="100%">
+                      <table id="dtUsuariosSA" class="table table-striped table-bordered" style="width:100%">
                         <thead>
                             <tr>
                                 <th class="th-sm">Id</th>

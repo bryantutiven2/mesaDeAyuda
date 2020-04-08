@@ -58,46 +58,46 @@
 </div>
 
 <!--Modal o mop up de la tabla emergente para escoger las ayudas solicitidas-->
-  <div id="myModal" class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-      <div class="modal-dialog modal-lg" role="document">
-          <div class="modal-content">
-              <div class="modal-header">
-                  <h5 class="modal-title">Seleccione Ayudas realizadas</h5>
-                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                      <span aria-hidden="true">&times;</span>
-                  </button>
-              </div>
-              <div class="modal-body">
-                  <form id="idsItems">
-                      <table id="dtBasicExample" class="table table-striped table-bordered table-sm" cellspacing="0" width="100%">
-                        <thead>
-                            <tr>
-                                <th class="th-sm">Cod</th>
-                                <th class="th-sm">Grupo</th>
-                                <th class="th-sm">Tipo</th>
-                                <th class="th-sm" style="max-width: 260px; text-align: justify">Descripcion</th>
-                                <th class="th-sm"></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <c:forEach items="${listaSolicitudesModal}" var="solicitudM">
-                                <tr>
-                                    <th class="idsolicitud" scope="row">${solicitudM.id}</th>
-                                    <td>${solicitudM.grupo}</td>
-                                    <td>${solicitudM.tipo}</td>
-                                    <td style="max-width: 260px; text-align: justify">${solicitudM.descripcion}</td>
-                                    <td><input  type="checkbox" name="ug-checkbox" value="${solicitudM.id}"/>&nbsp;</td>
-                                </tr>
-                            </c:forEach>
-                        </tbody>
-                    </table>
-                  </form>
-              </div>
-              <div class="modal-footer">
-                  <button type="button" class="btn btn-primary" id="cargarIds" data-dismiss="modal">Aceptar</button>
-                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-              </div>
-          </div>
-      </div>
-  </div>
-                                
+<div id="myModal" class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Seleccione Ayudas realizadas</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="idsItems">
+                    <table id="dtBasicExample" class="table table-striped table-bordered" style="width:100%">
+                      <thead>
+                          <tr>
+                              <th class="th-sm">Cod</th>
+                              <th class="th-sm">Grupo</th>
+                              <th class="th-sm">Tipo</th>
+                              <th class="th-sm" style="max-width: 260px; text-align: justify">Descripcion</th>
+                              <th class="th-sm"></th>
+                          </tr>
+                      </thead>
+                      <tbody>
+                          <c:forEach items="${listaSolicitudesModal}" var="solicitudM">
+                              <tr>
+                                  <th class="idsolicitud" scope="row">${solicitudM.id}</th>
+                                  <td>${solicitudM.grupo}</td>
+                                  <td>${solicitudM.tipo}</td>
+                                  <td style="max-width: 260px; text-align: justify">${solicitudM.descripcion}</td>
+                                  <td><input  type="checkbox" name="ug-checkbox" value="${solicitudM.id}"/>&nbsp;</td>
+                              </tr>
+                          </c:forEach>
+                      </tbody>
+                  </table>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" id="cargarIds" data-dismiss="modal">Aceptar</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
