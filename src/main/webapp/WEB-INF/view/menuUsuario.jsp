@@ -57,6 +57,13 @@
         <script src="${pageContext.request.contextPath}/script/crearSolicitudAdmin.js"></script>
         <script src="${pageContext.request.contextPath}/script/crearSolicitud.js"></script>
         <script src="${pageContext.request.contextPath}/script/solicitudesNuevasAdmin.js"></script>
+        <script src="${pageContext.request.contextPath}/script/consultarSolicitudes.js"></script>
         <script src="${pageContext.request.contextPath}/script/datatables.js"></script>
+        <script src="${pageContext.request.contextPath}/script/dataTables.buttons.min.js" type="text/javascript"></script>
+        <script src="${pageContext.request.contextPath}/script/buttons.print.min.js" type="text/javascript"></script>
+        <script src="${pageContext.request.contextPath}/script/jszip.min.js" type="text/javascript"></script>
+        <script src="${pageContext.request.contextPath}/script/pdfmake.min.js" type="text/javascript"></script>
+        <script src="${pageContext.request.contextPath}/script/vfs_fonts.js" type="text/javascript"></script>
+        <script src="${pageContext.request.contextPath}/script/buttons.html5.min.js" type="text/javascript"></script>
     </body
 </html>

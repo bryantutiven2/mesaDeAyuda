@@ -50,7 +50,7 @@
     <div class="col-xl-12 col-lg-8 mx-auto">
         <div class="bg-faded rounded p-3">
             <div class="table-responsive">
-                <table id="dtBasicExample" class="table table-striped table-bordered" style="width:100%">
+                <table id="tableConsultarSolicitud" class="table table-striped table-bordered" style="width:100%">
                     <thead>
                         <tr>
                             <th class="th-sm" style="font-size: 0.85em ">Cod</th>
