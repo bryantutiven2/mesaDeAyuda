@@ -37,9 +37,8 @@
                             
                         </div>
                         <div class="text-center">
-                            <div class="text-center">
-                                <button type="submit" class="btn btn-primary" onclick="cargarSelect()"  id="cargarSelect">Cargar</button>
-                            </div>
+                            <button type="submit" class="btn btn-primary"  id="cargarSelectC" style="margin-right: 15px;"><i class="fas fa-search"></i> Cargar</button>
+                            <button type="reset" class="btn btn-primary"  id="resetSelectC"><i class="fas fa-undo"></i></button>
                         </div>
                     </div>
                 </form>
@@ -50,7 +49,7 @@
     <div class="col-xl-12 col-lg-8 mx-auto">
         <div class="bg-faded rounded p-3">
             <div class="table-responsive">
-                <table id="dtBasicExample" class="table table-striped table-bordered" style="width:100%">
+                <table id="tableConsultarSolicitudAdmin" class="table table-striped table-bordered" style="width:100%">
                     <thead>
                         <tr>
                             <th class="th-sm" style="font-size: 0.85em ">Cod</th>

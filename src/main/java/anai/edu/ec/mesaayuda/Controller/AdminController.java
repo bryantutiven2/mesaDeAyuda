@@ -202,7 +202,7 @@ public class AdminController {
     
     @RequestMapping(value = { "/filtroConsultarSolicitud" }, method = RequestMethod.POST)
     public ModelAndView filtroConsultarSolicitud(HttpServletRequest request, HttpServletResponse response){
-        List<SolicitudTabla> listaTabla = new ArrayList<>();
+        List<SolicitudTabla> listaTabla = null;
         HashSet<Integer> listaIds = new HashSet<Integer>();
         usuario = obtenerSessionUsuario(request, response);
         DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
@@ -210,6 +210,7 @@ public class AdminController {
         String grupo = request.getParameter("buscarGrupo");
         String estado = request.getParameter("buscarEstado");
         try{
+            listaTabla = new ArrayList<>();
             if(grupo != null && estado == null)
                 listaSolicitudAyuda = solicitudDao.buscarPorGrupo(grupo, usuario.getIdUsuario());
             else if(estado != null && grupo == null)
@@ -240,6 +241,9 @@ public class AdminController {
                 }
                 model.addObject("listaConsultaSolicitudes",listaTabla);
             }
+            if(grupo == null && estado == null){
+                model.addObject("listaConsultaSolicitudes",null);
+            }
         }
         catch(Exception exc){
             exc.printStackTrace();
@@ -254,6 +258,7 @@ public class AdminController {
     public ModelAndView consultarSolicitud(HttpServletRequest request, HttpServletResponse response){
         usuario = obtenerSessionUsuario(request, response);
         datosUsuario();
+        model.addObject("listaConsultaSolicitudes",null);
         model.addObject("viewMain","consultaSolicitudesAdmin");
         model.setViewName("menuUsuario");
         return model;

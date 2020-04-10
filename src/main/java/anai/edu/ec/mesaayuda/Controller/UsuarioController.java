@@ -113,7 +113,7 @@ public class UsuarioController {
     }
     @RequestMapping(value = { "/filtroConsultarSolicitud" }, method = RequestMethod.POST)
     public ModelAndView filtroConsultarSolicitud(HttpServletRequest request, HttpServletResponse response){
-        List<SolicitudTabla> listaTabla = new ArrayList<>();
+        List<SolicitudTabla> listaTabla = null;
         HashSet<Integer> listaIds = new HashSet<Integer>();
         usuario = obtenerSessionUsuario(request, response);
         DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
@@ -126,6 +126,7 @@ public class UsuarioController {
             else if(estado != null && grupo == null)
                 listaSolicitudAyuda = solicitudDao.buscarPorEstado(estado, usuario.getIdUsuario());
             if(listaSolicitudAyuda != null){
+                listaTabla = new ArrayList<>();
                 for(SolicitudAyuda lista : listaSolicitudAyuda){
                     if(!listaIds.contains(lista.getId().getIdSolicitud())){
                         listaIds.add(lista.getId().getIdSolicitud());
@@ -151,6 +152,9 @@ public class UsuarioController {
                 }
                 model.addObject("listaConsultaSolicitudes",listaTabla);
             }
+            if(grupo == null && estado == null){
+                model.addObject("listaConsultaSolicitudes",null);
+            }
         }
         catch(Exception exc){
             exc.printStackTrace();
@@ -164,6 +168,7 @@ public class UsuarioController {
     public ModelAndView consultarSolicitud(HttpServletRequest request, HttpServletResponse response){
         usuario = obtenerSessionUsuario(request, response);
         datosUsuario();
+        model.addObject("listaConsultaSolicitudes",null);
         model.addObject("viewMain","consultaSolicitudes");
         model.setViewName("menuUsuario");
         return model;

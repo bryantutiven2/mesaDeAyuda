@@ -3,7 +3,7 @@
 $(document).ready(function () {
     var texto_usuario = document.getElementById("texto_usuario").innerHTML;
     var texto_correo = document.getElementById("texto_correo").innerHTML;
-    $('#tableConsultarSolicitud').DataTable({
+    $('#tableConsultarSolicitudAdmin').DataTable({
     //para cambiar el lenguaje a español
         "language": {
             "lengthMenu": "Mostrar _MENU_ registros",
@@ -23,7 +23,14 @@ $(document).ready(function () {
         //para usar los botones   
         responsive: "true",
         dom: 'Bfrtilp',       
-        buttons:[
+        buttons:[ 
+            {
+                extend:    'excelHtml5',
+                text:      '<i class="fas fa-file-excel"></i> ',
+                titleAttr: 'Exportar a Excel',
+                className: 'btn btn-success',
+                title:     'Solicitudes Realizadas'
+            },
             {
                 extend:    'pdfHtml5',
                 text:      '<i class="fas fa-file-pdf"></i> ',

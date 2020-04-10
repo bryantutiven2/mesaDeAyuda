@@ -37,14 +37,13 @@
                             
                         </div>
                         <div class="text-center">
-                            <div class="text-center">
-                                <button type="submit" class="btn btn-primary" id="cargarSelect">Cargar</button>
-                            </div>
+                            <button type="submit" class="btn btn-primary"  id="cargarSelectC" style="margin-right: 15px;"><i class="fas fa-search"></i> Cargar</button>
+                            <button type="reset" class="btn btn-primary"  id="resetSelectC"><i class="fas fa-undo"></i></button>
                         </div>
                     </div>
                 </form>
             </div>
-            <br> <br>
+            <br>
         </div>
     </div>
     <div class="col-xl-12 col-lg-8 mx-auto">
@@ -64,6 +63,7 @@
                         </tr>
                     </thead>
                     <tbody>
+                    <c:if test="${not empty listaConsultaSolicitudes}">
                         <c:forEach items="${listaConsultaSolicitudes}" var="solicitudL">
                             <tr>
                                 <th class="idsolicitud" style="font-size: 0.8em" scope="row">${solicitudL.id}</th>
@@ -76,6 +76,7 @@
                                 <td style="font-size: 0.8em">${solicitudL.estadoSolicitud}</td>
                             </tr>
                         </c:forEach>
+                    </c:if>
                     </tbody>
                 </table>
             </div>
