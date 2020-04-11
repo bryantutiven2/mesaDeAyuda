@@ -49,3 +49,14 @@ body{
     background-repeat: no-repeat;
     background-size: 100%;
 }
+
+.btn-cambiar-color{
+    background-color: #054182;
+    border-color: #054182;
+    color: #f2f2f2;
+}
+button.btn-cambiar-color:hover{
+    background-color: #1d5ea3;
+    border-color: #1d5ea3;
+    color: #f0f1f2e5;
+}

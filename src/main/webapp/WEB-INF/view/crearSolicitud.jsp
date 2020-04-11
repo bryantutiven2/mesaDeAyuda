@@ -4,57 +4,73 @@
     Author     : bryan
 --%>
 
-<div class="main col pt-2">
+<div>
     <h2 class="mt-4 text-center">Crear Solicitud de Ayuda</h2>
-            <div class="col-xl-8 col-lg-8 mx-auto">
-                <div class="bg-faded rounded p-5">
-                    <form action="${pageContext.request.contextPath}/usuario/enviarSolicitud" method="post">
-                        <h5>Grupo</h5>
-                        <br>
-                        <fieldset>
-                              <div class="form-group col-md-11 borderDiv">
-                                  <div>
-                                      <input type="radio" id="grupoSistema" name="grupo" id="g1" value="sist"checked>
-                                      <label for="sistemas">Sistemas</label>
-                                  </div>
-                                  <div>
-                                      <input type="radio" id="grupoMantenimiento" name="grupo" id="g2" value="mant">
-                                      <label for="mantenimiento">Mantenimiento</label>
-                                  </div>
-                              </div>
-                        </fieldset>
-                        <h5>Descripcion</h5>
+    <div class="col-xl-8 col-lg-8 mx-auto">
+        <div class="bg-faded rounded p-2">
+            <form action="${pageContext.request.contextPath}/usuario/enviarSolicitud" method="post">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="form-row">
+                            <div class="form-group col-md-4">
+                                <h5>Grupo</h5>
+                                <br>
+                                <fieldset>
+                                      <div class="form-group col-md-4">
+                                          <div style="width: 120px;">
+                                              <input type="radio" id="grupoSistema" name="grupo" id="g1" value="sist"checked>
+                                              <label for="sistemas">Sistemas</label>
+                                          </div>
+                                          <div style="width: 150px;">
+                                              <input type="radio" id="grupoMantenimiento" name="grupo" id="g2" value="mant">
+                                              <label for="mantenimiento">Mantenimiento</label>
+                                          </div>
+                                      </div>
+                                </fieldset>
+                            </div>
+                            <div class="form-group col-md-1"></div>
+                            <div class="form-group col-md-7">
+                                <h5>Reincidencia del Problema</h5>
+                                <br>
+                                <div class="form-row">
+                                      <div class="form-group col-md-5">
+                                          <select id="reincidencia" name="nvez" class="form-control" required model="selected" onchange = "myFunction()">
+                                              <option selected disabled hidden style='display: none' value=''></option>
+                                              <option value="1">1vez</option>   
+                                              <option value="2">2vez</option>
+                                              <option value="3">3vez</option>
+                                              <option value="4">4vez</option>
+                                          </select>
+                                      </div>
+                                      <div class="form-group col-md-1">
+                                      </div>
+                                      <div class="form-group col-md-5">
+                                           <input type="text" class="form-control" name="idsnvez" id="ids_aydudaas" readonly="readonly">
+                                      </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <br>
+                <div class="card">
+                    <div class="card-body">
+                        <h5>Descripción</h5>
                         <br>
                         <div class="form-group">
                             <div class="form-group col-md-11">
                                 <textarea class="form-control" rows="3" name="descripcion" id="descripcion" v-model="text"  required></textarea>
                             </div>
                         </div>
-                        <br>
-                        <h5>Reincidencia del Problema</h5>
-                        <div class="form-row">
-                              <div class="form-group col-md-4">
-                                  <select id="reincidencia" name="nvez" class="form-control" required model="selected" onchange = "myFunction()">
-                                      <option selected disabled hidden style='display: none' value=''></option>
-                                      <option value="1">1vez</option>   
-                                      <option value="2">2vez</option>
-                                      <option value="3">3vez</option>
-                                      <option value="4">4vez</option>
-                                  </select>
-                              </div>
-                              <div class="form-group col-md-1">
-                              </div>
-                              <div class="form-group col-md-4">
-                                   <input type="text" class="form-control" name="idsnvez" id="ids_aydudaas" readonly="readonly">
-                              </div>
-                        </div>
-                        <br />
-                        <div class="text-center">
-                            <button type="submit" class="btn btn-primary"  id="enviar">Enviar Solicitud</button>
-                        </div>
-                    </form>
+                    </div>
                 </div>
-            </div>
+                <br />
+                <div class="text-center">
+                    <button type="submit" class="btn-cambiar-color btn btn-primary"  id="enviar">Enviar Solicitud</button>
+                </div>
+            </form>
+        </div>
+    </div>
 </div>
 
 <!--Modal o mop up de la tabla emergente para escoger las ayudas solicitidas-->
@@ -76,7 +92,7 @@
                                     <th class="th-sm">Cod</th>
                                     <th class="th-sm">Grupo</th>
                                     <th class="th-sm">Tipo</th>
-                                    <th class="th-sm" style="max-width: 260px; text-align: justify">Descripcion</th>
+                                    <th class="th-sm" style="max-width: 260px; text-align: justify">Descripción</th>
                                     <th class="th-sm"></th>
                                 </tr>
                             </thead>
@@ -96,7 +112,7 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary" id="cargarIds" data-dismiss="modal">Aceptar</button>
+                <button type="button" class="btn-cambiar-color btn btn-primary" id="cargarIds" data-dismiss="modal">Aceptar</button>
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
             </div>
         </div>

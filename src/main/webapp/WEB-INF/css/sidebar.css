@@ -1,0 +1,91 @@
+
+body {
+    height : 100vh;
+    overflow : scroll;
+}
+.sidebar {
+    background-color: #032345;
+    padding: 0;
+    max-width: 225px;
+    min-width: 225px;
+    min-height:100vh;
+    overflow:hidden;
+    top: 0;
+    left: 0;
+    z-index: 999;
+    color: #fff;
+    transition: all 0.3s;
+}
+
+.referenciaA{
+    background-color: #032345;
+    color: #f2f2f2;
+    font-size: 0.85em;
+    font-weight: 550;
+    text-decoration: none;
+    
+}
+
+h2{
+    color: #032345;
+}
+.toggle-nav{
+    background-color: #054182;
+    border-color: #054182;
+    color: #FFFFFF;
+}
+.toggle-nav:hover{
+    background-color: #054182;
+    border-color: #054182;
+    color: #f0f1f2e5;
+}
+.card{
+    border-color: #032345;
+    border-width: 0.05em;
+}
+.btn{
+    border-radius: 3px;
+}
+
+.list-group-item{
+    border-radius: 0px;
+}
+a.referenciaA:hover{
+    border-radius: 0px;
+    color: #083464;
+    background-color: #f0f1f2;
+    text-decoration: none;
+}
+.nav {
+    padding-left: 0;
+    margin-bottom: 0;
+    list-style: none;
+}
+
+.activar{
+    border-left: 4px solid #19aa8d;
+    border-radius: 0px;
+}
+.nav>li {
+    position: relative;
+    display: block;
+    height: 45px;
+}
+
+/*color para los botones*/
+.btn-cambiar-color{
+    background-color: #054182;
+    border-color: #054182;
+    color: #f2f2f2;
+}
+button.btn-cambiar-color:hover{
+    background-color: #1d5ea3;
+    border-color: #1d5ea3;
+    color: #f0f1f2e5;
+}
+/*Ocultar sidebar cuando la pantalla sea pequeña*/
+@media screen and (max-width: 900px){
+    .sidebar{
+        display:none;
+    }
+}

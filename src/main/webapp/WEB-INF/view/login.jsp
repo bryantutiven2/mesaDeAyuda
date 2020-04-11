@@ -29,7 +29,7 @@
                   <input type="password" name="contrasena" class="form-control" id="pass" placeholder="Password" />
                 </div>
                 <div class="form-group text-center">
-                    <button type="submit" class="btn btn-primary">Entrar</button>
+                    <button type="submit" class="btn-cambiar-color btn btn-primary">Entrar</button>
                 </div>
             </form>
         </div>

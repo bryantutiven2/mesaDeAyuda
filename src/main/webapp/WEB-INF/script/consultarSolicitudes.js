@@ -81,7 +81,9 @@ $(document).ready(function() {
             localStorage.setItem('estado',option_buscarEstado);
             location.reload();
         }
+        
     });
+    /*resetear localStorage*/
     $('#resetSelectC').click(function(){
         var lsGrupo = localStorage.getItem("grupo");
         var lsEstado = localStorage.getItem("estado");
@@ -90,6 +92,11 @@ $(document).ready(function() {
         }
         else if(lsEstado != null && lsGrupo == null){
             localStorage.removeItem('estado');
+        }
+        else if(lsEstado == null && lsGrupo == null){
+            localStorage.removeItem('grupo');
+            localStorage.removeItem('estado');
+            
         }
     });
 });

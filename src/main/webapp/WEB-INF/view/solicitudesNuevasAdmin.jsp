@@ -124,8 +124,8 @@
                                         </div>  
                                     </div>
                                     <br />
-                                    <div class="text-right">
-                                        <button type="submit" class="btn btn-primary" id="enviarSActualizada">Enviar Solicitud</button>
+                                    <div class="text-center">
+                                        <button type="submit" class="btn-cambiar-color btn btn-primary" id="enviarSActualizada">Enviar Solicitud</button>
                                     </div>
                                 </form>
                             </div>

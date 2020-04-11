@@ -52,7 +52,7 @@
                 <div class="card">
                     <div class="form-row card-body">
                         <div class="form-group col-md-8">
-                            <label><h6>Descripcion</h6></label>
+                            <label><h6>Descripción</h6></label>
                             <textarea class="form-control" name="descripcion" id="descripcionCS" v-model="text" rows="5" required></textarea>
                         </div>
                         <div class="form-group col-md-1"></div>
@@ -80,7 +80,7 @@
                         </div>
                         <div class="form-group col-md-1"></div>
                         <div class="form-group col-md-3">
-                            <label><h6>Tecnico</h6></label>
+                            <label><h6>Técnico</h6></label>
                             <select id="selectTecnico" name="tecnico_cs" class="form-control" model="selected" required>
                                 <option selected disabled hidden style='display: none' value=''></option>
                                 <c:forEach items="${listarTecnicoCS}" var="tecnico">
@@ -139,8 +139,9 @@
                         </div>
                     </div>
                 </div>
+                <br>
                 <div class="text-center">
-                    <button type="submit" class="btn btn-primary"  id="enviarSolicitud_CS">Enviar Solicitud</button>
+                    <button type="submit" class="btn-cambiar-color btn btn-primary"  id="enviarSolicitud_CS">Enviar Solicitud</button>
                 </div>
             </form>
         </div>
@@ -181,7 +182,7 @@
                   </form>
               </div>
               <div class="modal-footer">
-                  <button type="button" class="btn btn-primary" id="cargarIdUSA" data-dismiss="modal">Aceptar</button>
+                  <button type="button" class="btn-cambiar-color btn btn-primary" id="cargarIdUSA" data-dismiss="modal">Aceptar</button>
                   <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
               </div>
           </div>

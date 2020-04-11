@@ -37,8 +37,8 @@
                             
                         </div>
                         <div class="text-center">
-                            <button type="submit" class="btn btn-primary"  id="cargarSelectC" style="margin-right: 15px;"><i class="fas fa-search"></i> Cargar</button>
-                            <button type="reset" class="btn btn-primary"  id="resetSelectC"><i class="fas fa-undo"></i></button>
+                            <button type="submit" class="btn-cambiar-color btn btn-primary"  id="cargarSelectC" style="margin-right: 15px;"><i class="fas fa-search"></i> Cargar</button>
+                            <button type="reset" class="btn-cambiar-color btn btn-primary"  id="resetSelectC"><i class="fas fa-undo"></i></button>
                         </div>
                     </div>
                 </form>
@@ -53,10 +53,10 @@
                     <thead>
                         <tr>
                             <th class="th-sm" style="font-size: 0.85em ">Cod</th>
-                            <th class="th-sm" style="font-size: 0.85em; max-width: 260px; text-align: justify">Descripcion</th>
+                            <th class="th-sm" style="font-size: 0.85em; max-width: 260px; text-align: justify">Descripción</th>
                             <th class="th-sm" style="font-size: 0.85em ">Grupo</th>
                             <th class="th-sm" style="font-size: 0.85em ">Tipo</th>
-                            <th class="th-sm" style="font-size: 0.85em ">Tecnico</th>
+                            <th class="th-sm" style="font-size: 0.85em ">Técnico</th>
                             <th class="th-sm" style="font-size: 0.85em ">Fecha Inicio</th>
                             <th class="th-sm" style="font-size: 0.85em ">Fecha Fin</th>
                             <th class="th-sm" style="font-size: 0.85em ">Estado</th>
