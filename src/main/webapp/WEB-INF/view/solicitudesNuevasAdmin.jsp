@@ -78,8 +78,8 @@
                                             <input type="text" class="form-control" v-model="subject" id="idsn_vez_sn" name="idsn_vez_sn" readonly="readonly">
                                         </div>
                                     </div>
-                                    <div class="form-group">
-                                        <div class="form-group col-md-10">
+                                    <div class="form-row">
+                                        <div class="form-group col-md-12    ">
                                           <label for="validationTextarea">Descripción</label>
                                           <textarea class="form-control text-justify" rows="4" id="descripcion_sn" name="descripcion_sn" v-model="text" readonly="readonly"></textarea>
                                         </div>

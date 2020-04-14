@@ -18,6 +18,7 @@ public interface ISolicitudDao{
     List<SolicitudAyuda> obtenerElementos(Integer id);
     SolicitudAyuda obtenerElemento(SolicitudAyudaId id);
     Integer generarIdSolicitud();
-    List<SolicitudAyuda> buscarPorGrupo(String grupo, Integer idUserSA);
-    List<SolicitudAyuda> buscarPorEstado(String estado, Integer idUserSA);
+    List<SolicitudAyuda> buscarPorGrupo(String grupo, Integer idUser);
+    List<SolicitudAyuda> buscarPorEstado(String estado, Integer idUser);
+    List<SolicitudAyuda> cargarSolicitudesTecnico(Integer idUser, String estado);
 }

@@ -29,6 +29,11 @@
     <script src="${pageContext.request.contextPath}/script/solicitudesNuevasAdmin.js"></script>
 </c:if>
 
+<!-- main contenido usuario Tecnico-->
+<c:if test="${viewMain == 'cargarSolicitudesTecnico'}">
+    <script src="${pageContext.request.contextPath}/script/cargarSolicitudTecnico.js"></script>
+</c:if>
+
 <script src="${pageContext.request.contextPath}/script/datatables/datatables.js"></script>
 <script src="${pageContext.request.contextPath}/script/datatables/dataTables.buttons.min.js" type="text/javascript"></script>
 <script src="${pageContext.request.contextPath}/script/datatables/buttons.print.min.js" type="text/javascript"></script>

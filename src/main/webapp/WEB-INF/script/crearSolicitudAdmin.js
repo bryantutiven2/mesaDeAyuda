@@ -79,3 +79,42 @@ function filtrarSubtipo(value){
         }
     }
 };  
+
+/*cambiar interfaz dependiendo del tipo de grupo a escoger en crearSolicitudAdmin.jsp*/
+
+$( document ).ready(function() {
+    $("#testForm").click(function() {
+        var grupo = $('input[name=grupo]:checked', '#testForm').val();
+        var select=document.getElementById("reincidencia");
+        var op=select.getElementsByTagName("option");
+        if(grupo=="sist"){
+            $('.crearAdmin').show();
+            $('.idsA').hide();
+            select.options[0].selected=true;
+            for (var i = 2; i < op.length; i++) {
+                $(op[i]).hide();
+            }
+        }
+        else if(grupo=="mant"){
+            $('.crearAdmin').hide();
+            $('.idsA').show();
+            select.options[0].selected=true;
+            for (var i = 2; i < op.length; i++) {
+                $(op[i]).show();
+            }
+        }
+    }); 
+});
+
+/*limitar numero de checks de usuario solicita ayuda en crearSolicitudAdmin.jsp*/
+$(document).ready(function () {
+   $("input[name='adU-checkbox']").change(function () {
+      var limit = 1;
+      var cantidadCkb = $("input[name='adU-checkbox']:checked").length;
+      if (cantidadCkb > limit) 
+      {
+         $(this).prop("checked", "");
+         alert("Solo puede seleccionar: "+ limit+" usuario");
+     }
+  });
+});

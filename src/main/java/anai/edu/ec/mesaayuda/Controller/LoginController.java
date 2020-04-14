@@ -77,6 +77,10 @@ public class LoginController {
                 UsuarioController usuarioModel = new UsuarioController();
                 model = usuarioModel.crearSolicitud(request, response);
             }
+            else if(rol.equals("tecnico_sist")){
+                UsuarioController usuarioModel = new UsuarioController();
+                model = usuarioModel.crearSolicitud(request, response);
+            }
         }
         else if(usuario == null){
             model.addObject("error", "Usuario o contrasena invalido!");

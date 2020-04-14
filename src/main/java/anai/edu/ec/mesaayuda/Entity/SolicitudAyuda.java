@@ -38,7 +38,10 @@ public class SolicitudAyuda  implements java.io.Serializable {
      private String idsSolicitudNVez;
      private Date fechaInicio;
      private Date fechaFin;
+     private Date fechaInicioTecnico;
+     private Date fechaFinTecnico;
      private String estadoSolicitud;
+     private String estadoSolicitudTecnico;
      private Integer estadoBorrado;
 
     public SolicitudAyuda() {
@@ -78,7 +81,11 @@ public class SolicitudAyuda  implements java.io.Serializable {
         this.idsSolicitudNVez = idsSolicitudNVez;
         this.fechaInicio = fechaInicio;
     }
-    public SolicitudAyuda(SolicitudAyudaId id, Grupo grupo, TipoGrupo tipoGrupo, Subtipo subtipo, Usuario usuarioByIdUserTecnico, Usuario usuarioByIdUserAdmin, Usuario usuarioByIdUserSolicitaAyuda, String descripcion, String mensajeUserTecnico, Integer ayudaNVez, String idsSolicitudNVez, Date fechaInicio, Date fechaFin, String estadoSolicitud, Integer estadoBorrado) {
+    public SolicitudAyuda(SolicitudAyudaId id, Grupo grupo, TipoGrupo tipoGrupo, Subtipo subtipo, 
+            Usuario usuarioByIdUserTecnico, Usuario usuarioByIdUserAdmin, Usuario usuarioByIdUserSolicitaAyuda, 
+            String descripcion, String mensajeUserTecnico, Integer ayudaNVez, String idsSolicitudNVez, 
+            Date fechaInicio, Date fechaFin, Date fechaInicioTecnico, Date fechaFinTecnico,
+            String estadoSolicitud, String estadoSolicitudTecnico, Integer estadoBorrado) {
        this.id = id;
        this.grupo = grupo;
        this.tipoGrupo = tipoGrupo;
@@ -92,7 +99,10 @@ public class SolicitudAyuda  implements java.io.Serializable {
        this.idsSolicitudNVez = idsSolicitudNVez;
        this.fechaInicio = fechaInicio;
        this.fechaFin = fechaFin;
+       this.fechaInicioTecnico = fechaInicioTecnico;
+       this.fechaFinTecnico = fechaFinTecnico;
        this.estadoSolicitud = estadoSolicitud;
+       this.estadoSolicitudTecnico = estadoSolicitudTecnico;
        this.estadoBorrado = estadoBorrado;
     }
    
@@ -226,10 +236,31 @@ public class SolicitudAyuda  implements java.io.Serializable {
         return this.fechaFin;
     }
     
+    
     public void setFechaFin(Date fechaFin) {
         this.fechaFin = fechaFin;
     }
+    
+    @Temporal(TemporalType.DATE)
+    @Column(name="FECHA_INICIO_TECNICO", length=7)
+    public Date getFechaInicioTecnico() {
+        return this.fechaInicioTecnico;
+    }
+    
+    public void setFechaInicioTecnico(Date fechaInicioTecnico) {
+        this.fechaInicioTecnico = fechaInicioTecnico;
+    }
 
+    @Temporal(TemporalType.DATE)
+    @Column(name="FECHA_FIN_TECNICO", length=7)
+    public Date getFechaFinTecnico() {
+        return this.fechaFinTecnico;
+    }
+    
+    
+    public void setFechaFinTecnico(Date fechaFinTecnico) {
+        this.fechaFinTecnico = fechaFinTecnico;
+    }
     
     @Column(name="ESTADO_SOLICITUD", length=25)
     public String getEstadoSolicitud() {
@@ -239,7 +270,15 @@ public class SolicitudAyuda  implements java.io.Serializable {
     public void setEstadoSolicitud(String estadoSolicitud) {
         this.estadoSolicitud = estadoSolicitud;
     }
-
+    
+    @Column(name="ESTADO_SOLICITUD_TECNICO", length=25)
+    public String getEstadoSolicitudTecnico() {
+        return this.estadoSolicitudTecnico;
+    }
+    
+    public void setEstadoSolicitudTecnico(String estadoSolicitudTecnico) {
+        this.estadoSolicitudTecnico = estadoSolicitudTecnico;
+    }
     
     @Column(name="ESTADO_BORRADO", precision=22, scale=0)
     public Integer getEstadoBorrado() {

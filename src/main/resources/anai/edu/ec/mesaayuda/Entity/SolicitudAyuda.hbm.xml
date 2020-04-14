@@ -48,8 +48,17 @@
         <property name="fechaFin" type="date">
             <column name="FECHA_FIN" length="7" />
         </property>
+        <property name="fechaInicioTecnico" type="date">
+            <column name="FECHA_INICIO_TECNICO" length="7" />
+        </property>
+        <property name="fechaFinTecnico" type="date">
+            <column name="FECHA_FIN_TECNICO" length="7" />
+        </property>
         <property name="estadoSolicitud" type="string">
             <column name="ESTADO_SOLICITUD" length="25" />
+        </property>
+        <property name="estadoSolicitudTecnico" type="string">
+            <column name="ESTADO_SOLICITUD_TECNICO" length="25" />
         </property>
         <property name="estadoBorrado" type="integer">
             <column name="ESTADO_BORRADO" precision="22" scale="0" />

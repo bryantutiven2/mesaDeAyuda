@@ -12,19 +12,42 @@ public class SolicitudTabla {
     private Integer n_vez;
     private String ids_n_vez;
     private String descripcion;
+    private String descripcionTecnico;
     private String userAdmin;
     private String userTecnico;
     private String userSolicitaAyuda;
     private String fechaInicio;
     private String fechaFin;
     private String estadoSolicitud;
+    private String estadoSolicitudTecnico;
 
+    public SolicitudTabla() {
+        super();
+    }
+
+    
     public SolicitudTabla(Integer id, String grupo, String tipo, String descripcion) {
         this.id = id;
         this.grupo = grupo;
         this.tipo = tipo;
         this.descripcion = descripcion;
     }
+
+    public SolicitudTabla(Integer id, String estadoSolicitudTecnico) {
+        this.id = id;
+        this.estadoSolicitudTecnico = estadoSolicitudTecnico;
+    }
+    
+
+    public SolicitudTabla(Integer id, String descripcion, String userSolicitaAyuda, String fechaInicio, String fechaFin, String estadoSolicitudTecnico) {
+        this.id = id;
+        this.descripcion = descripcion;
+        this.userSolicitaAyuda = userSolicitaAyuda;
+        this.fechaInicio = fechaInicio;
+        this.fechaFin = fechaFin;
+        this.estadoSolicitudTecnico = estadoSolicitudTecnico;
+    }
+    
     
     public SolicitudTabla(Integer id, Integer n_vez, String ids_n_vez, String descripcion, String userSolicitaAyuda, String fechaInicio) {
         this.id = id;
@@ -42,6 +65,18 @@ public class SolicitudTabla {
         this.userSolicitaAyuda = userSolicitaAyuda;
     }
     
+    public SolicitudTabla(Integer id, String grupo, String tipo, String descripcion, String userTecnico, String fechaInicio, String fechaFin, String estadoSolicitud, String estadoSolicitudTecnico) {
+        this.id = id;
+        this.grupo = grupo;
+        this.tipo = tipo;
+        this.descripcion = descripcion;
+        this.userTecnico = userTecnico;
+        this.fechaInicio = fechaInicio;
+        this.fechaFin = fechaFin;
+        this.estadoSolicitud = estadoSolicitud;
+        this.estadoSolicitudTecnico = estadoSolicitudTecnico;
+    }
+    
     public SolicitudTabla(Integer id, String grupo, String tipo, String descripcion, String userTecnico, String fechaInicio, String fechaFin, String estadoSolicitud) {
         this.id = id;
         this.grupo = grupo;
@@ -52,7 +87,6 @@ public class SolicitudTabla {
         this.fechaFin = fechaFin;
         this.estadoSolicitud = estadoSolicitud;
     }
-    
     
     public Integer getId() {
         return id;
@@ -148,6 +182,22 @@ public class SolicitudTabla {
 
     public void setIds_n_vez(String ids_n_vez) {
         this.ids_n_vez = ids_n_vez;
+    }
+
+    public String getEstadoSolicitudTecnico() {
+        return estadoSolicitudTecnico;
+    }
+
+    public void setEstadoSolicitudTecnico(String estadoSolicitudTecnico) {
+        this.estadoSolicitudTecnico = estadoSolicitudTecnico;
+    }
+
+    public String getDescripcionTecnico() {
+        return descripcionTecnico;
+    }
+
+    public void setDescripcionTecnico(String descripcionTecnico) {
+        this.descripcionTecnico = descripcionTecnico;
     }
     
 }

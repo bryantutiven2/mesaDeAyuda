@@ -18,7 +18,6 @@ import anai.edu.ec.mesaayuda.Entity.SolicitudTabla;
 import anai.edu.ec.mesaayuda.Entity.Subtipo;
 import anai.edu.ec.mesaayuda.Entity.TipoGrupo;
 import anai.edu.ec.mesaayuda.Entity.Usuario;
-import anai.edu.ec.mesaayuda.Enum.EstadoSolicitud;
 import static anai.edu.ec.mesaayuda.Service.SessionUsuario.obtenerSessionUsuario;
 import static anai.edu.ec.mesaayuda.Service.fechaSolicitud.convertirFecha;
 import java.text.DateFormat;
@@ -28,7 +27,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.springframework.stereotype.Controller;
@@ -68,6 +66,7 @@ public class AdminController {
             String fechaInicio = request.getParameter("fechaInicio_cs");
             String fechafin = request.getParameter("fechaFin_cs");
             String estadoSolicitud = request.getParameter("estado_cs");
+            String estadoSolicitudTecnico = "inactiva";
             
             Grupo grupo = grupoDao.obtenerElemento(idgrupo);
             TipoGrupo tipoGrupo = tipoDao.obtenerElemento(idTipo);
@@ -89,6 +88,7 @@ public class AdminController {
             objetoSolicitud.setIdsSolicitudNVez(id_nvez);
             objetoSolicitud.setEstadoBorrado(0);
             objetoSolicitud.setEstadoSolicitud(estadoSolicitud);
+            objetoSolicitud.setEstadoSolicitudTecnico(estadoSolicitudTecnico);
             objetoSolicitud.setFechaInicio(datefi);
             objetoSolicitud.setFechaFin(dateff);
             objetoSolicitud.setUsuarioByIdUserSolicitaAyuda(userSolicitaAyuda);
@@ -147,6 +147,7 @@ public class AdminController {
     
     @RequestMapping(value = { "/actualizarSolicitud"}, method = RequestMethod.POST)
     public ModelAndView actualizarSolicitud(HttpServletRequest request, HttpServletResponse response){
+        String estadoSolicitudTecnico = "inactiva";
         try{
             String cod = request.getParameter("codigo_sn");
             String tipo_grupo = request.getParameter("tipoGrupo_sn");
@@ -168,6 +169,7 @@ public class AdminController {
                 objetoSolicitud.setUsuarioByIdUserTecnico(userTecnico);
                 objetoSolicitud.setUsuarioByIdUserAdmin(usuario);
                 objetoSolicitud.setEstadoSolicitud("asignada");
+                objetoSolicitud.setEstadoSolicitudTecnico(estadoSolicitudTecnico);
                 Boolean retorno = solicitudDao.actualizar(objetoSolicitud);
                 if(retorno.equals(true))
                     System.out.println(retorno);

@@ -3,7 +3,6 @@
     Created on : 13/03/2020, 11:56:46
     Author     : bryan
 --%>
-
 <div>
     <h2 class="mt-4 text-center">Crear Solicitud de Ayuda</h2>
     <div class="col-xl-10 col-lg-12 col-md-12 mx-auto">
@@ -13,10 +12,11 @@
                     <div class="form-row card-body">
                         <div class="form-group col-md-4">
                             <label><h6>Grupo</h6></label>
-                            <fieldset>
-                                <div class="form-group col-md-11">
+                            <fieldset id="testForm">
+                                <div class="form-group col-md-11" required>
+                                    <input selected disabled hidden style='display: none' type="radio" id="grupoSistemaCS" name="grupo" value="" required>
                                     <div>
-                                        <input type="radio" id="grupoSistemaCS" name="grupo" id="g1" value="sist"checked>
+                                        <input type="radio" id="grupoSistemaCS" name="grupo" id="g1" value="sist">
                                         <label for="sistemas">Sistemas</label>
                                     </div>
                                     <div>
@@ -27,7 +27,7 @@
                             </fieldset> 
                         </div>
                         <div class="form-group col-md-1"></div>
-                        <div class="form-group col-md-3">
+                        <div class="crearAdmin form-group col-md-3">
                             <label><h6>Tipo</h6></label>
                             <select id="selectTipo" name="tipoGrupo_CS" class="form-control" model="selected" onchange="filtrarSubtipo(this.value)" required>
                                 <option selected disabled hidden style='display: none' value=''></option>
@@ -37,7 +37,7 @@
                             </select>
                         </div>
                         <div class="form-group col-md-1"></div>       
-                        <div class="form-group col-md-3">
+                        <div class="crearAdmin form-group col-md-3">
                             <label><h6>Subtipo</h6></label>
                             <select id="selectSubtipo" name="subtipo_CS" class="form-control" model="selected" required>
                                 <option selected disabled hidden style='display: none' value=''></option>
@@ -66,13 +66,13 @@
                                 <option value="4">4vez</option>
                             </select>
                             <br>
-                            <label><h6>IDs de ayudas</h6></label>
-                            <input type="text" class="form-control" name="idsnvez" id="ids_aydudasCS" value="null" readonly="readonly">
+                            <label class="idsA"><h6>IDs de ayudas</h6></label>
+                            <input type="text" class="idsA form-control" name="idsnvez" id="ids_aydudasCS" readonly="readonly">
                         </div>
                     </div>
                 </div>
                 <br>
-                <div class="card">
+                <div class="crearAdmin card">
                     <div class="form-row card-body">
                         <div class="form-group col-md-3">
                             <label><h6>ID Administrador</h6></label>
@@ -96,11 +96,11 @@
                     </div>
                 </div>
                 <br>
-                <div class="card">
+                <div class="crearAdmin card">
                     <div class="form-row card-body">
                         <div class="form-group col-md-9">
                             <div class="form-row">
-                                <label class="col-md-3"><h6>Fecha Inicio</h6></label>
+                                <label class="col-md-3" style="padding-top: 0.9%;"><h6>Fecha Inicio</h6></label>
                                 <div class="form-group col-md-1"> </div>
                                 <div class="form-group">
                                     <div class="input-group date" id="dtPickerFI" data-target-input="nearest">
@@ -113,11 +113,11 @@
                             </div>
                         </div>
                         <div class="form-group col-md-3">
-                            <label><h6>Estado Solicitud</h6></label>
+                            <label style="padding-top: 7%;"><h6>Estado Solicitud</h6></label>
                         </div>
                         <div class="form-group col-md-9">
                             <div class="form-row">
-                                <label class="col-md-3"><h6>Fecha Fin</h6></label>
+                                <label class="col-md-3" style="padding-top: 0.9%;"><h6>Fecha Fin</h6></label>
                                 <div class="form-group col-md-1"> </div>
                                 <div class="form-group">
                                     <div class="input-group date" id="dtPickerFF" data-target-input="nearest">
@@ -146,21 +146,20 @@
             </form>
         </div>
     </div>
-</div>
-<!--Modal o mop up de la tabla emergente para escoger las ayudas solicitidas-->
-<div id="myModalCS" class="modal fade bd-example" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-      <div class="modal-dialog" role="document">
-          <div class="modal-content">
-              <div class="modal-header">
-                  <h5 class="modal-title">Seleccione el Usuario que solicita ayuda</h5>
-                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                      <span aria-hidden="true">&times;</span>
-                  </button>
-              </div>
-              <div class="modal-body">
-                  <form id="idsUSA">
-                      <div class="table-responsive">
-                          <table id="dtUsuariosSA" class="table table-striped table-bordered" style="width:100%">
+    <!--Modal o mop up de la tabla emergente para escoger las ayudas solicitidas-->
+    <div id="myModalCS" class="modal fade bd-example" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Seleccione el Usuario que solicita ayuda</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="idsUSA">
+                        <div class="table-responsive">
+                            <table id="dtUsuariosSA" class="table table-striped table-bordered" style="width:100%">
                                 <thead>
                                     <tr>
                                         <th class="th-sm">Id</th>
@@ -173,19 +172,19 @@
                                         <tr>
                                             <th class="idsolicitud" scope="row">${usuariosSA.idUsuario}</th>
                                             <td>${usuariosSA.nombre} ${usuariosSA.apellido}</td>
-                                            <td><input type="checkbox" name="name1" value="${usuariosSA.idUsuario}"/>&nbsp;</td>
+                                            <td><input type="checkbox" name="adU-checkbox" value="${usuariosSA.idUsuario}"/>&nbsp;</td>
                                         </tr>
                                     </c:forEach>
                                 </tbody>
                             </table>
-                      </div>
-                  </form>
-              </div>
-              <div class="modal-footer">
-                  <button type="button" class="btn-cambiar-color btn btn-primary" id="cargarIdUSA" data-dismiss="modal">Aceptar</button>
-                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-              </div>
-          </div>
-      </div>
-  </div>
-                                
+                        </div>
+                    </form>
+                 </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn-cambiar-color btn btn-primary" id="cargarIdUSA" data-dismiss="modal">Aceptar</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
