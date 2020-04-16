@@ -6,6 +6,48 @@ function myFunction() {
      }
 };
 
+function postAjaxTablaSolicitudes(datos){
+    $.ajax({
+       type: 'POST',
+       contentType: 'application/json',
+       url: '/mesaayuda/usuario/solicitudes',
+       data: JSON.stringify(datos),
+       success: function(response){
+            if(response.status == "success"){
+               $("#bodyTableCargarSolicitudes").empty();
+                var tr = '';
+                $.each(response.data, function(i, dato){
+                    tr+= '<tr>'+
+                            '<th class="idsolicitud" scope="row">'+dato.id+'</th>'+
+                            '<td>'+dato.grupo+'</td>'+
+                            '<td>'+dato.tipo+'</td>'+
+                            '<td style="max-width: 260px; text-align: justify">'+dato.descripcion+'</td>'+
+                            '<td><input  type="checkbox" name="ug-checkbox" value="'+dato.id+'"/>&nbsp;</td>'+
+                        '</tr>';
+                });
+                $("#bodyTableCargarSolicitudes").html(tr);
+                limitarChecks();
+            }
+        },
+        error : function(e) {
+            $("#bodyTableCargarSolicitudes").html("<strong>No se ha podido cargar</strong>");
+        }
+    });
+}
+
+$( document ).ready(function() {
+    $(document).on('click','#testForm', function(){
+        var datos;
+        var grupoT = $('input[name=grupo]:checked', '#testForm').val();
+        if(grupoT =="sist" || grupoT =="mant"){
+            datos={
+                grupo: grupoT
+            };
+            postAjaxTablaSolicitudes(datos);
+        }
+    });
+});
+
 /*diseño del table*/
 $(document).ready(function () {
     $('#dtBasicExample').DataTable({
@@ -29,7 +71,7 @@ $(document).ready(function () {
 });
 /*obtener ids y colocarlos el en input de crearSolicitud.jsp*/
 $(document).ready(function() {
-    $('#cargarIds').click(function(){
+    $(document).on('click','#cargarIds', function(){
         var selected = '';    
         $('#idsItems input[type=checkbox]').each(function(){
             if(this.checked){
@@ -43,7 +85,7 @@ $(document).ready(function() {
 });  
 
 /*limitar numero de checks en crearSolicitud.jsp*/
-$(document).ready(function () {
+function limitarChecks() {
    $("input[name='ug-checkbox']").change(function () {
       var limit = document.getElementById("reincidencia").value;
       var cantidadCkb = $("input[name='ug-checkbox']:checked").length;
@@ -53,4 +95,4 @@ $(document).ready(function () {
          alert("Solo puede seleccionar: "+ limit+" veces");
      }
   });
-});
+};

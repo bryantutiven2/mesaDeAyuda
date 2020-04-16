@@ -42,9 +42,12 @@
                         <%@ include file="solicitudesNuevasAdmin.jsp" %>
                     </c:if>
                     
-                    <!-- main contenido usuario Admin-->
+                    <!-- main contenido usuario Tecnico-->
                     <c:if test="${viewMain == 'cargarSolicitudesTecnico'}">
                         <%@ include file="cargarSolicitudesTecnico.jsp" %>
+                    </c:if>
+                    <c:if test="${viewMain == 'consultaSolicitudesTecnico'}">
+                        <%@ include file="consultarSolicitudesTecnico.jsp" %>
                     </c:if>
                 </div>
             </div>

@@ -15,6 +15,7 @@ import org.hibernate.query.Query;
 public class SubtipoImpl implements ISubtipoDao {
     private String select = "from Subtipo st join fetch st.tipoGrupo tp join fetch tp.grupo gru where gru.idGrupo= :grupo";
     private String selectId = "from Subtipo s where s.idSubtipo=:id";
+    private String buscarPorTipo = "from Subtipo st join fetch st.tipoGrupo tp where tp.idTipo= :idTipo";
     
     @Override
     public Boolean insertar(Subtipo o) {
@@ -69,4 +70,22 @@ public class SubtipoImpl implements ISubtipoDao {
         return subtipo;
     }
     
+    @Override
+    public List<Subtipo> obtenerElementosPorTipo(Integer idTipo) {
+        List<Subtipo> listaSubtipos = null;
+        try{
+            HibernateUtil.abrirSession();
+            Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+            Query query = session.createQuery(buscarPorTipo, Subtipo.class);
+            query.setParameter("idTipo", idTipo);
+            listaSubtipos = query.getResultList();
+        }
+        catch(Exception exc){
+            exc.printStackTrace();
+        }
+        finally{
+            HibernateUtil.cerrarSession();
+        }
+        return listaSubtipos;
+    }
 }

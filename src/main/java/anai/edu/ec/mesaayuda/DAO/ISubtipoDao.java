@@ -13,5 +13,6 @@ public interface ISubtipoDao{
     Boolean actualizar(Subtipo o);
     Boolean eliminar(Subtipo o);
     List<Subtipo> obtenerElementos(String grupo);
+    List<Subtipo> obtenerElementosPorTipo(Integer tipo);
     Subtipo obtenerElemento(Integer id);
 }

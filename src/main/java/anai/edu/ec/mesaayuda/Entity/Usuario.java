@@ -40,6 +40,7 @@ public class Usuario  implements java.io.Serializable {
      private Set<SolicitudAyuda> solicitudAyudasForIdUserSolicitaAyuda = new HashSet<SolicitudAyuda>(0);
 
     public Usuario() {
+        super();
     }
 
 	

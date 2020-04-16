@@ -1,6 +1,5 @@
 
 function postAjaxTabla(datos){
-    console.log("se hizo un post ajax");
     $.ajax({
        type: 'POST',
        contentType: 'application/json',
@@ -46,7 +45,7 @@ function getAjaxTabla(){
                 }
                 else if(dato.estadoSolicitudTecnico == "proceso"){
                          tr+='<td class="text-center">'+
-                                 '<button type="button" class="btn btn-danger btn-sm finalizarSolicitud"'+' value="'+dato.id+'"><i class="far fa-times-circle"></i> Finalizar</button>'+
+                                 '<button type="button" class="btn btn-info btn-sm finalizarSolicitud"'+' value="'+dato.id+'"><i class="far fa-times-circle"></i> Procesar</button>'+
                              '</td>';
                 }
                 else{
@@ -63,11 +62,8 @@ function getAjaxTabla(){
     });
 }
 
-
 $(document).ready(function () {
     $(document).on('click','.comenzarSolicitud', function(){
-    //$('.comenzarSolicitud').click(function(){
-        console.log("comenzar solicitud")
         let cod;
         $(this).parents("tr").find(".idsolicitud").each(function() {
             cod = $(this).html();
@@ -77,7 +73,6 @@ $(document).ready(function () {
             estadoSolicitudTecnico: 'proceso',
             estadoSolicitud: 'null'
             };
-        console.log("se hizo clic en el boton comenzar solciitud");
         postAjaxTabla(datos);
     });
 });
@@ -93,14 +88,12 @@ $(document).ready(function () {
 
 $(document).ready(function () {
     $(document).on('click','.finalizarSolicitud', function(){
-    //$('.finalizarSolicitud').click(function(){
         let cod;
         $(this).parents("tr").find(".idsolicitud").each(function() {
             cod = $(this).html();
         });
-        localStorage.setItem("idSolicitud", cod);
+        localStorage.setItem("idSolicitud",cod);
         $("#finalSolicitudModal").modal();
-        console.log("se hizo clic en finalizar boton");
     });
 });
 $(document).ready(function () {
@@ -108,12 +101,17 @@ $(document).ready(function () {
     //$('#finalSolicitud').click(function(){
         let cod = localStorage.getItem("idSolicitud");
         let descripcion = $("#descripcion_st").val();
+        let subtipo = document.getElementById("selectSubtipo").value;
+        console.log(subtipo);
         var datos = {
             id: cod,
             estadoSolicitudTecnico: 'finalizada',
             descripcionTecnico: descripcion,
-            estadoSolicitud: 'finalizada'
+            estadoSolicitud: 'finalizada',
+            idSubtipo: subtipo
             };
+        var selectSubTipo=document.getElementById("selectSubtipo");
+        selectSubTipo.options[0].selected=true;
         $("#descripcion_st").val("");
         postAjaxTabla(datos);
         console.log("se hizo clic en el boton final solciitud");
@@ -124,14 +122,20 @@ $(document).ready(function () {
     //$('#reevaluarSolicitud').click(function(){
         let cod = localStorage.getItem("idSolicitud");
         let descripcion = $("#descripcion_st").val();
+        let subtipo = document.getElementById("selectSubtipo").value;
         var datos = {
             id: cod,
-            estadoSolicitudTecnico: 'finalizada',
+            estadoSolicitudTecnico: 'reevaluar',
             descripcionTecnico: descripcion,
-            estadoSolicitud: 'reevaluar'
+            estadoSolicitud: 'reevaluar',
+            idSubtipo: subtipo
             };
+        var selectSubTipo=document.getElementById("selectSubtipo");
+        selectSubTipo.options[0].selected=true;
         $("#descripcion_st").val("");
         postAjaxTabla(datos);
         console.log("se hizo clic en el boton reevaluar solciitud");
     });
 });
+
+

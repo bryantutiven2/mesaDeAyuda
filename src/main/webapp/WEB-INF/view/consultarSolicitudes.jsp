@@ -8,7 +8,7 @@
     <div class="col-xl-12 col-lg-8 mx-auto">
         <div class="bg-faded rounded p-3">
             <div class="card">
-                <form action="${pageContext.request.contextPath}/usuario/filtroConsultarSolicitud" method="post" style="font-size: 0.95em" autocomplete="off">
+                <form style="font-size: 0.95em" autocomplete="off">
                     <div class="card-body">
                         <div class="form-row">
                             <div class="form-group col-md-1"></div>
@@ -31,13 +31,14 @@
                                     <option selected disabled hidden style='display: none' value=''></option>
                                     <option value="pendiente">Pendiente</option>   
                                     <option value="asignada">Asignada</option>
+                                    <option value="reevaluar">Reevaluar</option>
                                     <option value="finalizada">Finalizada</option>
                                 </select>
                             </div>
                             
                         </div>
                         <div class="text-center">
-                            <button type="submit" class="btn-cambiar-color btn btn-primary"  id="cargarSelectC" style="margin-right: 15px;"><i class="fas fa-search"></i> Cargar</button>
+                            <button type="button" class="btn-cambiar-color btn btn-primary"  id="cargarSelectC" style="margin-right: 15px;"><i class="fas fa-search"></i> Cargar</button>
                             <button type="reset" class="btn-cambiar-color btn btn-primary"  id="resetSelectC"><i class="fas fa-undo"></i></button>
                         </div>
                     </div>
@@ -62,21 +63,8 @@
                             <th class="th-sm" style="font-size: 0.85em ">Estado</th>
                         </tr>
                     </thead>
-                    <tbody>
-                    <c:if test="${not empty listaConsultaSolicitudes}">
-                        <c:forEach items="${listaConsultaSolicitudes}" var="solicitudL">
-                            <tr>
-                                <th class="idsolicitud" style="font-size: 0.8em" scope="row">${solicitudL.id}</th>
-                                <td style="max-width: 260px; font-size: 0.8em; text-align: justify">${solicitudL.descripcion}</td>
-                                <td style="font-size: 0.8em">${solicitudL.grupo}</td>
-                                <td style="font-size: 0.8em">${solicitudL.tipo}</td>
-                                <td style="font-size: 0.8em">${solicitudL.userTecnico}</td>
-                                <td style="font-size: 0.8em">${solicitudL.fechaInicio}</td>
-                                <td style="font-size: 0.8em">${solicitudL.fechaFin}</td>
-                                <td style="font-size: 0.8em">${solicitudL.estadoSolicitud}</td>
-                            </tr>
-                        </c:forEach>
-                    </c:if>
+                    <tbody id="bodyTableCargarSolicitudes">
+                    
                     </tbody>
                 </table>
             </div>

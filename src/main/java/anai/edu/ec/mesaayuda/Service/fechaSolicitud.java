@@ -11,7 +11,7 @@ import java.util.Date;
  */
 public class fechaSolicitud {
     
-    public static Date obtenerFechaInicio(){
+    public static Date obtenerFecha(){
         Date fecha = null;
         try{
             DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");

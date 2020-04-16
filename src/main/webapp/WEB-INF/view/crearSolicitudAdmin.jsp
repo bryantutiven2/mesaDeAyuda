@@ -168,7 +168,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <c:forEach items="${listaUsuariosSA}" var="usuariosSA">
+                                     <c:forEach items="${listaUsuariosSA}" var="usuariosSA">
                                         <tr>
                                             <th class="idsolicitud" scope="row">${usuariosSA.idUsuario}</th>
                                             <td>${usuariosSA.nombre} ${usuariosSA.apellido}</td>
@@ -187,4 +187,8 @@
             </div>
         </div>
     </div>
+    <!-- modal de mensaje de creaacion exitosa o falliada de solicitud-->
+    <c:if test="${solicitud == 'mensaje'}">
+        
+    </c:if>
 </div>

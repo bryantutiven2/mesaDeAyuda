@@ -15,17 +15,20 @@
                             <div class="form-group col-md-4">
                                 <h5>Grupo</h5>
                                 <br>
-                                <fieldset>
-                                      <div class="form-group col-md-4">
-                                          <div style="width: 120px;">
-                                              <input type="radio" id="grupoSistema" name="grupo" id="g1" value="sist"checked>
-                                              <label for="sistemas">Sistemas</label>
-                                          </div>
-                                          <div style="width: 150px;">
-                                              <input type="radio" id="grupoMantenimiento" name="grupo" id="g2" value="mant">
-                                              <label for="mantenimiento">Mantenimiento</label>
-                                          </div>
-                                      </div>
+                                <fieldset id="testForm">
+                                    <div>
+                                        <input selected disabled hidden style='display: none' type="radio" id="grupoSistemaCS" name="grupo" value="" required>
+                                    </div>
+                                    <div class="form-group col-md-4">
+                                        <div style="width: 120px;">
+                                            <input type="radio" id="grupoSistema" name="grupo" id="g1" value="sist">
+                                            <label for="sistemas">Sistemas</label>
+                                        </div>
+                                        <div style="width: 150px;">
+                                            <input type="radio" id="grupoMantenimiento" name="grupo" id="g2" value="mant">
+                                            <label for="mantenimiento">Mantenimiento</label>
+                                        </div>
+                                    </div>
                                 </fieldset>
                             </div>
                             <div class="form-group col-md-1"></div>
@@ -96,16 +99,8 @@
                                     <th class="th-sm"></th>
                                 </tr>
                             </thead>
-                            <tbody>
-                                <c:forEach items="${listaSolicitudesModal}" var="solicitudM">
-                                    <tr>
-                                        <th class="idsolicitud" scope="row">${solicitudM.id}</th>
-                                        <td>${solicitudM.grupo}</td>
-                                        <td>${solicitudM.tipo}</td>
-                                        <td style="max-width: 260px; text-align: justify">${solicitudM.descripcion}</td>
-                                        <td><input  type="checkbox" name="ug-checkbox" value="${solicitudM.id}"/>&nbsp;</td>
-                                    </tr>
-                                </c:forEach>
+                            <tbody id="bodyTableCargarSolicitudes">
+                                
                             </tbody>
                         </table> 
                     </div>

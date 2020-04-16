@@ -10,6 +10,8 @@ import anai.edu.ec.mesaayuda.Entity.SolicitudAyuda;
 import anai.edu.ec.mesaayuda.Entity.SolicitudAyudaId;
 import anai.edu.ec.mesaayuda.Enum.EstadoSolicitud;
 import anai.edu.ec.mesaayuda.Util.HibernateUtil;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import org.hibernate.SQLQuery;
@@ -23,12 +25,16 @@ import org.hibernate.query.Query;
  */
 public class SolicitudImpl implements ISolicitudDao{
     private final String generarIdSolicitud = "select solicitud_seq.nextval from dual";
+    private final String nuevasSolicitudesT = "from SolicitudAyuda sa join fetch sa.usuarioByIdUserSolicitaAyuda "
+                                            + "join fetch sa.usuarioByIdUserTecnico "
+                                            + "join fetch sa.grupo gru where gru.idGrupo= :grupo and "
+                                            + "sa.estadoSolicitud= :estado";
     private final String nuevasSolicitudes = "from SolicitudAyuda sa join fetch sa.usuarioByIdUserSolicitaAyuda "
                                             + "join fetch sa.grupo gru where gru.idGrupo= :grupo and "
                                             + "sa.estadoSolicitud= :estado";
     private final String obtenerSolicitudesUserSa = "from SolicitudAyuda sa join fetch sa.usuarioByIdUserSolicitaAyuda usa "
-                                            + "join fetch sa.grupo join fetch sa.tipoGrupo "
-                                            + "where usa.idUsuario= :id and sa.estadoSolicitud = 'finalizada'";
+                                            + "join fetch sa.grupo gru join fetch sa.tipoGrupo "
+                                            + "where usa.idUsuario= :idUser and sa.estadoSolicitud = :estado and gru.idGrupo= : idGrupo";
     private final String selectId = "from SolicitudAyuda sa where sa.id= : id";
     private final String buscarPorGrupo1 = "from SolicitudAyuda sa join fetch sa.usuarioByIdUserSolicitaAyuda usa "
                                             + "join fetch sa.usuarioByIdUserTecnico "
@@ -103,15 +109,23 @@ public class SolicitudImpl implements ISolicitudDao{
 
     @Override
     public List<SolicitudAyuda> nuevasSolicitudes(String grupo, String estado) {
-        List<SolicitudAyuda> listaSolicitud = null;
+        List<SolicitudAyuda> listaSolicitud = new ArrayList<>();
         Query query = null;
         try{
+            ArrayList<String> estados = new ArrayList<>();
+            estados.addAll(Arrays.asList(estado.split("-")));
             HibernateUtil.abrirSession();
             Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-            query = session.createQuery(nuevasSolicitudes, SolicitudAyuda.class);
-            query.setParameter("grupo", grupo);
-            query.setParameter("estado", estado);
-            listaSolicitud = query.getResultList();
+            for(int i = 0; i < estados.size(); i++){
+                query = session.createQuery(nuevasSolicitudes, SolicitudAyuda.class);
+                query.setParameter("grupo", grupo);
+                query.setParameter("estado", estados.get(i));
+                listaSolicitud.addAll(query.getResultList());
+                query = session.createQuery(nuevasSolicitudesT, SolicitudAyuda.class);
+                query.setParameter("grupo", grupo);
+                query.setParameter("estado", estados.get(i));
+                listaSolicitud.addAll(query.getResultList());
+            }
         }
         catch(Exception exc){
             exc.printStackTrace();
@@ -212,14 +226,16 @@ public class SolicitudImpl implements ISolicitudDao{
     }
 
     @Override
-    public List<SolicitudAyuda> obtenerElementos(Integer id) {
+    public List<SolicitudAyuda> obtenerElementos(Integer idUser, String idGrupo, String estado) {
         List<SolicitudAyuda> listaSolicitud = null;
         Query query = null;
         try{
             HibernateUtil.abrirSession();
             Session session = HibernateUtil.getSessionFactory().getCurrentSession();
             query = session.createQuery(obtenerSolicitudesUserSa, SolicitudAyuda.class);
-            query.setParameter("id", id);
+            query.setParameter("idUser", idUser);
+            query.setParameter("estado", estado);
+            query.setParameter("idGrupo", idGrupo);
             listaSolicitud = query.getResultList();
         }
         catch(Exception exc){
@@ -233,15 +249,19 @@ public class SolicitudImpl implements ISolicitudDao{
 
     @Override
     public List<SolicitudAyuda> cargarSolicitudesTecnico(Integer idUser, String estado) {
-        List<SolicitudAyuda> listaSolicitud = null;
+        List<SolicitudAyuda> listaSolicitud = new ArrayList<>();
         Query query = null;
         try{
+            ArrayList<String> estados = new ArrayList<>();
+            estados.addAll(Arrays.asList(estado.split("-")));
             HibernateUtil.abrirSession();
             Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-            query = session.createQuery(cargarSolicitudesTecnico, SolicitudAyuda.class);
-            query.setParameter("idUser", idUser);
-            query.setParameter("estado", estado);
-            listaSolicitud = query.getResultList();
+            for(int i = 0; i < estados.size(); i++){
+                query = session.createQuery(cargarSolicitudesTecnico, SolicitudAyuda.class);
+                query.setParameter("idUser", idUser);
+                query.setParameter("estado", estados.get(i));
+                listaSolicitud.addAll(query.getResultList());
+            }
         }
         catch(Exception exc){
             exc.printStackTrace();

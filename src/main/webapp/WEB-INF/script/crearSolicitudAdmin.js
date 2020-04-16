@@ -18,7 +18,7 @@ $(function () {
 
 /*Activar toggle de cargar usuarios en crearSolicitudAdmin.jsp */
 $(document).ready(function() {
-    $('.cargarTogleUsuarios').click(function(){
+    $(document).on('click','.cargarTogleUsuarios', function(){
         $("#myModalCS").modal();
     });
     
@@ -48,7 +48,8 @@ $(document).ready(function () {
 
 /*Permite cargar el usuario seleccionado en el toggle en crearSolicitudAdmin.jsp*/
 $(document).ready(function() {
-    $('#cargarIdUSA').click(function(){
+    $(document).on('click','#cargarIdUSA', function(){
+        limitarChecks();
         var selected = '';    
         $('#idsUSA input[type=checkbox]').each(function(){
             if(this.checked){
@@ -83,7 +84,7 @@ function filtrarSubtipo(value){
 /*cambiar interfaz dependiendo del tipo de grupo a escoger en crearSolicitudAdmin.jsp*/
 
 $( document ).ready(function() {
-    $("#testForm").click(function() {
+    $(document).on('click','#testForm', function(){
         var grupo = $('input[name=grupo]:checked', '#testForm').val();
         var select=document.getElementById("reincidencia");
         var op=select.getElementsByTagName("option");
@@ -107,7 +108,7 @@ $( document ).ready(function() {
 });
 
 /*limitar numero de checks de usuario solicita ayuda en crearSolicitudAdmin.jsp*/
-$(document).ready(function () {
+function limitarChecks() {
    $("input[name='adU-checkbox']").change(function () {
       var limit = 1;
       var cantidadCkb = $("input[name='adU-checkbox']:checked").length;
@@ -117,4 +118,4 @@ $(document).ready(function () {
          alert("Solo puede seleccionar: "+ limit+" usuario");
      }
   });
-});
+};

@@ -33,6 +33,9 @@
 <c:if test="${viewMain == 'cargarSolicitudesTecnico'}">
     <script src="${pageContext.request.contextPath}/script/cargarSolicitudTecnico.js"></script>
 </c:if>
+<c:if test="${viewMain == 'consultaSolicitudesTecnico'}">
+    <script src="${pageContext.request.contextPath}/script/consultarSolicitudesTecnico.js"></script>
+</c:if>
 
 <script src="${pageContext.request.contextPath}/script/datatables/datatables.js"></script>
 <script src="${pageContext.request.contextPath}/script/datatables/dataTables.buttons.min.js" type="text/javascript"></script>

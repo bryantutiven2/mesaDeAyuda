@@ -47,10 +47,10 @@
                     </a>
                 </li>
                 <li>
-                    <a href="#" class="referenciaA list-group-item">
+                    <a href="${pageContext.request.contextPath}/tecnico/gestionarSolicitudes" id="cargarSTecnico" class="referenciaA list-group-item">
                         <div class="d-flex w-100 justify-content-start align-items-center">
-                            <i class="far fa-question-circle"></i>
-                            <span class="eleccion" style="padding-left: 10px">Estado de Ayudas</span>
+                            <i class="fas fa-cogs"></i>
+                            <span class="eleccion" style="padding-left: 10px">Gestionar Solicitudes</span>
                         </div>
                     </a>
                 </li>
@@ -89,7 +89,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="${pageContext.request.contextPath}/usuario/consultarSolicitud" class="referenciaA list-group-item">
+                    <a href="${pageContext.request.contextPath}/tecnico/consultarSolicitud" class="referenciaA list-group-item">
                         <div class="d-flex w-100 justify-content-start align-items-center">
                             <i class="fas fa-tasks"></i>
                             <span class="eleccion" style="padding-left: 10px">Consultar Solicitudes</span>
@@ -99,7 +99,7 @@
                 <li>
                     <a href="${pageContext.request.contextPath}/tecnico/gestionarSolicitudes" id="cargarSTecnico" class="referenciaA list-group-item">
                         <div class="d-flex w-100 justify-content-start align-items-center">
-                            <i class="fas fa-tasks"></i>
+                            <i class="fas fa-cogs"></i>
                             <span class="eleccion" style="padding-left: 10px">Gestionar Solicitudes</span>
                         </div>
                     </a>

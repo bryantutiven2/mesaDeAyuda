@@ -5,13 +5,16 @@ import anai.edu.ec.mesaayuda.DAO.IGrupoDao;
 import anai.edu.ec.mesaayuda.DAO.ISolicitudDao;
 import anai.edu.ec.mesaayuda.DaoImplementacion.GrupoImpl;
 import anai.edu.ec.mesaayuda.DaoImplementacion.SolicitudImpl;
+import anai.edu.ec.mesaayuda.Entity.ConsultaObjeto;
 import anai.edu.ec.mesaayuda.Entity.Grupo;
 import anai.edu.ec.mesaayuda.Entity.SolicitudAyuda;
 import anai.edu.ec.mesaayuda.Entity.SolicitudAyudaId;
 import anai.edu.ec.mesaayuda.Entity.SolicitudTabla;
 import anai.edu.ec.mesaayuda.Entity.Usuario;
+import anai.edu.ec.mesaayuda.Service.ServiceResponse;
 import static anai.edu.ec.mesaayuda.Service.SessionUsuario.obtenerSessionUsuario;
 import anai.edu.ec.mesaayuda.Service.fechaSolicitud;
+import static anai.edu.ec.mesaayuda.Service.fechaSolicitud.obtenerFecha;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -22,9 +25,14 @@ import java.util.List;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
 /**
@@ -33,6 +41,7 @@ import org.springframework.web.servlet.ModelAndView;
  */
 @Controller
 @RequestMapping( "/usuario" )
+@RestController
 public class UsuarioController {
     
     private ISolicitudDao solicitudDao = new SolicitudImpl();
@@ -44,30 +53,12 @@ public class UsuarioController {
     private ModelAndView model = new ModelAndView();
     private Usuario usuario;
     private List<SolicitudAyuda> listaSolicitudAyuda;
+    private DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
     
     @RequestMapping(value = { "/crearSolicitud" }, method = RequestMethod.GET)
     public ModelAndView crearSolicitud(HttpServletRequest request, HttpServletResponse response){
         List<SolicitudTabla> listaTabla = new ArrayList<>();
         usuario = obtenerSessionUsuario(request, response);
-        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-        String tipoG;
-        try{
-            listaSolicitudAyuda = solicitudDao.obtenerElementos(usuario.getIdUsuario());
-            if(listaSolicitudAyuda != null){
-                for(SolicitudAyuda lista : listaSolicitudAyuda){
-                    if(lista.getTipoGrupo() != null){
-                        tipoG = lista.getTipoGrupo().getNombreTipo();
-                        listaTabla.add(
-                        new SolicitudTabla(lista.getId().getIdSolicitud(), lista.getGrupo().getNombreGrupo(),
-                                tipoG, lista.getDescripcion()));
-                    }
-                }
-                model.addObject("listaSolicitudesModal",listaTabla);
-            }
-        }
-        catch(Exception exc){
-            exc.printStackTrace();
-        }
         datosUsuario();
         model.addObject("viewMain","crearSolicitud");
         model.setViewName("menuUsuario");
@@ -88,7 +79,7 @@ public class UsuarioController {
             Integer idSolicitud = solicitudDao.generarIdSolicitud();
             SolicitudAyudaId solicitudAyudaId = new SolicitudAyudaId(idSolicitud, idgrupo);
             usuario = obtenerSessionUsuario(request, response);
-            fechaInicio = fechaSolicitud.obtenerFechaInicio();
+            fechaInicio = obtenerFecha();
             
             SolicitudAyuda objetoSolicitud = new SolicitudAyuda();
             objetoSolicitud.setId(solicitudAyudaId);
@@ -111,22 +102,59 @@ public class UsuarioController {
         model.setViewName(retornoVista);
         return model;
     }
-    @RequestMapping(value = { "/filtroConsultarSolicitud" }, method = RequestMethod.POST)
-    public ModelAndView filtroConsultarSolicitud(HttpServletRequest request, HttpServletResponse response){
-        List<SolicitudTabla> listaTabla = null;
+    @PostMapping( "/solicitudes" )
+    public ResponseEntity<Object> solicitudes(@RequestBody ConsultaObjeto consultaO,
+                                                HttpServletRequest request, HttpServletResponse response){
+        List<SolicitudTabla> listaTabla = new ArrayList<>();
+        ServiceResponse<List<SolicitudTabla>> respo = null;
+        usuario = obtenerSessionUsuario(request, response);
+        String idGrupo = consultaO.getGrupo();
+        String tipoG;
+        String estado = "finalizada";
+        try{
+            listaSolicitudAyuda = solicitudDao.obtenerElementos(usuario.getIdUsuario(), idGrupo, estado);
+            if(listaSolicitudAyuda != null){
+                for(SolicitudAyuda lista : listaSolicitudAyuda){
+                    if(lista.getTipoGrupo() != null){
+                        tipoG = lista.getTipoGrupo().getNombreTipo();
+                        listaTabla.add(
+                        new SolicitudTabla(lista.getId().getIdSolicitud(), lista.getGrupo().getNombreGrupo(),
+                                tipoG, lista.getDescripcion()));
+                    }
+                }
+                respo = new ServiceResponse<>("success",listaTabla);
+            }
+            else
+                respo = new ServiceResponse<>("success",null);
+        }
+        catch(Exception exc){
+            exc.printStackTrace();
+        }
+        
+        return new ResponseEntity<Object>(respo, HttpStatus.OK);
+    }
+    
+    @PostMapping( "/filtroConsultarSolicitud" )
+    public ResponseEntity<Object> filtroConsultarSolicitud(@RequestBody ConsultaObjeto consultaO,
+                                                HttpServletRequest request, HttpServletResponse response){
+        List<SolicitudTabla> listaTabla = new ArrayList<>();
+        ServiceResponse<List<SolicitudTabla>> respo = null;
         HashSet<Integer> listaIds = new HashSet<Integer>();
         usuario = obtenerSessionUsuario(request, response);
-        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
         String fechaF, userTecnico, tipoG;
-        String grupo = request.getParameter("buscarGrupo");
-        String estado = request.getParameter("buscarEstado");
+        String grupo = consultaO.getGrupo();
+        String estado = consultaO.getEstado();
         try{
+            
             if(grupo != null && estado == null)
                 listaSolicitudAyuda = solicitudDao.buscarPorGrupo(grupo, usuario.getIdUsuario());
             else if(estado != null && grupo == null)
                 listaSolicitudAyuda = solicitudDao.buscarPorEstado(estado, usuario.getIdUsuario());
+            else if(estado != null && grupo != null){
+                listaSolicitudAyuda = solicitudDao.buscarPorGrupo(grupo, usuario.getIdUsuario());
+                listaSolicitudAyuda.addAll(solicitudDao.buscarPorEstado(estado, usuario.getIdUsuario()));
+            }
             if(listaSolicitudAyuda != null){
-                listaTabla = new ArrayList<>();
                 for(SolicitudAyuda lista : listaSolicitudAyuda){
                     if(!listaIds.contains(lista.getId().getIdSolicitud())){
                         listaIds.add(lista.getId().getIdSolicitud());
@@ -148,22 +176,19 @@ public class UsuarioController {
                                     String.valueOf(dateFormat.format(lista.getFechaInicio())),
                                     fechaF, lista.getEstadoSolicitud()));
                     }
-                    
                 }
-                model.addObject("listaConsultaSolicitudes",listaTabla);
+                respo = new ServiceResponse<>("success",listaTabla);
             }
-            if(grupo == null && estado == null){
-                model.addObject("listaConsultaSolicitudes",null);
+            else{
+                respo = new ServiceResponse<>("success",null);
             }
         }
         catch(Exception exc){
             exc.printStackTrace();
         }
-        datosUsuario();
-        model.addObject("viewMain","consultaSolicitudes");
-        model.setViewName("menuUsuario");
-        return model;
+        return new ResponseEntity<Object>(respo, HttpStatus.OK);
     }
+    
     @RequestMapping(value = { "/consultarSolicitud" }, method = RequestMethod.GET)
     public ModelAndView consultarSolicitud(HttpServletRequest request, HttpServletResponse response){
         usuario = obtenerSessionUsuario(request, response);

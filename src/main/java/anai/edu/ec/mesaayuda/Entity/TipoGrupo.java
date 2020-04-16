@@ -34,6 +34,7 @@ public class TipoGrupo  implements java.io.Serializable {
      private Set<Usuario> usuarios = new HashSet<Usuario>(0);
 
     public TipoGrupo() {
+        super();
     }
 
 	

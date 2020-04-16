@@ -22,7 +22,7 @@
                             <th class="th-sm" style="font-size: 0.85em; max-width: 260px; text-align: justify">Descripción</th>
                             <th class="th-sm" style="font-size: 0.85em ">Fecha Inicio</th>
                             <th class="th-sm" style="font-size: 0.85em ">Fecha Fin</th>
-                            <th class="th-sm" style="font-size: 0.85em ">Usuario SolicitaAyuda</th>
+                            <th class="th-sm" style="font-size: 0.85em ">Usuario Solicita Ayuda</th>
                             <th class="th-sm" style="font-size: 0.85em ">Acción</th>
                         </tr>
                     </thead>
@@ -61,6 +61,20 @@
                     </button>
                 </div>
                 <div class="modal-body ">
+                    <div class="form-row">
+                        <div class="form-group col-md-2">
+                            <label><h6>Subtipo</h6></label>
+                        </div>
+                        <div class="form-group col-md-5">
+                            <select id="selectSubtipo" name="subtipo_CS" class="form-control" model="selected" required>
+                                <option selected disabled hidden style='display: none' value=''></option>
+                                <c:forEach items="${listarSubtipo_CS}" var="subtipo">
+                                    <option value="${subtipo.idSubtipo}">${subtipo.nombreSubtipo}</option> 
+                                </c:forEach>
+                                <option value='none'>none</option>
+                            </select>
+                        </div>
+                    </div>
                     <form autocomplete="off" style="font-size: 0.95em">
                         <textarea class="form-control text-justify" rows="3" id="descripcion_st" name="descripcion_sn" v-model="text" required></textarea>
                     </form>
@@ -68,7 +82,6 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn btn-danger" id="finalSolicitud" data-dismiss="modal">Finalizar</button>
                     <button type="button" class="btn btn-warning" id="reevaluarSolicitud" data-dismiss="modal">Reevaluar</button>
-                  </div>
                 </div>
             </div>
         </div>

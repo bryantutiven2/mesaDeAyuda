@@ -31,7 +31,9 @@ public class Subtipo  implements java.io.Serializable {
      private Integer estadoBorrado;
      private Set<SolicitudAyuda> solicitudAyudas = new HashSet<SolicitudAyuda>(0);
 
+    
     public Subtipo() {
+        super();
     }
 
 	

@@ -18,13 +18,28 @@ public class SolicitudTabla {
     private String userSolicitaAyuda;
     private String fechaInicio;
     private String fechaFin;
+    private String fechaInicioTecnico;
+    private String fechaFinTecnico;
     private String estadoSolicitud;
     private String estadoSolicitudTecnico;
+    private String idSubtipo;
 
     public SolicitudTabla() {
         super();
     }
-
+    
+    public SolicitudTabla(Integer id, String descripcion, String descripcionTecnico, String userSolicitaAyuda, String fechaInicio, String fechaFin, String fechaInicioTecnico, String fechaFinTecnico, String estadoSolicitudTecnico, String estadoSolicitud) {
+        this.id = id;
+        this.descripcion = descripcion;
+        this.descripcionTecnico = descripcionTecnico;
+        this.userSolicitaAyuda = userSolicitaAyuda;
+        this.fechaInicio = fechaInicio;
+        this.fechaFin = fechaFin;
+        this.fechaInicioTecnico = fechaInicioTecnico;
+        this.fechaFinTecnico = fechaFinTecnico;
+        this.estadoSolicitudTecnico = estadoSolicitudTecnico;
+        this.estadoSolicitud = estadoSolicitud;
+    }
     
     public SolicitudTabla(Integer id, String grupo, String tipo, String descripcion) {
         this.id = id;
@@ -38,7 +53,7 @@ public class SolicitudTabla {
         this.estadoSolicitudTecnico = estadoSolicitudTecnico;
     }
     
-
+    
     public SolicitudTabla(Integer id, String descripcion, String userSolicitaAyuda, String fechaInicio, String fechaFin, String estadoSolicitudTecnico) {
         this.id = id;
         this.descripcion = descripcion;
@@ -46,6 +61,14 @@ public class SolicitudTabla {
         this.fechaInicio = fechaInicio;
         this.fechaFin = fechaFin;
         this.estadoSolicitudTecnico = estadoSolicitudTecnico;
+    }
+
+    public SolicitudTabla(Integer id, String descripcionTecnico, String estadoSolicitud, String estadoSolicitudTecnico, String idSubtipo) {
+        this.id = id;
+        this.descripcionTecnico = descripcionTecnico;
+        this.estadoSolicitud = estadoSolicitud;
+        this.estadoSolicitudTecnico = estadoSolicitudTecnico;
+        this.idSubtipo = idSubtipo;
     }
     
     
@@ -199,5 +222,32 @@ public class SolicitudTabla {
     public void setDescripcionTecnico(String descripcionTecnico) {
         this.descripcionTecnico = descripcionTecnico;
     }
+
+    public String getFechaInicioTecnico() {
+        return fechaInicioTecnico;
+    }
+
+    public void setFechaInicioTecnico(String fechaInicioTecnico) {
+        this.fechaInicioTecnico = fechaInicioTecnico;
+    }
+
+    public String getFechaFinTecnico() {
+        return fechaFinTecnico;
+    }
+
+    public void setFechaFinTecnico(String fechaFinTecnico) {
+        this.fechaFinTecnico = fechaFinTecnico;
+    }
+
+    public String getIdSubtipo() {
+        return idSubtipo;
+    }
+
+    public void setIdSubtipo(String idSubtipo) {
+        this.idSubtipo = idSubtipo;
+    }
+
+    
+    
     
 }

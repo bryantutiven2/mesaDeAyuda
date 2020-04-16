@@ -15,7 +15,7 @@ public interface ISolicitudDao{
     Boolean actualizar(SolicitudAyuda o);
     Boolean eliminar(SolicitudAyuda o);
     List<SolicitudAyuda> nuevasSolicitudes(String grupo, String estado);
-    List<SolicitudAyuda> obtenerElementos(Integer id);
+    List<SolicitudAyuda> obtenerElementos(Integer idUser, String idGrupo, String estado);
     SolicitudAyuda obtenerElemento(SolicitudAyudaId id);
     Integer generarIdSolicitud();
     List<SolicitudAyuda> buscarPorGrupo(String grupo, Integer idUser);
