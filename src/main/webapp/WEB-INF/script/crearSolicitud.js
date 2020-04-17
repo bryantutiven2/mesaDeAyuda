@@ -1,11 +1,11 @@
 /*activar modal en crearSolicitud.jsp*/
 function myFunction() {
-    var option_value = document.getElementById("reincidencia").value;
+    let option_value = document.getElementById("reincidencia").value;
     if (option_value == "2" || option_value == "3" || option_value == "4") {
        $("#myModal").modal();
      }
 };
-
+/*solicitud ajax post para cargar solicitudes dependiendo del grupo escogido */
 function postAjaxTablaSolicitudes(datos){
     $.ajax({
        type: 'POST',
@@ -34,11 +34,73 @@ function postAjaxTablaSolicitudes(datos){
         }
     });
 }
+/* enviar solicitud por medio de post */
+function postAjaxEnviarSolicitud(datos){
+    $.ajax({
+       type: 'POST',
+       contentType: 'application/json',
+       url: '/mesaayuda/usuario/enviarSolicitud',
+       data: JSON.stringify(datos),
+       success: function(response){
+           $("#mensajeModal").empty();
+            if(response.status == "success"){
+               $("#mensajeModal").html('<i class="fas fa-check-circle" style="color: #02D90C;font-size: 24pt;margin-right: 30px;"></i> Se ha enviado con éxito la solicitud');
+               reinciarForm();
+               $("#modalMensaje").modal();
+            }
+            else if(response.status == "error"){
+                $("#mensajeModal").html('<i class="fas fa-times" style="color: #04A9C8;font-size: 24pt;margin-right: 30px;"></i> No se ha podido enviar la solcitud');
+                $("#modalMensaje").modal();
+           }
+            
+        },
+        error : function(e) {
+            $("#mensajeModal").html('<i class="fas fa-times" style="color: #04A9C8;font-size: 24pt;margin-right: 30px;"></i> No se ha podido enviar la solcitud');
+            $("#modalMensaje").modal();
+        }
+    });
+}
+/* Reniciar formulario*/
+function reinciarForm(){
+    let selectNvez=document.getElementById("reincidencia");
+    selectNvez.options[0].selected=true;
+    $('#ids_aydudaas').val("");
+    $('#descripcion').val("");
+    $('input[name="grupo"]').prop('checked', false);
+}
 
+/*enviar solicitud desde usuario*/
+$( document ).ready(function() {
+    $(document).on('click','#enviarSolicitud', function(){
+        $("#mensajeModal").empty();
+        let datos;
+        let grupoS = $('input[name=grupo]:checked', '#testForm').val();
+        let descripcionT = $('#descripcion').val();
+        let nvez = $('#reincidencia').val();
+        let ids = $('#ids_aydudaas').val();
+        if(ids == null || ids == "")
+            ids = "null"
+        if(nvez === null || descripcionT == "" || grupoS === undefined){
+            $("#mensajeModal").html('<i class="fas fa-exclamation-triangle" style="color: #F87011;font-size: 24pt;margin-right: 30px;"></i> Tiene campos sin llenar');
+            $("#modalMensaje").modal();
+        }
+        if(nvez != null && descripcionT != "" && nvez != null && grupoS != undefined){
+           datos={
+                grupo: grupoS,
+                n_vez: nvez,
+                ids_n_vez: ids,
+                descripcion: descripcionT
+            };
+            postAjaxEnviarSolicitud(datos);
+        }
+    });
+});
+
+/*cargar solicitudes dependiendo de la eleccion de sistemas o mantenimiento*/
 $( document ).ready(function() {
     $(document).on('click','#testForm', function(){
-        var datos;
-        var grupoT = $('input[name=grupo]:checked', '#testForm').val();
+        let datos;
+        let grupoT = $('input[name=grupo]:checked', '#testForm').val();
         if(grupoT =="sist" || grupoT =="mant"){
             datos={
                 grupo: grupoT
@@ -72,7 +134,7 @@ $(document).ready(function () {
 /*obtener ids y colocarlos el en input de crearSolicitud.jsp*/
 $(document).ready(function() {
     $(document).on('click','#cargarIds', function(){
-        var selected = '';    
+        let selected = '';    
         $('#idsItems input[type=checkbox]').each(function(){
             if(this.checked){
                 selected += $(this).val()+',';
@@ -87,8 +149,8 @@ $(document).ready(function() {
 /*limitar numero de checks en crearSolicitud.jsp*/
 function limitarChecks() {
    $("input[name='ug-checkbox']").change(function () {
-      var limit = document.getElementById("reincidencia").value;
-      var cantidadCkb = $("input[name='ug-checkbox']:checked").length;
+      let limit = document.getElementById("reincidencia").value;
+      let cantidadCkb = $("input[name='ug-checkbox']:checked").length;
       if (cantidadCkb > limit) 
       {
          $(this).prop("checked", "");

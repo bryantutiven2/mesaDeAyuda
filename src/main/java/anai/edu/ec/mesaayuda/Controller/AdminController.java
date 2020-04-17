@@ -62,7 +62,73 @@ public class AdminController {
     private Boolean retornoSolicitud = null;
     private DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
     
-    
+    @PostMapping( "/enviarSolicitud" )
+    public ResponseEntity<Object> enviarSolicitud(@RequestBody SolicitudTabla solicitudT,
+                                                HttpServletRequest request, HttpServletResponse response){
+        ServiceResponse<List<SolicitudTabla>> respo = null;
+        try{
+            usuario = obtenerSessionUsuario(request, response);
+            String idgrupo = solicitudT.getGrupo();
+            Integer nvez = solicitudT.getN_vez();
+            String id_nvez = "";
+            if(nvez>1)
+                id_nvez = solicitudT.getIds_n_vez();
+            else
+                id_nvez = "null";
+            String descripcion = solicitudT.getDescripcion();
+            Grupo grupo = grupoDao.obtenerElemento(idgrupo);
+            Integer idSolicitud = solicitudDao.generarIdSolicitud();
+            SolicitudAyudaId solicitudAyudaId = new SolicitudAyudaId(idSolicitud, idgrupo);
+            SolicitudAyuda objetoSolicitud = new SolicitudAyuda();
+            
+            
+            if(idgrupo.equals("sist") || idgrupo.equals("mant")){
+                objetoSolicitud.setId(solicitudAyudaId);
+                objetoSolicitud.setGrupo(grupo);
+                objetoSolicitud.setDescripcion(descripcion);
+                objetoSolicitud.setAyudaNVez(nvez);
+                objetoSolicitud.setIdsSolicitudNVez(id_nvez);
+                objetoSolicitud.setEstadoBorrado(0);
+            }
+            if(idgrupo.equals("sist")){
+                Integer idTipo = Integer.parseInt(solicitudT.getTipo());
+                Integer idSubtipo = Integer.parseInt(solicitudT.getIdSubtipo().split("-")[1]);
+                Integer idTecnico = Integer.parseInt(solicitudT.getUserTecnico());
+                Integer idUserSolicitaAyuda = Integer.parseInt(solicitudT.getUserSolicitaAyuda());
+                String fechaInicio = solicitudT.getFechaInicio();
+                String fechafin = solicitudT.getFechaFin();
+                String estadoSolicitud = solicitudT.getEstadoSolicitud();
+                String estadoSolicitudTecnico = "inactiva";
+                TipoGrupo tipoGrupo = tipoDao.obtenerElemento(idTipo);
+                Subtipo subtipo = subtipoDao.obtenerElemento(idSubtipo);
+                Usuario tecnico = usuarioDao.obtenerElemento(idTecnico);
+                Usuario userSolicitaAyuda = usuarioDao.obtenerElemento(idUserSolicitaAyuda);
+                Date datefi = convertirFecha(fechaInicio);
+                Date dateff = convertirFecha(fechafin);
+                
+                objetoSolicitud.setEstadoSolicitud(estadoSolicitud);
+                objetoSolicitud.setEstadoSolicitudTecnico(estadoSolicitudTecnico);
+                objetoSolicitud.setFechaInicio(datefi);
+                objetoSolicitud.setFechaFin(dateff);
+                objetoSolicitud.setUsuarioByIdUserSolicitaAyuda(userSolicitaAyuda);
+                objetoSolicitud.setUsuarioByIdUserAdmin(usuario);
+                objetoSolicitud.setUsuarioByIdUserTecnico(tecnico);
+                objetoSolicitud.setTipoGrupo(tipoGrupo);
+                objetoSolicitud.setSubtipo(subtipo);
+            }
+            
+            Boolean retorno = solicitudDao.insertar(objetoSolicitud);
+            if(retorno)
+                respo = new ServiceResponse<>("success");
+            else
+                respo = new ServiceResponse<>("error");
+        }
+        catch(Exception exc){
+            exc.printStackTrace();
+        }
+        return new ResponseEntity<Object>(respo, HttpStatus.OK);
+    }
+    /*
     @RequestMapping(value = { "/enviarSolicitud"}, method = RequestMethod.POST)
     public ModelAndView enviarSolicitudAdmin(HttpServletRequest request, HttpServletResponse response){
         try{
@@ -120,6 +186,7 @@ public class AdminController {
         }
         return crearSolicitudAdmin(request, response);
     }
+    */
     
     @GetMapping( "/cargarNuevasSolicitudes")
     public ResponseEntity<Object> cargarNuevasSolicitudes(HttpServletRequest request, HttpServletResponse response){

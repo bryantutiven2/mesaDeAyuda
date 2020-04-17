@@ -8,7 +8,7 @@
     <h2 class="mt-4 text-center">Crear Solicitud de Ayuda</h2>
     <div class="col-xl-8 col-lg-8 mx-auto">
         <div class="bg-faded rounded p-2">
-            <form action="${pageContext.request.contextPath}/usuario/enviarSolicitud" method="post">
+            <form action="" style="font-size: 0.95em" autocomplete="off">
                 <div class="card">
                     <div class="card-body">
                         <div class="form-row">
@@ -17,7 +17,7 @@
                                 <br>
                                 <fieldset id="testForm">
                                     <div>
-                                        <input selected disabled hidden style='display: none' type="radio" id="grupoSistemaCS" name="grupo" value="" required>
+                                        <input selected disabled hidden style='display: none' type="radio" name="grupo" value="none" required>
                                     </div>
                                     <div class="form-group col-md-4">
                                         <div style="width: 120px;">
@@ -69,7 +69,7 @@
                 </div>
                 <br />
                 <div class="text-center">
-                    <button type="submit" class="btn-cambiar-color btn btn-primary"  id="enviar">Enviar Solicitud</button>
+                    <button type="button" class="btn-cambiar-color btn btn-primary"  id="enviarSolicitud">Enviar Solicitud</button>
                 </div>
             </form>
         </div>
@@ -109,6 +109,22 @@
             <div class="modal-footer">
                 <button type="button" class="btn-cambiar-color btn btn-primary" id="cargarIds" data-dismiss="modal">Aceptar</button>
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- modal para cargar mensaje -->
+<div class="modal fade" id="modalMensaje" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body " id="mensajeModal">
+
             </div>
         </div>
     </div>

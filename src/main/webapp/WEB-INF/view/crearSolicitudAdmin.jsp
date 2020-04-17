@@ -7,7 +7,7 @@
     <h2 class="mt-4 text-center">Crear Solicitud de Ayuda</h2>
     <div class="col-xl-10 col-lg-12 col-md-12 mx-auto">
         <div class="bg-faded rounded p-5">
-            <form action="${pageContext.request.contextPath}/admin/enviarSolicitud" method="post" style="font-size: 0.95em" autocomplete="off">
+            <form action="" style="font-size: 0.95em" autocomplete="off">
                 <div class="card">
                     <div class="form-row card-body">
                         <div class="form-group col-md-4">
@@ -58,7 +58,7 @@
                         <div class="form-group col-md-1"></div>
                         <div class="form-group col-md-3">
                             <label><h6>N° de Reincidencias</h6></label>
-                            <select id="reincidencia" name="nvez" class="form-control" model="selected" required>
+                            <select id="reincidencia" name="nvez" class="form-control" model="selected" onchange = "myFunction()" required>
                                 <option selected disabled hidden style='display: none' value=''></option>
                                 <option value="1">1vez</option>   
                                 <option value="2">2vez</option>
@@ -104,7 +104,7 @@
                                 <div class="form-group col-md-1"> </div>
                                 <div class="form-group">
                                     <div class="input-group date" id="dtPickerFI" data-target-input="nearest">
-                                         <input type="text" name="fechaInicio_cs" class="form-control datetimepicker-input" data-target="#dtPickerFI" required="true"/>
+                                        <input type="text" id="fechaInicio_cs" name="fechaInicio_cs" class="form-control datetimepicker-input" data-target="#dtPickerFI" required="true"/>
                                          <div class="input-group-append" data-target="#dtPickerFI" data-toggle="datetimepicker">
                                              <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                                          </div>
@@ -121,7 +121,7 @@
                                 <div class="form-group col-md-1"> </div>
                                 <div class="form-group">
                                     <div class="input-group date" id="dtPickerFF" data-target-input="nearest">
-                                         <input type="text" name="fechaFin_cs" class="form-control datetimepicker-input" data-target="#dtPickerFF" required="true"/>
+                                        <input type="text" id="fechaFin_cs" name="fechaFin_cs" class="form-control datetimepicker-input" data-target="#dtPickerFF" required="true"/>
                                          <div class="input-group-append" data-target="#dtPickerFF" data-toggle="datetimepicker">
                                              <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                                          </div>
@@ -141,7 +141,7 @@
                 </div>
                 <br>
                 <div class="text-center">
-                    <button type="submit" class="btn-cambiar-color btn btn-primary"  id="enviarSolicitud_CS">Enviar Solicitud</button>
+                    <button type="button" class="btn-cambiar-color btn btn-primary"  id="enviarSolicitud_CS">Enviar Solicitud</button>
                 </div>
             </form>
         </div>
@@ -187,8 +187,56 @@
             </div>
         </div>
     </div>
-    <!-- modal de mensaje de creaacion exitosa o falliada de solicitud-->
-    <c:if test="${solicitud == 'mensaje'}">
-        
-    </c:if>
+    <!-- modal para cargar mensaje -->
+    <div class="modal fade" id="modalMensaje" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body " id="mensajeModal">
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--Modal o mop up de la tabla emergente para escoger las ayudas solicitidas-->
+    <div id="myModal" class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Seleccione Ayudas realizadas</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="idsItems">
+                        <div class="table-responsive">
+                           <table id="dtBasicExample" class="table table-striped table-bordered" style="width:100%">
+                                <thead>
+                                    <tr>
+                                        <th class="th-sm">Cod</th>
+                                        <th class="th-sm">Grupo</th>
+                                        <th class="th-sm">Tipo</th>
+                                        <th class="th-sm" style="max-width: 260px; text-align: justify">Descripción</th>
+                                        <th class="th-sm"></th>
+                                    </tr>
+                                </thead>
+                                <tbody id="bodyTableCargarSolicitudes">
+
+                                </tbody>
+                            </table> 
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn-cambiar-color btn btn-primary" id="cargarIds" data-dismiss="modal">Aceptar</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

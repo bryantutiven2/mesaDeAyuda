@@ -47,7 +47,6 @@ public class UsuarioController {
     private ISolicitudDao solicitudDao = new SolicitudImpl();
     private IGrupoDao grupoDao = new GrupoImpl();
     private String id_nvez = null;
-    private Boolean retornoSolicitud = null;
     private Date fechaInicio;
     private String retornoVista = null;
     private ModelAndView model = new ModelAndView();
@@ -65,22 +64,25 @@ public class UsuarioController {
         return model;
     }
     
-    @RequestMapping(value = { "/enviarSolicitud" }, method = RequestMethod.POST)
-    public ModelAndView enviarSolicitud(HttpServletRequest request, HttpServletResponse response){
+    @PostMapping( "/enviarSolicitud" )
+    public ResponseEntity<Object> enviarSolicitud(@RequestBody SolicitudTabla solicitudT,
+                                                HttpServletRequest request, HttpServletResponse response){
+        List<SolicitudTabla> listaTabla = new ArrayList<>();
+        ServiceResponse<List<SolicitudTabla>> respo = null;
+        usuario = obtenerSessionUsuario(request, response);
+        String idgrupo = solicitudT.getGrupo();
+        String descripcion = solicitudT.getDescripcion();
+        Integer nvez = solicitudT.getN_vez();
+        if(nvez>1)
+            id_nvez = solicitudT.getIds_n_vez();
+        else
+            id_nvez = "null";
         try{
-            String idgrupo = request.getParameter("grupo");
-            String descripcion = request.getParameter("descripcion");
-            Integer nvez = Integer.parseInt(request.getParameter("nvez"));
-            if(nvez>1)
-                id_nvez = request.getParameter("idsnvez");
-            else
-                id_nvez = "null";
             Grupo grupo = grupoDao.obtenerElemento(idgrupo);
             Integer idSolicitud = solicitudDao.generarIdSolicitud();
             SolicitudAyudaId solicitudAyudaId = new SolicitudAyudaId(idSolicitud, idgrupo);
             usuario = obtenerSessionUsuario(request, response);
             fechaInicio = obtenerFecha();
-            
             SolicitudAyuda objetoSolicitud = new SolicitudAyuda();
             objetoSolicitud.setId(solicitudAyudaId);
             objetoSolicitud.setDescripcion(descripcion);
@@ -90,18 +92,18 @@ public class UsuarioController {
             objetoSolicitud.setEstadoSolicitud("pendiente");
             objetoSolicitud.setFechaInicio(fechaInicio);
             objetoSolicitud.setUsuarioByIdUserSolicitaAyuda(usuario);
-            retornoSolicitud = solicitudDao.insertar(objetoSolicitud);
-            //if(retornoSolicitud.equals(true))
-                retornoVista = "menuUsuario";
+            Boolean retorno = solicitudDao.insertar(objetoSolicitud);
+            if(retorno)
+                respo = new ServiceResponse<>("success");
+            else
+                respo = new ServiceResponse<>("error");
         }
-        catch(Exception e){
-            e.printStackTrace();
+        catch(Exception exc){
+            exc.printStackTrace();
         }
-        datosUsuario();
-        model.addObject("viewMain","crearSolicitud");
-        model.setViewName(retornoVista);
-        return model;
+        return new ResponseEntity<Object>(respo, HttpStatus.OK);
     }
+    
     @PostMapping( "/solicitudes" )
     public ResponseEntity<Object> solicitudes(@RequestBody ConsultaObjeto consultaO,
                                                 HttpServletRequest request, HttpServletResponse response){

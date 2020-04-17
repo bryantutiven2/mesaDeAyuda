@@ -79,8 +79,7 @@ $(document).ready(function () {
 
 $(document).ready(function () {
     getAjaxTabla();
-    
-    $('#recargartabla').click(function(){
+    $(document).on('click','#recargartabla', function(){
         getAjaxTabla();
         console.log("se recargo la tabla");
     });
