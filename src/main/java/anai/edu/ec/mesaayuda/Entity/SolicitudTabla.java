@@ -247,7 +247,10 @@ public class SolicitudTabla {
         this.idSubtipo = idSubtipo;
     }
 
-    
-    
+    @Override
+    public String toString() {
+        return "SolicitudTabla{" + "id=" + id + ", descripcion=" + descripcion + ", userSolicitaAyuda=" + userSolicitaAyuda + ", fechaInicio=" + fechaInicio + ", fechaFin=" + fechaFin + ", fechaInicioTecnico=" + fechaInicioTecnico + ", fechaFinTecnico=" + fechaFinTecnico + ", estadoSolicitudTecnico=" + estadoSolicitudTecnico + '}';
+    }
+
     
 }

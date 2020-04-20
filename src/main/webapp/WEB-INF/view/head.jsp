@@ -13,3 +13,7 @@
 <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.css">
 <link href="${pageContext.request.contextPath}/css/sidebar.css" rel="stylesheet">
 <link href="${pageContext.request.contextPath}/css/datatables.css" rel="stylesheet">
+
+<c:if test="${viewMain == 'dashboardTecnico'}">
+    <link href="${pageContext.request.contextPath}/css/dashboardTecnico.css" rel="stylesheet"/>
+</c:if>

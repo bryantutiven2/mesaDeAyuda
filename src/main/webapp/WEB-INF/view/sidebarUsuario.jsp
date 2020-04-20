@@ -23,7 +23,15 @@
             -->
             <c:if test="${rol == 'admin_sist'}">
                 <li>
-                    <a href="${pageContext.request.contextPath}/admin/crearSolictud" class="activar referenciaA list-group-item">
+                    <a href="${pageContext.request.contextPath}/admin/consultarDashboardTecnico" class="activar referenciaA list-group-item">
+                        <div class="d-flex w-100 justify-content-start align-items-center">
+                            <i class="fas fa-tachometer-alt"></i>
+                            <span class="eleccion" style="padding-left: 10px">Dashboard Técnico</span>
+                        </div>
+                    </a>
+                </li>
+                <li>
+                    <a href="${pageContext.request.contextPath}/admin/crearSolictud" class="referenciaA list-group-item">
                         <div class="d-flex w-100 justify-content-start align-items-center">
                             <i class="fas fa-file-alt"></i>
                             <span class="eleccion" style="padding-left: 10px">Crear Solicitud</span>

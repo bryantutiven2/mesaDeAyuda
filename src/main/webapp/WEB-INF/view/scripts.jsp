@@ -28,6 +28,9 @@
 <c:if test="${viewMain == 'solicitudesNuevasAdmin'}">
     <script src="${pageContext.request.contextPath}/script/solicitudesNuevasAdmin.js"></script>
 </c:if>
+<c:if test="${viewMain == 'dashboardTecnico'}">
+    <script src="${pageContext.request.contextPath}/script/dashboardTecnico.js"></script>
+</c:if>
 
 <!-- main contenido usuario Tecnico-->
 <c:if test="${viewMain == 'cargarSolicitudesTecnico'}">

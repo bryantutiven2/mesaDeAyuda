@@ -27,6 +27,7 @@ public class UsuarioImpl implements IUsuarioDao{
     private final String selectUtp = "from Usuario u join fetch u.tipoGrupo gru join fetch gru.grupo ";
     private final String selectIdUtp = "from Usuario u join fetch u.tipoGrupo gru join fetch gru.grupo where u.idUsuario= :id";
     
+    
     @Override
     public Boolean insertar(Usuario o) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.

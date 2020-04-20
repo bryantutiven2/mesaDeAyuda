@@ -71,7 +71,7 @@ public class LoginController {
             
             if(rol.equals("admin_sist")){
                 AdminController adminModel = new AdminController();
-                model = adminModel.crearSolicitudAdmin(request, response);
+                model = adminModel.dashboardTecnico(request, response);
             }
             else if(rol.equals("general_acad")){
                 UsuarioController usuarioModel = new UsuarioController();

@@ -13,7 +13,7 @@ public interface IUsuarioDao{
     Boolean insertar(Usuario o);
     Boolean actualizar(Usuario o);
     Boolean eliminar(Usuario o);
-    List<Usuario> obtenerElementos(String rol);
+    List<Usuario> obtenerElementos(String grupo);
     Usuario obtenerElemento(Integer id);
     List<Usuario> obtenerElementosUtp();
     List<Usuario> obtenerUsuarios();

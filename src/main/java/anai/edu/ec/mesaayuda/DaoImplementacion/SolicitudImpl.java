@@ -50,9 +50,15 @@ public class SolicitudImpl implements ISolicitudDao{
     private final String bucsarPorEstado2 = "from SolicitudAyuda sa join fetch sa.usuarioByIdUserSolicitaAyuda usa "
                                             + "join fetch sa.grupo "
                                             + "where sa.estadoSolicitud= :estado and usa.idUsuario= :idUserSA";
-     private final String cargarSolicitudesTecnico = "from SolicitudAyuda sa join fetch sa.usuarioByIdUserTecnico usa "
+    private final String cargarSolicitudesTecnico = "from SolicitudAyuda sa join fetch sa.usuarioByIdUserTecnico usa "
                                             + "join fetch sa.usuarioByIdUserSolicitaAyuda "
                                             + "where sa.estadoSolicitud= :estado and usa.idUsuario= :idUser";
+     
+    private final String solicitudesDashboardTecnico = "from SolicitudAyuda sa join fetch sa.usuarioByIdUserSolicitaAyuda "
+                                            + "join fetch sa.usuarioByIdUserTecnico ute join fetch ute.tipoGrupo join fetch sa.grupo gru "
+                                            + "where gru.idGrupo= :idGrupo and (sa.estadoSolicitudTecnico = 'inactiva' or "
+                                            + "sa.estadoSolicitudTecnico = 'proceso' or sa.estadoSolicitudTecnico = 'reevaluar' "
+                                            + "or (sa.estadoSolicitudTecnico = 'finalizada' and  TO_CHAR(sa.fechaFinTecnico) =  TO_CHAR(current_date)))";
     
     @Override
     public Boolean insertar(SolicitudAyuda o) {
@@ -262,6 +268,26 @@ public class SolicitudImpl implements ISolicitudDao{
                 query.setParameter("estado", estados.get(i));
                 listaSolicitud.addAll(query.getResultList());
             }
+        }
+        catch(Exception exc){
+            exc.printStackTrace();
+        }
+        finally{
+            HibernateUtil.cerrarSession();
+        }
+        return listaSolicitud;
+    }
+
+    @Override
+    public List<SolicitudAyuda> solicitudesDashboardTecnico(String idGrupo) {
+        List<SolicitudAyuda> listaSolicitud = new ArrayList<>();
+        Query query = null;
+        try{
+            HibernateUtil.abrirSession();
+            Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+            query = session.createQuery(solicitudesDashboardTecnico, SolicitudAyuda.class);
+            query.setParameter("idGrupo", idGrupo);
+            listaSolicitud.addAll(query.getResultList());
         }
         catch(Exception exc){
             exc.printStackTrace();

@@ -128,65 +128,6 @@ public class AdminController {
         }
         return new ResponseEntity<Object>(respo, HttpStatus.OK);
     }
-    /*
-    @RequestMapping(value = { "/enviarSolicitud"}, method = RequestMethod.POST)
-    public ModelAndView enviarSolicitudAdmin(HttpServletRequest request, HttpServletResponse response){
-        try{
-            String idgrupo = request.getParameter("grupo");
-            Integer idTipo = Integer.parseInt(request.getParameter("tipoGrupo_CS"));
-            Integer idSubtipo = Integer.parseInt(request.getParameter("subtipo_CS").split("-")[1]);
-            Integer idTecnico = Integer.parseInt(request.getParameter("tecnico_cs"));
-            Integer idUserSolicitaAyuda = Integer.parseInt(request.getParameter("idUserSolicitaA"));
-            String descripcion = request.getParameter("descripcion");
-            Integer nvez = Integer.parseInt(request.getParameter("nvez"));
-            String id_nvez = "";
-            if(nvez>1)
-                id_nvez = request.getParameter("idsnvez");
-            else
-                id_nvez = "null";
-            String fechaInicio = request.getParameter("fechaInicio_cs");
-            String fechafin = request.getParameter("fechaFin_cs");
-            String estadoSolicitud = request.getParameter("estado_cs");
-            String estadoSolicitudTecnico = "inactiva";
-            
-            Grupo grupo = grupoDao.obtenerElemento(idgrupo);
-            TipoGrupo tipoGrupo = tipoDao.obtenerElemento(idTipo);
-            Subtipo subtipo = subtipoDao.obtenerElemento(idSubtipo);
-            Usuario tecnico = usuarioDao.obtenerElemento(idTecnico);
-            Usuario userSolicitaAyuda = usuarioDao.obtenerElemento(idUserSolicitaAyuda);
-            Date datefi = convertirFecha(fechaInicio);
-            Date dateff = convertirFecha(fechafin);
-            
-            Integer idSolicitud = solicitudDao.generarIdSolicitud();
-            SolicitudAyudaId solicitudAyudaId = new SolicitudAyudaId(idSolicitud, idgrupo);
-            
-            usuario = obtenerSessionUsuario(request, response);
-            
-            SolicitudAyuda objetoSolicitud = new SolicitudAyuda();
-            objetoSolicitud.setId(solicitudAyudaId);
-            objetoSolicitud.setDescripcion(descripcion);
-            objetoSolicitud.setAyudaNVez(nvez);
-            objetoSolicitud.setIdsSolicitudNVez(id_nvez);
-            objetoSolicitud.setEstadoBorrado(0);
-            objetoSolicitud.setEstadoSolicitud(estadoSolicitud);
-            objetoSolicitud.setEstadoSolicitudTecnico(estadoSolicitudTecnico);
-            objetoSolicitud.setFechaInicio(datefi);
-            objetoSolicitud.setFechaFin(dateff);
-            objetoSolicitud.setUsuarioByIdUserSolicitaAyuda(userSolicitaAyuda);
-            objetoSolicitud.setUsuarioByIdUserAdmin(usuario);
-            objetoSolicitud.setUsuarioByIdUserTecnico(tecnico);
-            objetoSolicitud.setGrupo(grupo);
-            objetoSolicitud.setTipoGrupo(tipoGrupo);
-            objetoSolicitud.setSubtipo(subtipo);
-            
-            retornoSolicitud = solicitudDao.insertar(objetoSolicitud);
-        }
-        catch(Exception e){
-            e.printStackTrace();
-        }
-        return crearSolicitudAdmin(request, response);
-    }
-    */
     
     @GetMapping( "/cargarNuevasSolicitudes")
     public ResponseEntity<Object> cargarNuevasSolicitudes(HttpServletRequest request, HttpServletResponse response){
@@ -417,6 +358,15 @@ public class AdminController {
         usuario = obtenerSessionUsuario(request, response);
         datosUsuario();
         model.addObject("viewMain","consultaSolicitudesAdmin");
+        model.setViewName("menuUsuario");
+        return model;
+    }
+    
+    @RequestMapping(value = { "/consultarDashboardTecnico" }, method = RequestMethod.GET)
+    public ModelAndView dashboardTecnico(HttpServletRequest request, HttpServletResponse response){
+        usuario = obtenerSessionUsuario(request, response);
+        datosUsuario();
+        model.addObject("viewMain","dashboardTecnico");
         model.setViewName("menuUsuario");
         return model;
     }
