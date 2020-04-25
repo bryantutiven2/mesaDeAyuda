@@ -33,7 +33,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Controller
 @RequestMapping( "/dashboard" )
 @RestController
-public class DashboardController {
+public class DashboardTecnicoController {
     private Usuario usuario;
     private ISolicitudDao solicitudDao = new SolicitudImpl();
     private IUsuarioDao usuarioDao = new UsuarioImpl();
