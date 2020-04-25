@@ -6,6 +6,9 @@
 
 <div>
     <div class="col-xl-12 col-lg-12 col-md-12 mx-auto">
+        <div class="loader">
+            <img src="${pageContext.request.contextPath}/images/spinner-reload.gif" alt="Loading..."/>
+        </div>
         <div class="bg-faded rounded p-2 flex-container" id="contenedor">
             
         </div>

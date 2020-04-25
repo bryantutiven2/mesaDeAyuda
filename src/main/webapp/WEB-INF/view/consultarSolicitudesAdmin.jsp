@@ -7,6 +7,9 @@
 <div class="main col pt-2" style="margin-top: 20px">
     <div class="col-xl-12 col-lg-8 mx-auto">
         <div class="bg-faded rounded p-3">
+            <div class="loader">
+                <img src="${pageContext.request.contextPath}/images/spinner-reload.gif" alt="Loading..."/>
+            </div>
             <form style="font-size: 0.95em" autocomplete="off">
                 <div class="card">
                     <div class="card-body">
@@ -89,7 +92,7 @@
                             <th class="th-sm" style="font-size: 0.85em ">Estado</th>
                         </tr>
                     </thead>
-                    <tbody id="bodyTableCargarSolicitudes">
+                    <tbody id="bodyTableCargarSolicitudes" style="font-size: 0.85em;">
                         
                     </tbody>
                 </table>
@@ -109,10 +112,25 @@
                             <th class="th-sm" style="font-size: 0.85em ">Estado Solicitud</th>
                         </tr>
                     </thead>
-                    <tbody id="bodyTableCargarSolicitudesR">
+                    <tbody id="bodyTableCargarSolicitudesR" style="font-size: 0.85em;">
                         
                     </tbody>
                 </table>
+            </div>
+        </div>
+    </div>
+</div>
+            <!-- modal para cargar mensaje -->
+<div class="modal fade" id="modalMensaje" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body " id="mensajeModal">
+
             </div>
         </div>
     </div>

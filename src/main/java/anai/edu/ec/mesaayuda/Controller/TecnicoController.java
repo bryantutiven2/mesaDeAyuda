@@ -67,8 +67,12 @@ public class TecnicoController {
                                 lista.getEstadoSolicitudTecnico()
                         )); 
                 }
+                respo = new ServiceResponse<>("success",listaTabla);
             }
-            respo = new ServiceResponse<>("success",listaTabla);
+            else{
+                respo = new ServiceResponse<>("vacio",listaTabla);
+            }
+            
         }
         catch(Exception exc){
             exc.printStackTrace();
@@ -127,6 +131,14 @@ public class TecnicoController {
         List<SolicitudTabla> listaTabla = new ArrayList<>();
         ServiceResponse<List<SolicitudTabla>> respo = null;
         HashSet<Integer> listaIds = new HashSet<Integer>();
+        HashSet<String> grupos = new HashSet<>();
+        grupos.add("sist");
+        grupos.add("mant");
+        HashSet<String> estados = new HashSet<>();
+        estados.add("pendiente");
+        estados.add("asignada");
+        estados.add("reevaluar");
+        estados.add("finalizada");
         usuario = obtenerSessionUsuario(request, response);
         String fechaF, userTecnico, tipoG;
         String tipoSolicitud = consultaO.getTipoSolicitud();
@@ -134,13 +146,12 @@ public class TecnicoController {
         String estado = consultaO.getEstado();
         try{
             if(tipoSolicitud.equals("mSolicitudes")){ //mis solicitudes
-                if(grupo != null && estado == null)
+                if(grupos.contains(grupo) && !estados.contains(estado))
                     listaSolicitudAyuda = solicitudDao.buscarPorGrupo(grupo, usuario.getIdUsuario());
-                else if(estado != null && grupo == null)
+                else if(!grupos.contains(grupo) && estados.contains(estado))
                     listaSolicitudAyuda = solicitudDao.buscarPorEstado(estado, usuario.getIdUsuario());
-                else if(estado != null && grupo != null){
-                    listaSolicitudAyuda = solicitudDao.buscarPorGrupo(grupo, usuario.getIdUsuario());
-                    listaSolicitudAyuda.addAll(solicitudDao.buscarPorEstado(estado, usuario.getIdUsuario()));
+                else if(grupos.contains(grupo) && estados.contains(estado)){
+                    listaSolicitudAyuda = solicitudDao.obtenerElementos(usuario.getIdUsuario(), grupo, estado);
                 }
                 if(listaSolicitudAyuda != null){
                     for(SolicitudAyuda lista : listaSolicitudAyuda){

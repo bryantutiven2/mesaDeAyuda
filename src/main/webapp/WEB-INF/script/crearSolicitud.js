@@ -27,6 +27,7 @@ function postAjaxTablaSolicitudes(datos){
                 });
                 $("#bodyTableCargarSolicitudes").html(tr);
                 limitarChecks();
+                cargarEstiloT();
             }
         },
         error : function(e) {
@@ -44,17 +45,20 @@ function postAjaxEnviarSolicitud(datos){
        success: function(response){
            $("#mensajeModal").empty();
             if(response.status == "success"){
+               $(".loader").removeClass("hidden"); //remover loader
                $("#mensajeModal").html('<i class="fas fa-check-circle" style="color: #02D90C;font-size: 24pt;margin-right: 30px;"></i> Se ha enviado con éxito la solicitud');
                reinciarForm();
                $("#modalMensaje").modal();
             }
             else if(response.status == "error"){
+                $(".loader").removeClass("hidden"); //remover loader
                 $("#mensajeModal").html('<i class="fas fa-times" style="color: #04A9C8;font-size: 24pt;margin-right: 30px;"></i> No se ha podido enviar la solcitud');
                 $("#modalMensaje").modal();
            }
             
         },
         error : function(e) {
+            $(".loader").removeClass("hidden"); //remover loader
             $("#mensajeModal").html('<i class="fas fa-times" style="color: #04A9C8;font-size: 24pt;margin-right: 30px;"></i> No se ha podido enviar la solcitud');
             $("#modalMensaje").modal();
         }
@@ -91,6 +95,7 @@ $( document ).ready(function() {
                 ids_n_vez: ids,
                 descripcion: descripcionT
             };
+            $(".loader").addClass("hidden"); //cargar loader
             postAjaxEnviarSolicitud(datos);
         }
     });
@@ -111,7 +116,7 @@ $( document ).ready(function() {
 });
 
 /*diseño del table*/
-$(document).ready(function () {
+function cargarEstiloT() {
     $('#dtBasicExample').DataTable({
     //para cambiar el lenguaje a español
         "language": {
@@ -130,7 +135,7 @@ $(document).ready(function () {
                          "sProcessing":"Procesando...",
         }
     });
-});
+};
 /*obtener ids y colocarlos el en input de crearSolicitud.jsp*/
 $(document).ready(function() {
     $(document).on('click','#cargarIds', function(){

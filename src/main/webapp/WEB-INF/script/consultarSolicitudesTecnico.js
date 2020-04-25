@@ -7,12 +7,16 @@ function postAjaxTabla(datos){
     data: JSON.stringify(datos),
     success: function(result){
         if(result.status == "success"){
-            var tableBody = '';
+            //var tableBody = '';
             if(datos.tipoSolicitud == "mSolicitudes"){
                 $('#tableM').show();
-                $("#bodyTableCargarSolicitudes").empty();
+                //$("#bodyTableCargarSolicitudes").empty();
+                cargarEstiloTM();
+                let tableBodyM = $('#tableConsultarSolicitudM').DataTable();
                 $.each(result.data, function(i, dato){
-                    tableBody += "<tr>"+
+                    tableBodyM.row.add([dato.id, dato.descripcion, dato.grupo, dato.tipo, dato.userTecnico,
+                                        dato.fechaInicio, dato.fechaFin, dato.estadoSolicitud]).draw();
+                    /*tableBody += "<tr>"+
                             '<th class="idsolicitud" style="font-size: 0.8em" scope="row">'+dato.id+'</th>'+
                             '<td style="max-width: 260px; font-size: 0.8em; text-align: justify">'+dato.descripcion+'</td>'+
                             '<td style="font-size: 0.8em">'+dato.grupo+'</td>'+
@@ -21,16 +25,22 @@ function postAjaxTabla(datos){
                             '<td style="font-size: 0.8em">'+dato.fechaInicio+'</td>'+
                             '<td style="font-size: 0.8em">'+dato.fechaFin+'</td>'+
                             '<td style="font-size: 0.8em">'+dato.estadoSolicitud+'</td>'+
-                          "</tr>";
+                          "</tr>";*/
                 });
-                $("#bodyTableCargarSolicitudes").html(tableBody);
-                cargarEstiloTM();
+                $(".loader").removeClass("hidden"); //remover loader
+                //$("#bodyTableCargarSolicitudes").html(tableBody);
+                //cargarEstiloTM();
             }
             else if(datos.tipoSolicitud == "rSolicitudes"){
                 $('#tableR').show();
-                $("#bodyTableCargarSolicitudesR").empty();
+                //$("#bodyTableCargarSolicitudesR").empty();
+                cargarEstiloTR();
+                let tableBodyR = $('#tableConsultarSolicitudR').DataTable();
                 $.each(result.data, function(i, dato){
-                    tableBody += "<tr>"+
+                    tableBodyR.row.add([dato.id, dato.descripcion, dato.descripcionTecnico, dato.userSolicitaAyuda,
+                                        dato.fechaInicio, dato.fechaFin, dato.fechaInicioTecnico, dato.fechaFinTecnico,
+                                        dato.estadoSolicitud]).draw();
+                    /*tableBody += "<tr>"+
                             '<th class="idsolicitud" style="font-size: 0.8em" scope="row">'+dato.id+'</th>'+
                             '<td style="max-width: 260px; font-size: 0.8em; text-align: justify">'+dato.descripcion+'</td>'+
                             '<td style="font-size: 0.8em">'+dato.descripcionTecnico+'</td>'+
@@ -40,10 +50,11 @@ function postAjaxTabla(datos){
                             '<td style="font-size: 0.8em">'+dato.fechaInicioTecnico+'</td>'+
                             '<td style="font-size: 0.8em">'+dato.fechaFinTecnico+'</td>'+
                             '<td style="font-size: 0.8em">'+dato.estadoSolicitudTecnico+'</td>'+
-                          "</tr>";
+                          "</tr>";*/
                 });
-                $("#bodyTableCargarSolicitudesR").html(tableBody);
-                cargarEstiloTR();
+                $(".loader").removeClass("hidden"); //remover loader
+                //$("#bodyTableCargarSolicitudesR").html(tableBody);
+                //cargarEstiloTR();
             }
         }
     },
@@ -56,10 +67,12 @@ $(document).ready(function () {
     $(document).on('click','#testForm', function(){
         var solicitudR = $('input[name=solicitudesR]:checked', '#testForm').val();
         if(solicitudR == "mSolicitudes"){
+            reinciarCasillas();
             $('#filtroGE').show();
             $('#tableR').hide();
         }
         else if( solicitudR == "rSolicitudes"){
+            reinciarCasillas();
             $('#filtroGE').hide();
             $('#tableM').hide();
         }
@@ -76,15 +89,33 @@ $(document).ready(function () {
                 grupo: option_buscarGrupo,
                 estado: option_buscarEstado
             };
-        postAjaxTabla(datos);
+        if(solicitudR == 'mSolicitudes' && (option_buscarGrupo != "" || option_buscarEstado!= "")){
+            $(".loader").addClass("hidden"); //cargar loader
+            postAjaxTabla(datos);
+        }
+        else if(solicitudR == 'rSolicitudes' && option_buscarGrupo == "" && option_buscarEstado== ""){
+            $(".loader").addClass("hidden"); //cargar loader
+            postAjaxTabla(datos);
+        }
+        else{
+            $("#mensajeModal").html('<i class="fas fa-exclamation-triangle" style="color: #F87011;font-size: 24pt;margin-right: 30px;"></i> Seleccione alguna opción');
+            $("#modalMensaje").modal();
+        }
     }); 
 });
 
+function reinciarCasillas(){
+    let selectBuscar=document.getElementById("buscarGrupo");
+    selectBuscar.options[0].selected=true;
+    let selectEstado=document.getElementById("buscarEstado");
+    selectEstado.options[0].selected=true;
+}
+
 /*diseño del table*/
 function cargarEstiloTM() {
-    var texto_usuario = document.getElementById("texto_usuario").innerHTML;
-    var texto_correo = document.getElementById("texto_correo").innerHTML;
-    $('#tableConsultarSolicitudM').DataTable({
+    let texto_usuario = document.getElementById("texto_usuario").innerHTML;
+    let texto_correo = document.getElementById("texto_correo").innerHTML;
+    let tableBodyM = $('#tableConsultarSolicitudM').DataTable({
         retrieve: true,
     //para cambiar el lenguaje a español
         "language": {
@@ -146,11 +177,12 @@ function cargarEstiloTM() {
             },
     ]
     });
+    tableBodyM.clear().draw();
 };
 function cargarEstiloTR() {
-    var texto_usuario = document.getElementById("texto_usuario").innerHTML;
-    var texto_correo = document.getElementById("texto_correo").innerHTML;
-    $('#tableConsultarSolicitudR').DataTable({
+    let texto_usuario = document.getElementById("texto_usuario").innerHTML;
+    let texto_correo = document.getElementById("texto_correo").innerHTML;
+    let tableBodyR = $('#tableConsultarSolicitudR').DataTable({
         retrieve: true,
     //para cambiar el lenguaje a español
         "language": {
@@ -212,4 +244,5 @@ function cargarEstiloTR() {
             },
     ]
     });
+    tableBodyR.clear().draw();
 };

@@ -11,10 +11,12 @@ function postAjaxTabla(datos){
                $("#mensajePost").html("Ha comenzado a trabajar en la solicitud");
             }
             if(response.status == "finalizado"){
+               $(".loader").removeClass("hidden"); //remover loader
                getAjaxTabla();
                $("#mensajePost").html("Ha culminado con está solicitud");
             }
             else if(response.status == "error"){
+                $(".loader").removeClass("hidden"); //remover loader
                 $("#mensajePost").html("No se ha podido comenzar a trabajar en la solicitud");
             }
             $("#procesoSolicitud").modal();
@@ -40,12 +42,12 @@ function getAjaxTabla(){
                          "<td style='font-size: 0.8em'>"+dato.userSolicitaAyuda+"</td>";
                 if(dato.estadoSolicitudTecnico == "inactiva"){
                     tr+='<td class="text-center">'+
-                            '<button type="button" class="btn btn-success btn-sm comenzarSolicitud"'+' value="'+dato.id+'"><i class="far fa-edit"></i> Comenzar</button>'+
+                            '<button type="button" class="btn btn-success btn-sm comenzarSolicitud" style=" font-size: 0.8em;" '+' value="'+dato.id+'"><i class="far fa-edit"></i> Comenzar</button>'+
                         '</td>';
                 }
                 else if(dato.estadoSolicitudTecnico == "proceso"){
                          tr+='<td class="text-center">'+
-                                 '<button type="button" class="btn btn-info btn-sm finalizarSolicitud"'+' value="'+dato.id+'"><i class="far fa-times-circle"></i> Procesar</button>'+
+                                 '<button type="button" class="btn btn-info btn-sm finalizarSolicitud" style=" font-size: 0.8em;" '+' value="'+dato.id+'"><i class="far fa-times-circle"></i> Procesar</button>'+
                              '</td>';
                 }
                 else{
@@ -54,6 +56,9 @@ function getAjaxTabla(){
                 tr+="</tr>";
             });
             $("#bodyTableCargarSolicitudes").html(tr);
+        }
+        else if(result.status == "vacio"){
+            $("#bodyTableCargarSolicitudes").html("<strong>No tiene solicitudes a gestionar</strong>");
         }
     },
     error : function(e) {
@@ -112,8 +117,8 @@ $(document).ready(function () {
         var selectSubTipo=document.getElementById("selectSubtipo");
         selectSubTipo.options[0].selected=true;
         $("#descripcion_st").val("");
+        $(".loader").addClass("hidden"); //cargar loader
         postAjaxTabla(datos);
-        console.log("se hizo clic en el boton final solciitud");
     });
 });
 $(document).ready(function () {

@@ -33,7 +33,11 @@ public class SolicitudImpl implements ISolicitudDao{
                                             + "join fetch sa.grupo gru where gru.idGrupo= :grupo and "
                                             + "sa.estadoSolicitud= :estado";
     private final String obtenerSolicitudesUserSa = "from SolicitudAyuda sa join fetch sa.usuarioByIdUserSolicitaAyuda usa "
+                                            + "join fetch sa.usuarioByIdUserTecnico "
                                             + "join fetch sa.grupo gru join fetch sa.tipoGrupo "
+                                            + "where usa.idUsuario= :idUser and sa.estadoSolicitud = :estado and gru.idGrupo= : idGrupo";
+    private final String obtenerSolicitudesUserSa2 = "from SolicitudAyuda sa join fetch sa.usuarioByIdUserSolicitaAyuda usa "
+                                            + "join fetch sa.grupo gru "
                                             + "where usa.idUsuario= :idUser and sa.estadoSolicitud = :estado and gru.idGrupo= : idGrupo";
     private final String selectId = "from SolicitudAyuda sa where sa.id= : id";
     private final String buscarPorGrupo1 = "from SolicitudAyuda sa join fetch sa.usuarioByIdUserSolicitaAyuda usa "
@@ -243,6 +247,12 @@ public class SolicitudImpl implements ISolicitudDao{
             query.setParameter("estado", estado);
             query.setParameter("idGrupo", idGrupo);
             listaSolicitud = query.getResultList();
+            
+            query = session.createQuery(obtenerSolicitudesUserSa2, SolicitudAyuda.class);
+            query.setParameter("idUser", idUser);
+            query.setParameter("estado", estado);
+            query.setParameter("idGrupo", idGrupo);
+            listaSolicitud.addAll(query.getResultList());
         }
         catch(Exception exc){
             exc.printStackTrace();

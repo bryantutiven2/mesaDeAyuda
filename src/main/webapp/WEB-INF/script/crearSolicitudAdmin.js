@@ -31,6 +31,7 @@ function postAjaxTablaSolicitudes(datos){
                 });
                 $("#bodyTableCargarSolicitudes").html(tr);
                 limitarChecks();
+                cargarEstiloT();
             }
         },
         error : function(e) {
@@ -50,15 +51,18 @@ function postAjaxEnviarSolicitud(datos){
             if(response.status == "success"){
                $("#mensajeModal").html('<i class="fas fa-check-circle" style="color: #02D90C;font-size: 24pt;margin-right: 30px;"></i> Se ha enviado con éxito la solicitud');
                reinciarForm();
+               $(".loader").removeClass("hidden"); //remover loader
                $("#modalMensaje").modal();
             }
             else if(response.status == "error"){
                 $("#mensajeModal").html('<i class="fas fa-times" style="color: #04A9C8;font-size: 24pt;margin-right: 30px;"></i> No se ha podido enviar la solcitud');
+                $(".loader").removeClass("hidden"); //remover loader
                 $("#modalMensaje").modal();
            }
             
         },
         error : function(e) {
+            $(".loader").removeClass("hidden"); //remover loader
             $("#mensajeModal").html('<i class="fas fa-times" style="color: #04A9C8;font-size: 24pt;margin-right: 30px;"></i> No se ha podido enviar la solcitud');
             $("#modalMensaje").modal();
         }
@@ -125,6 +129,7 @@ $( document ).ready(function() {
                     fechaInicio: fInicio,
                     fechaFin: fFin
                 };
+                $(".loader").addClass("hidden"); //cargar loader
                 postAjaxEnviarSolicitud(datos);
             }
             else if(nvez == null || descripcionT == "" || grupoS == undefined 
@@ -142,6 +147,7 @@ $( document ).ready(function() {
                 ids_n_vez: ids,
                 descripcion: descripcionT
                 };
+                $(".loader").addClass("hidden"); //cargar loader
                 postAjaxEnviarSolicitud(datos);
             }
             else if(nvez === null || descripcionT == "" || grupoS === undefined){
@@ -200,7 +206,7 @@ $(document).ready(function () {
     });
 });
 /*diseño del table solicitudes*/
-$(document).ready(function () {
+function cargarEstiloT() {
     $('#dtBasicExample').DataTable({
     //para cambiar el lenguaje a español
         "language": {
@@ -219,7 +225,7 @@ $(document).ready(function () {
                          "sProcessing":"Procesando...",
         }
     });
-});
+};
 /*Permite cargar el usuario seleccionado en el toggle en crearSolicitudAdmin.jsp*/
 $(document).ready(function() {
     $(document).on('click','#cargarIdUSA', function(){

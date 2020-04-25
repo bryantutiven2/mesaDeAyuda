@@ -19,12 +19,12 @@ function getAjaxTabla(){
                         '<td class="fechaInicio_sn" style="font-size: 0.8em">'+dato.fechaInicio+'</td>';
                 if(dato.estadoSolicitud == "pendiente"){
                     tr+='<td class="text-center">'+
-                            '<button type="button" class="btn btn-success btn-sm asignarSolicitud" value="'+dato.id+'"><i class="far fa-edit"></i> Asignar</button>'+
+                            '<button type="button" class="btn btn-success btn-sm asignarSolicitud" style=" font-size: 0.8em;" value="'+dato.id+'"><i class="far fa-edit"></i> Asignar</button>'+
                         '</td>';
                 }
                 else if(dato.estadoSolicitud == "reevaluar"){
                          tr+='<td class="text-center">'+
-                                 '<button type="button" class="btn btn-info btn-sm finalizarSolicitud"'+' value="'+dato.id+'"><i class="far fa-times-circle"></i> Reevaluar</button>'+
+                                 '<button type="button" class="btn btn-info btn-sm finalizarSolicitud" style=" font-size: 0.8em;" '+' value="'+dato.id+'"><i class="far fa-times-circle"></i> Reevaluar</button>'+
                              '</td>';
                 }
                 else{
@@ -51,13 +51,16 @@ function postAjaxTabla(datos){
        success: function(response){
             if(response.status == "asignado"){
                getAjaxTabla();
+               $(".loader").removeClass("hidden"); //remover loader
                $("#mensajePost").html("La solicitud se ha asigando exitosamente");
             }
             if(response.status == "finalizado"){
                getAjaxTabla();
+               $(".loader").removeClass("hidden"); //remover loader
                $("#mensajePost").html("La solicitud se ha finalizado exitosamente");
             }
             else if(response.status == "error"){
+                $(".loader").removeClass("hidden"); //remover loader
                 $("#mensajePost").html("ERROR - No se ha actualizado la solicitud");
             }
             $("#procesoSolicitud").modal();
@@ -98,6 +101,7 @@ $(document).ready(function() {
         var selectTipo=document.getElementById("selectTipo");
         selectTipo.options[0].selected=true;
         $("#fechaFin_sn").val("");
+        $(".loader").addClass("hidden");
         postAjaxTabla(datos);
     });
 });

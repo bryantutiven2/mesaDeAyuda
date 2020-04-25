@@ -9,6 +9,9 @@
 <div class="main col pt-2" style="margin-top: 20px">
     <div class="col-xl-12 col-lg-8 mx-auto">
         <div class="bg-faded rounded p-3">
+            <div class="loader">
+                <img src="${pageContext.request.contextPath}/images/spinner-reload.gif" alt="Loading..."/>
+            </div>
             <div class="card text-center">
                 <div class="card-body">
                     <button type="button" class="btn-cambiar-color btn btn-primary"  id="recargartabla">Recargar <i class="fas fa-undo"></i></button>
