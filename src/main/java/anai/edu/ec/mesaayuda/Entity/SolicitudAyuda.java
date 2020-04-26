@@ -32,6 +32,7 @@ public class SolicitudAyuda  implements java.io.Serializable {
      private Usuario usuarioByIdUserTecnico;
      private Usuario usuarioByIdUserAdmin;
      private Usuario usuarioByIdUserSolicitaAyuda;
+     private Encuesta encuesta;
      private String descripcion;
      private String mensajeUserTecnico;
      private Integer ayudaNVez;
@@ -43,6 +44,7 @@ public class SolicitudAyuda  implements java.io.Serializable {
      private String estadoSolicitud;
      private String estadoSolicitudTecnico;
      private Integer estadoBorrado;
+     private Integer estadoEncuesta;
 
     public SolicitudAyuda() {
     }
@@ -180,6 +182,15 @@ public class SolicitudAyuda  implements java.io.Serializable {
         this.usuarioByIdUserSolicitaAyuda = usuarioByIdUserSolicitaAyuda;
     }
 
+    @ManyToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name="ID_ENCUESTA")
+    public Encuesta getEncuesta() {
+        return this.encuesta;
+    }
+    
+    public void setEncuesta(Encuesta encuesta) {
+        this.encuesta = encuesta;
+    }
     
     @Column(name="DESCRIPCION", nullable=false, length=1000)
     public String getDescripcion() {
@@ -289,7 +300,14 @@ public class SolicitudAyuda  implements java.io.Serializable {
         this.estadoBorrado = estadoBorrado;
     }
 
+    @Column(name="ESTADO_ENCUESTA", precision=22, scale=0)
+        public Integer getEstadoEncuesta() {
+            return this.estadoEncuesta;
+        }
 
+        public void setEstadoEncuesta(Integer estadoEncuesta) {
+            this.estadoEncuesta = estadoEncuesta;
+        }
 
 
 }

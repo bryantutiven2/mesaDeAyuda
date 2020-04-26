@@ -31,6 +31,14 @@
                     </a>
                 </li>
                 <li>
+                    <a href="${pageContext.request.contextPath}/admin/consultarDashboardEncuesta" class="referenciaA list-group-item">
+                        <div class="d-flex w-100 justify-content-start align-items-center">
+                            <i class="fas fa-poll"></i>
+                            <span class="eleccion" style="padding-left: 10px">Dashboard Encuesta</span>
+                        </div>
+                    </a>
+                </li>
+                <li>
                     <a href="${pageContext.request.contextPath}/admin/crearSolictud" class="referenciaA list-group-item">
                         <div class="d-flex w-100 justify-content-start align-items-center">
                             <i class="fas fa-file-alt"></i>

@@ -378,6 +378,15 @@ public class AdminController {
         return model;
     }
     
+    @RequestMapping(value = { "/consultarDashboardEncuesta" }, method = RequestMethod.GET)
+    public ModelAndView dashboardEncuesta(HttpServletRequest request, HttpServletResponse response){
+        usuario = obtenerSessionUsuario(request, response);
+        datosUsuario();
+        model.addObject("viewMain","dashboardEncuesta");
+        model.setViewName("menuUsuario");
+        return model;
+    }
+    
     private void datosUsuario(){
         
         String rol = usuario.getRol();

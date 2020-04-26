@@ -3,10 +3,11 @@
 
 <hibernate-reverse-engineering>
   <schema-selection match-schema="MA01"/>
+  <table-filter match-name="TIPO_GRUPO"/>
+  <table-filter match-name="ENCUESTA"/>
+  <table-filter match-name="GRUPO"/>
   <table-filter match-name="USUARIO"/>
   <table-filter match-name="AUDITORIA"/>
-  <table-filter match-name="GRUPO"/>
   <table-filter match-name="SOLICITUD_AYUDA"/>
-  <table-filter match-name="TIPO_GRUPO"/>
   <table-filter match-name="SUBTIPO"/>
 </hibernate-reverse-engineering>

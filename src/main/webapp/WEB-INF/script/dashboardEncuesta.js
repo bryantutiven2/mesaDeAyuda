@@ -2,7 +2,7 @@
 function getAjaxEncuesta(){
     $.ajax({
     type: "GET",
-    url: "/mesaayuda/dashboardEncuesta/cargarencuestas",
+    url: "/mesaayuda/dashboardEncuesta/cargarEncuestas",
     async: true,
     success: function(result){
         if(result.status == "success"){
@@ -10,28 +10,31 @@ function getAjaxEncuesta(){
             var tr = '';
             $.each(result.data, function(i, dato){
                 tr += "<tr>"+
-                            "<th class='idsolicitud' scope='row'>"+dato.id+"</th>"+
+                            "<th class='idsolicitud' scope='row'>"+dato.idEncuesta+"</th>"+
                             "<td>"+dato.nombre+"</td>"+
                             "<td>"+dato.descripcion+"</td>"+
-                            "<td>"+dato.codigoEmbebido+"</td>"+
-                            "<td>"+dato.codigoRegistro+"</td>"+
-                            "<td>"+
-                                "<div class='text-center'>"+
-                                    "<div class='btn-group'>"+
-                                        "<button class='btn btn-primary btn-sm btnEditar'>"+
-                                            "<i class='fas fa-edit'></i>"+
-                                        "</button>"+
-                                    "</div>"+
-                                    "<div class='btn-group'>"+
-                                        "<button class='btn btn-danger btn-sm btnBorrar'>"+
-                                            "<i class='fas fa-trash'></i>"+
-                                        "</button>"+
-                                    "</div>"+
-                                "</div>"+
-                            "</td>"+
-                        "</tr>";
+                            "<td style='display: none;'>"+dato.codigoEmbebido+"</td>"+
+                            "<td>"+dato.codigoRegistro+"</td>";
+                    if(dato.estadoBorrado == 0)
+                        tr += "<td> Activa</td>";
+                    else if(dato.estadoBorrado == 1)
+                        tr += "<td> Inactiva</td>";
+                    
+                tr += "<td>"+
+                        "<div class='text-center'>"+
+                            "<div class='btn-group'>"+
+                                "<button class='btn btn-primary btn-sm btnEditar'>"+
+                                    "<i class='fas fa-edit'></i> Editar"+
+                                "</button>"+
+                            "</div>"+
+                        "</div>"+
+                    "</td>"+
+                "</tr>";
             });
             $("#bodyTableEncuesta").html(tr);
+        }
+        if(result.status == "vacio"){
+            $("#bodyTableEncuesta").html('<strong>No hay encuestas</strong>');
         }
     },
     error : function(e) {
@@ -41,6 +44,7 @@ function getAjaxEncuesta(){
 }
 
 function postAjaxCrearEncuesta(datos){
+    console.log(datos);
     $.ajax({
        type: 'POST',
        contentType: 'application/json',
@@ -62,6 +66,7 @@ function postAjaxCrearEncuesta(datos){
 }
 
 function postAjaxActualizarEncuesta(datos){
+    console.log(datos);
     $.ajax({
        type: 'POST',
        contentType: 'application/json',
@@ -82,24 +87,27 @@ function postAjaxActualizarEncuesta(datos){
     });
 }
 
-$(document).on('click', '#agregarEncuesta', function(){
-    let selectEstado=document.getElementById("estadoEC");
-    selectEstado.options[0].selected=true;
-    $('#codigoEC').val("");
-    $('#nombreEC').val("");
-    $('#descripcionEC').val("");
-    $('#codigoEmbebid').val("");
-    $('#codigoREC').val("");
-    $('#grupoCod').hide();
-    $('#modalCrearEncuesta').modal();
-});
+
 $(document).ready(function(){
+    getAjaxEncuesta();
+    $(document).on('click', '#agregarEncuesta', function(){
+        let selectEstado=document.getElementById("estadoEC");
+        selectEstado.options[0].selected=true;
+        $('#codigoEC').val("");
+        $('#nombreEC').val("");
+        $('#descripcionEC').val("");
+        $('#codigoEmbebido').val("");
+        $('#codigoREC').val("");
+        $('#grupoCod').hide();
+        $('#modalCrearEncuesta').modal();
+    });
+
     $("#formEncuesta").submit(function(e){
         e.preventDefault();
         let datos;
         let nombreE = $('#nombreEC').val();
         let descripcionE = $('#descripcionEC').val();
-        let codEmbebidoE = $('#codigoEmbebid').val();
+        let codEmbebidoE = $('#codigoEmbebido').val();
         let codRegistroE = $('#codigoREC').val();
         let estadoE = $('#estadoEC').val();
         let codE = $('#codigoEC').val();
@@ -107,32 +115,33 @@ $(document).ready(function(){
             datos = {
                 nombre: nombreE,
                 descripcion: descripcionE,
-                codigo_Embebido: codEmbebidoE,
-                codigo_registro: codRegistroE,
-                estado_encuesta: estadoE
-            }
-            //postAjaxCrearEncuesta(datos);
+                codigoEmbebido: codEmbebidoE,
+                codigoRegistro: codRegistroE,
+                estadoBorrado: estadoE
+            };
+            postAjaxCrearEncuesta(datos);
         }
         else if(codE != ''){
             datos = {
-                id_encuesta: codE,
+                idEncuesta: codE,
                 nombre: nombreE,
                 descripcion: descripcionE,
-                codigo_Embebido: codEmbebidoE,
-                codigo_registro: codRegistroE,
-                estado_encuesta: estadoE
-            }
-            console.log(codE)
-            //postAjaxActualizarEncuesta(datos)
+                codigoEmbebido: codEmbebidoE,
+                codigoRegistro: codRegistroE,
+                estadoBorrado: estadoE
+            };
+            postAjaxActualizarEncuesta(datos);
         }
         $("#modalCrearEncuesta").modal('hide');
     });
     $(document).on('click', '.btnEditar', function(){
-            $('#codigoEC').val($(this).parents("tr").find("td")[0].innerHTML);
-            $('#nombreEC').val($(this).parents("tr").find("td")[1].innerHTML);
-            $('#descripcionEC').val($(this).parents("tr").find("td")[2].innerHTML);
-            $('#codigoEmbebid').val($(this).parents("tr").find("td")[3].innerHTML);
-            $('#codigoREC').val($(this).parents("tr").find("td")[4].innerHTML);
+            $('#codigoEC').val($(this).parents("tr").find("th")[0].innerHTML);
+            $('#nombreEC').val($(this).parents("tr").find("td")[0].innerHTML);
+            $('#descripcionEC').val($(this).parents("tr").find("td")[1].innerHTML);
+            $('#codigoEmbebido').val($(this).parents("tr").find("td")[2].innerHTML);
+            $('#codigoREC').val($(this).parents("tr").find("td")[3].innerHTML);
+            let selectEstado=document.getElementById("estadoEC");
+            selectEstado.options[0].selected=true;
             $('#grupoCod').show();
             $("#modalCrearEncuesta").modal();
     });

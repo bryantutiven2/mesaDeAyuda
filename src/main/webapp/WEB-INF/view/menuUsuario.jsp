@@ -44,6 +44,9 @@
                     <c:if test="${viewMain == 'dashboardTecnico'}">
                         <%@ include file="dashboardTecnico.jsp" %>
                     </c:if>
+                    <c:if test="${viewMain == 'dashboardEncuesta'}">
+                        <%@ include file="dashboardEncuesta.jsp" %>
+                    </c:if>
                     
                     <!-- main contenido usuario Tecnico-->
                     <c:if test="${viewMain == 'cargarSolicitudesTecnico'}">

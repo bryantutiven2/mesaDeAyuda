@@ -27,28 +27,7 @@
                                 </tr>
                             </thead>
                             <tbody id="bodyTableEncuesta">
-                                <tr>
-                                    <td>1</td>
-                                    <td>bryan</td>
-                                    <td>descrip</td>
-                                    <td style="display: none;">ce</td>
-                                    <td>dr</td>
-                                    <td>activa</td>
-                                    <td>
-                                        <div class='text-center'>
-                                            <div class='btn-group'>
-                                                <button class='btn btn-primary btn-sm btnEditar'>
-                                                    <i class="fas fa-edit"></i>
-                                                </button>
-                                            </div>
-                                            <div class='btn-group'>
-                                                <button class='btn btn-danger btn-sm btnBorrar'>
-                                                    <i class="fas fa-trash"></i>
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr>
+                                
                             </tbody>
                         </table>
                     </div>
@@ -96,7 +75,7 @@
                     <div class="row">
                         <div class="form-group col-12">
                             <label>Código Embebido</label>
-                            <textarea class="form-control" name="codigoEmbebido" id="codigoEmbebid" rows="3" required></textarea>
+                            <textarea class="form-control" name="codigoEmbebido" id="codigoEmbebido" rows="3" required></textarea>
                         </div>
                     </div>
                     <div class="row">
@@ -128,11 +107,9 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <div class="text-center" style="width: 100%;"> <h4 class="titulo"> <i class="fas fa-clipboard" style="color: #054182; font-size: 1.25em; margin-right: 10px;"></i>Datos Solicitud</h4> </div>
-
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
             </div>
             <div class="modal-body " id="mensajeModal">
 

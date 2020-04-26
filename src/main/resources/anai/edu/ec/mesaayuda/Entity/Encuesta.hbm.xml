@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 25/04/2020 18:45:58 by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="anai.edu.ec.mesaayuda.Entity.Encuesta" table="ENCUESTA" schema="MA01" optimistic-lock="version">
+        <id name="idEncuesta" type="integer">
+            <column name="ID_ENCUESTA" precision="22" scale="0" />
+            <generator class="sequence">
+                <param name="sequence">encuesta_seq</param>
+            </generator>
+        </id>
+        <property name="nombre" type="string">
+            <column name="NOMBRE" length="50" not-null="true" />
+        </property>
+        <property name="descripcion" type="string">
+            <column name="DESCRIPCION" length="1000" not-null="true" />
+        </property>
+        <property name="codigoEmbebido" type="string">
+            <column name="CODIGO_EMBEBIDO" length="1000" not-null="true" />
+        </property>
+        <property name="codigoRegistro" type="string">
+            <column name="CODIGO_REGISTRO" length="25" not-null="true" />
+        </property>
+        <property name="estadoBorrado" type="integer">
+            <column name="ESTADO_BORRADO" precision="22" scale="0" />
+        </property>
+        <set name="solicitudAyudas" table="SOLICITUD_AYUDA" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="ID_ENCUESTA" precision="22" scale="0" />
+            </key>
+            <one-to-many class="anai.edu.ec.mesaayuda.Entity.SolicitudAyuda" />
+        </set>
+    </class>
+</hibernate-mapping>

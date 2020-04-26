@@ -30,6 +30,9 @@
         <many-to-one name="usuarioByIdUserSolicitaAyuda" class="anai.edu.ec.mesaayuda.Entity.Usuario" fetch="select">
             <column name="ID_USER_SOLICITA_AYUDA" precision="22" scale="0" />
         </many-to-one>
+        <many-to-one name="encuesta" class="anai.edu.ec.mesaayuda.Entity.Encuesta" fetch="select">
+            <column name="ID_ENCUESTA" precision="22" scale="0" />
+        </many-to-one>
         <property name="descripcion" type="string">
             <column name="DESCRIPCION" length="1000" not-null="true" />
         </property>
@@ -62,6 +65,9 @@
         </property>
         <property name="estadoBorrado" type="integer">
             <column name="ESTADO_BORRADO" precision="22" scale="0" />
+        </property>
+        <property name="estadoEncuesta" type="integer">
+            <column name="ESTADO_ENCUESTA" precision="22" scale="0" />
         </property>
     </class>
 </hibernate-mapping>

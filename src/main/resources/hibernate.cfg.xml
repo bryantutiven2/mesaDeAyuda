@@ -18,5 +18,6 @@
     <mapping resource="anai/edu/ec/mesaayuda/Entity/Usuario.hbm.xml"/>
     <mapping resource="anai/edu/ec/mesaayuda/Entity/SolicitudAyuda.hbm.xml"/>
     <mapping resource="anai/edu/ec/mesaayuda/Entity/Auditoria.hbm.xml"/>
+    <mapping resource="anai/edu/ec/mesaayuda/Entity/Encuesta.hbm.xml"/>
   </session-factory>
 </hibernate-configuration>
