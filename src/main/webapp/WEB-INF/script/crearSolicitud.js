@@ -118,6 +118,7 @@ $( document ).ready(function() {
 /*diseño del table*/
 function cargarEstiloT() {
     $('#dtBasicExample').DataTable({
+        retrieve: true,
     //para cambiar el lenguaje a español
         "language": {
             "lengthMenu": "Mostrar _MENU_ registros",

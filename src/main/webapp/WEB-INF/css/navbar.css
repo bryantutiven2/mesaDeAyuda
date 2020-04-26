@@ -1,0 +1,102 @@
+
+/* 
+    Created on : 26/04/2020, 14:32:38
+    Author     : bryan
+*/
+.toggle-nav{
+    background-color: #054182;
+    border-color: #054182;
+    color: #FFFFFF;
+}
+.toggle-nav:hover{
+    background-color: #054182;
+    border-color: #054182;
+    color: #f0f1f2e5;
+}
+
+.btn{
+    border-radius: 4px;
+}
+
+.label-primary, .badge-primary {
+    background-color: #1ab394;
+    color: #FFFFFF;
+}
+
+.label {
+    font-size: 11px;
+    font-weight: 600;
+    text-shadow: none;
+    display: inline;
+    padding: .2em .6em .3em;
+    font-size: 75%;
+    font-weight: 700;
+    line-height: 1;
+    color: #fff;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+    border-radius: .25em;
+}
+.count-info .label {
+    line-height: 12px;
+    padding: 2px 5px;
+    position: absolute;
+    right: 20px;
+    top: -2px;
+}
+
+
+.fa {
+    display: inline-block;
+    font: normal normal normal 14px/1 FontAwesome;
+    font-size: inherit;
+    text-rendering: auto;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.dropdown-toggle::after { 
+    content: none; 
+}
+
+.dropdown-menu {
+    border: medium none;
+    border-radius: 3px;
+    box-shadow: 0 0 3px rgba(86, 96, 117, 0.7);
+    display: none;
+    float: left;
+    font-size: 0.90em;
+    list-style: none outside none;
+    padding: 0;
+    position: absolute;
+    text-shadow: none;
+    top: 100%;
+    z-index: 1000;
+}
+.dropdown-alerts {
+    width: 250px;
+    min-width: 0;
+}
+.dropdown-messages, .dropdown-alerts {
+    padding: 10px 10px 10px 10px;
+}
+
+.navbar-top-links .dropdown-menu li {
+    display: block;
+}
+
+.dropdown-menu .divider {
+    height: 1px;
+    margin: 9px 0;
+    overflow: hidden;
+    background-color: #e5e5e5;
+}
+
+.texto_subrayado:hover{
+    text-decoration: none;
+}
+
+.item-a:active{
+    background-color: rgb(175, 219, 240);
+}

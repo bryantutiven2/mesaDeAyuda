@@ -29,22 +29,10 @@ body {
 h2{
     color: #032345;
 }
-.toggle-nav{
-    background-color: #054182;
-    border-color: #054182;
-    color: #FFFFFF;
-}
-.toggle-nav:hover{
-    background-color: #054182;
-    border-color: #054182;
-    color: #f0f1f2e5;
-}
+
 .card{
     border-color: #032345;
     border-width: 0.05em;
-}
-.btn{
-    border-radius: 3px;
 }
 
 .list-group-item{

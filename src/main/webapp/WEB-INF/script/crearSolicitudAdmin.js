@@ -187,6 +187,7 @@ $(document).ready(function() {
 /*Activar estilo de tabla*/
 $(document).ready(function () {
   $('#dtUsuariosSA').DataTable({
+      retrieve: true,
     //para cambiar el lenguaje a español
         "language": {
             "lengthMenu": "Mostrar _MENU_ registros",
@@ -208,6 +209,7 @@ $(document).ready(function () {
 /*diseño del table solicitudes*/
 function cargarEstiloT() {
     $('#dtBasicExample').DataTable({
+        retrieve: true,
     //para cambiar el lenguaje a español
         "language": {
             "lengthMenu": "Mostrar _MENU_ registros",
