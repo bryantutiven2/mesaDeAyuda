@@ -1,17 +1,20 @@
 
 package anai.edu.ec.mesaayuda.Controller;
 
+import anai.edu.ec.mesaayuda.DAO.IEncuestaDao;
 import anai.edu.ec.mesaayuda.DAO.IGrupoDao;
 import anai.edu.ec.mesaayuda.DAO.ISolicitudDao;
 import anai.edu.ec.mesaayuda.DAO.ISubtipoDao;
 import anai.edu.ec.mesaayuda.DAO.ITipoGrupoDao;
 import anai.edu.ec.mesaayuda.DAO.IUsuarioDao;
+import anai.edu.ec.mesaayuda.DaoImplementacion.EncuestaImpl;
 import anai.edu.ec.mesaayuda.DaoImplementacion.GrupoImpl;
 import anai.edu.ec.mesaayuda.DaoImplementacion.SolicitudImpl;
 import anai.edu.ec.mesaayuda.DaoImplementacion.SubtipoImpl;
 import anai.edu.ec.mesaayuda.DaoImplementacion.TipoGrupoImpl;
 import anai.edu.ec.mesaayuda.DaoImplementacion.UsuarioImpl;
 import anai.edu.ec.mesaayuda.Entity.ConsultaObjeto;
+import anai.edu.ec.mesaayuda.Entity.Encuesta;
 import anai.edu.ec.mesaayuda.Entity.Grupo;
 import anai.edu.ec.mesaayuda.Entity.SolicitudAyuda;
 import anai.edu.ec.mesaayuda.Entity.SolicitudAyudaId;
@@ -53,6 +56,7 @@ import org.springframework.web.servlet.ModelAndView;
 public class AdminController {
     private ModelAndView model = new ModelAndView();
     private Usuario usuario;
+    private IEncuestaDao encuestaDao = new EncuestaImpl();
     private IGrupoDao grupoDao = new GrupoImpl();
     private ISubtipoDao subtipoDao = new SubtipoImpl();
     private ISolicitudDao solicitudDao = new SolicitudImpl();
@@ -95,6 +99,7 @@ public class AdminController {
                 Integer idSubtipo = Integer.parseInt(solicitudT.getIdSubtipo().split("-")[1]);
                 Integer idTecnico = Integer.parseInt(solicitudT.getUserTecnico());
                 Integer idUserSolicitaAyuda = Integer.parseInt(solicitudT.getUserSolicitaAyuda());
+                Integer idEncuesta = solicitudT.getIdEncuesta();
                 String fechaInicio = solicitudT.getFechaInicio();
                 String fechafin = solicitudT.getFechaFin();
                 String estadoSolicitud = solicitudT.getEstadoSolicitud();
@@ -103,6 +108,7 @@ public class AdminController {
                 Subtipo subtipo = subtipoDao.obtenerElemento(idSubtipo);
                 Usuario tecnico = usuarioDao.obtenerElemento(idTecnico);
                 Usuario userSolicitaAyuda = usuarioDao.obtenerElemento(idUserSolicitaAyuda);
+                Encuesta encuesta = encuestaDao.obtenerElemento(idEncuesta);
                 Date datefi = convertirFecha(fechaInicio);
                 Date dateff = convertirFecha(fechafin);
                 
@@ -115,6 +121,8 @@ public class AdminController {
                 objetoSolicitud.setUsuarioByIdUserTecnico(tecnico);
                 objetoSolicitud.setTipoGrupo(tipoGrupo);
                 objetoSolicitud.setSubtipo(subtipo);
+                objetoSolicitud.setEncuesta(encuesta);
+                objetoSolicitud.setEstadoEncuesta(0);
             }
             
             Boolean retorno = solicitudDao.insertar(objetoSolicitud);
@@ -190,7 +198,14 @@ public class AdminController {
         usuario = obtenerSessionUsuario(request, response);
         String grupo = usuario.getRol().split("_")[1];
         try{
-            
+            List<Encuesta> listaEncuesta = encuestaDao.obtenerElementos();
+            if(listaEncuesta != null){
+                for(Encuesta e: listaEncuesta){
+                    if(e.getEstadoBorrado() == 1)
+                        listaEncuesta.remove(e);
+                }
+                model.addObject("listaEncuesta",listaEncuesta);
+            }
             List<TipoGrupo> listaTipos = tipoDao.obtenerElementos(grupo);
             if(listaTipos != null)
                 model.addObject("listarTiposSN",listaTipos);
@@ -221,9 +236,11 @@ public class AdminController {
             String tipo_grupo = solicitudT.getTipo();
             String fechaFin = solicitudT.getFechaFin();
             String tecnico = String.valueOf(solicitudT.getUserTecnico());
+            Integer idEncuesta = solicitudT.getIdEncuesta();
             
             Usuario userTecnico = usuarioDao.obtenerElemento(Integer.parseInt(tecnico));
             TipoGrupo tipo = tipoDao.obtenerElemento(Integer.parseInt(tipo_grupo));
+            Encuesta encuesta = encuestaDao.obtenerElemento(idEncuesta);
             String grupoTipo = tipo.getGrupo().getIdGrupo();
             SolicitudAyudaId idSolicitud = new SolicitudAyudaId(Integer.parseInt(cod), grupoTipo);
             Date date = convertirFecha(fechaFin);
@@ -238,6 +255,8 @@ public class AdminController {
                     objetoSolicitud.setUsuarioByIdUserAdmin(usuario);
                     objetoSolicitud.setEstadoSolicitud(estadoSolicitudT);
                     objetoSolicitud.setEstadoSolicitudTecnico(estadoSolicitudTecnico);
+                    objetoSolicitud.setEncuesta(encuesta);
+                    objetoSolicitud.setEstadoEncuesta(0);
                     Boolean retorno = solicitudDao.actualizar(objetoSolicitud);
                     if(retorno == true)
                         mensaje = "asignado";
@@ -260,6 +279,12 @@ public class AdminController {
     @RequestMapping(value = { "/crearSolictud"}, method = RequestMethod.GET)
     public ModelAndView crearSolicitudAdmin(HttpServletRequest request, HttpServletResponse response){
         usuario = obtenerSessionUsuario(request, response);
+        List<Encuesta> listaE = new ArrayList<>();
+        List<Encuesta> listaEncuesta = encuestaDao.obtenerElementos();
+        for(Encuesta e: listaEncuesta){
+            if(e.getEstadoBorrado() == 0)
+                listaE.add(e);
+        }
         String grupoId = usuario.getRol().split("_")[1];
         List<Usuario> listaTecnicos = usuarioDao.obtenerElementos(grupoId);
         List<Usuario> listaUsuarios = usuarioDao.obtenerUsuarios();
@@ -270,6 +295,7 @@ public class AdminController {
         model.addObject("listarTecnicoCS", listaTecnicos);
         model.addObject("listaUsuariosSA", listaUsuarios);
         model.addObject("listarSubtipo_CS",listaSubtipos);
+        model.addObject("listaEncuesta",listaE);
         model.addObject("viewMain","crearSolicitudAdmin");
         model.setViewName("menuUsuario");
         datosUsuario();

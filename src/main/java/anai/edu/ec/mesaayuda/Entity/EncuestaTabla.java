@@ -12,9 +12,20 @@ public class EncuestaTabla {
     private String codigoEmbebido;
     private String codigoRegistro;
     private Integer estadoBorrado;
+    private String idSolicitud;
 
     public EncuestaTabla() {
         super();
+    }
+
+    public EncuestaTabla(Integer idEncuesta, String nombre, String descripcion, String codigoEmbebido, String codigoRegistro, Integer estadoBorrado, String idSolicitud) {
+        this.idEncuesta = idEncuesta;
+        this.nombre = nombre;
+        this.descripcion = descripcion;
+        this.codigoEmbebido = codigoEmbebido;
+        this.codigoRegistro = codigoRegistro;
+        this.estadoBorrado = estadoBorrado;
+        this.idSolicitud = idSolicitud;
     }
 
     
@@ -74,6 +85,14 @@ public class EncuestaTabla {
 
     public void setEstadoBorrado(Integer estadoBorrado) {
         this.estadoBorrado = estadoBorrado;
+    }
+
+    public String getIdSolicitud() {
+        return idSolicitud;
+    }
+
+    public void setIdSolicitud(String idSolicitud) {
+        this.idSolicitud = idSolicitud;
     }
     
     

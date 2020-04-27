@@ -1,3 +1,4 @@
+limitarChecksEncuesta();
 function getAjaxTabla(){
     $.ajax({
     type: "GET",
@@ -89,18 +90,21 @@ $(document).ready(function() {
         let tipoD = document.getElementById("selectTipo").value;
         let fechaFinD = document.getElementById("fechaFin_sn").value;
         let userTecnicoD = document.getElementById("selectTecnico").value;
+        let iEncuesta = $('#encuesta_cs').val();
         let datos ={
             id : idD,
             tipo: tipoD,
             userTecnico: userTecnicoD,
             fechaFin: fechaFinD,
-            estadoSolicitud: 'asignada'
+            estadoSolicitud: 'asignada',
+            idEncuesta: iEncuesta
             };
         var selectTecnico=document.getElementById("selectTecnico");
         selectTecnico.options[0].selected=true;
         var selectTipo=document.getElementById("selectTipo");
         selectTipo.options[0].selected=true;
         $("#fechaFin_sn").val("");
+        $('#encuesta_cs').val("");
         $(".loader").addClass("hidden");
         postAjaxTabla(datos);
     });
@@ -120,6 +124,41 @@ $(document).ready(function () {
         postAjaxTabla(datos);
     });
 });
+
+/*Activar toggle de cargar encuestas en crearSolicitudAdmin.jsp */
+$(document).ready(function() {
+    $(document).on('click','#encuesta_cs', function(){
+        console.log("se activo otro modal");
+        $("#modalEncuesta").modal();
+    });
+});
+
+/*Permite cargar la encuesta seleccionado en el toggle en crearSolicitudAdmin.jsp*/
+$(document).ready(function() {
+    $(document).on('click','#cargarIdEcuesta', function(){
+        var selected = '';    
+        $('#formItemsEncuesta input[type=checkbox]').each(function(){
+            if(this.checked){
+                selected += $(this).val();
+            } 
+        }); 
+    document.getElementById("encuesta_cs").value= selected;
+    $('#encuesta_cs').attr('value', selected);
+    });         
+});  
+
+/*limitar numero de checks de encuesta en crearSolicitudAdmin.jsp*/
+function limitarChecksEncuesta() {
+   $("input[name='encuesta-checkbox']").change(function () {
+      var limit = 1;
+      var cantidadCkb = $("input[name='encuesta-checkbox']:checked").length;
+      if (cantidadCkb > limit) 
+      {
+         $(this).prop("checked", "");
+         alert("Solo puede seleccionar: "+ limit+" encuesta");
+     }
+  });
+};
 
 /*Permite obtener una fila seleccionada y cargarla en el toggle para asignar un solicitud  un tecnico en solicitudesNuevasAdmin.jsp*/
 $(document).ready(function() {

@@ -93,7 +93,7 @@ public class EncuestaImpl implements IEncuestaDao{
     }
 
     @Override
-    public Encuesta obtenerElemento(Encuesta id) {
+    public Encuesta obtenerElemento(Integer id) {
         Encuesta encuesta = null;
         try{
             HibernateUtil.abrirSession();

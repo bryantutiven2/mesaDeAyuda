@@ -101,24 +101,33 @@ $(document).ready(function () {
     });
 });
 $(document).ready(function () {
-    $(document).on('click','#finalSolicitud', function(){
+    
+    $(document).on('click','#finalSolicitud', function(e){
+        
     //$('#finalSolicitud').click(function(){
         let cod = localStorage.getItem("idSolicitud");
         let descripcion = $("#descripcion_st").val();
         let subtipo = document.getElementById("selectSubtipo").value;
-        console.log(subtipo);
-        var datos = {
-            id: cod,
-            estadoSolicitudTecnico: 'finalizada',
-            descripcionTecnico: descripcion,
-            estadoSolicitud: 'finalizada',
-            idSubtipo: subtipo
-            };
-        var selectSubTipo=document.getElementById("selectSubtipo");
-        selectSubTipo.options[0].selected=true;
-        $("#descripcion_st").val("");
-        $(".loader").addClass("hidden"); //cargar loader
-        postAjaxTabla(datos);
+        if(descripcion == "" || subtipo == ""){
+            $("#mensajeModal").html('<i class="fas fa-exclamation-triangle" style="color: #F87011;font-size: 24pt;margin-right: 30px;"></i> Tiene campos sin llenar');
+            $("#modalMensaje").modal();
+        }
+        else if(descripcion != "" || subtipo != ""){
+            let datos = {
+                id: cod,
+                estadoSolicitudTecnico: 'finalizada',
+                descripcionTecnico: descripcion,
+                estadoSolicitud: 'finalizada',
+                idSubtipo: subtipo
+                };
+            let selectSubTipo=document.getElementById("selectSubtipo");
+            selectSubTipo.options[0].selected=true;
+            $("#descripcion_st").val("");
+            $(".loader").addClass("hidden"); //cargar loader
+            $("#finalSolicitudModal").modal('hide');
+            postAjaxTabla(datos);
+        }
+        
     });
 });
 $(document).ready(function () {
@@ -127,18 +136,25 @@ $(document).ready(function () {
         let cod = localStorage.getItem("idSolicitud");
         let descripcion = $("#descripcion_st").val();
         let subtipo = document.getElementById("selectSubtipo").value;
-        var datos = {
-            id: cod,
-            estadoSolicitudTecnico: 'reevaluar',
-            descripcionTecnico: descripcion,
-            estadoSolicitud: 'reevaluar',
-            idSubtipo: subtipo
-            };
-        var selectSubTipo=document.getElementById("selectSubtipo");
-        selectSubTipo.options[0].selected=true;
-        $("#descripcion_st").val("");
-        postAjaxTabla(datos);
-        console.log("se hizo clic en el boton reevaluar solciitud");
+        if(descripcion == "" || subtipo == ""){
+            $("#mensajeModal").html('<i class="fas fa-exclamation-triangle" style="color: #F87011;font-size: 24pt;margin-right: 30px;"></i> Tiene campos sin llenar');
+            $("#modalMensaje").modal();
+        }
+        else if(descripcion != "" || subtipo != ""){
+            let datos = {
+                id: cod,
+                estadoSolicitudTecnico: 'reevaluar',
+                descripcionTecnico: descripcion,
+                estadoSolicitud: 'reevaluar',
+                idSubtipo: subtipo
+                };
+            let selectSubTipo=document.getElementById("selectSubtipo");
+            selectSubTipo.options[0].selected=true;
+            $("#descripcion_st").val("");
+            $("#finalSolicitudModal").modal('hide');
+            postAjaxTabla(datos);
+        }
+        
     });
 });
 

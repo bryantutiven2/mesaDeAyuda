@@ -1,3 +1,5 @@
+limitarChecks();
+limitarChecksEncuesta();
 
 /*activar modal en de solicitudes realizadas*/
 function myFunction() {
@@ -84,6 +86,7 @@ function reinciarForm(){
     let estadoSolicitud=document.getElementById("estadoSolicitud_cs");
     estadoSolicitud.options[0].selected=true;
     $('#idUserSolicitaA').val("");
+    $('#encuesta_cs').val("");
     $('#fechaInicio_cs').val("");
     $('#fechaFin_cs').val("");
 }
@@ -104,6 +107,7 @@ $( document ).ready(function() {
         let fInicio = $('#fechaInicio_cs').val();
         let fFin = $('#fechaFin_cs').val();
         let ids = $('#ids_aydudaas').val();
+        let iEncuesta = $('#encuesta_cs').val();
         
         if(ids == null || ids == "" || ids == undefined)
             ids = "null";
@@ -115,7 +119,7 @@ $( document ).ready(function() {
         else if(grupoS=="sist"){
             if(nvez != null && descripcionT != "" && grupoS != undefined 
                     && subtipoS != null && tecnicoS != null && tipoS != null && usuarioSA != "" 
-                    && estadoS != null && fInicio != "" && fFin != ""){
+                    && estadoS != null && fInicio != "" && fFin != "" && iEncuesta != ""){
                 datos={
                     grupo: grupoS,
                     n_vez: nvez,
@@ -127,14 +131,15 @@ $( document ).ready(function() {
                     userSolicitaAyuda: usuarioSA,
                     estadoSolicitud: estadoS,
                     fechaInicio: fInicio,
-                    fechaFin: fFin
+                    fechaFin: fFin,
+                    idEncuesta: iEncuesta
                 };
                 $(".loader").addClass("hidden"); //cargar loader
                 postAjaxEnviarSolicitud(datos);
             }
             else if(nvez == null || descripcionT == "" || grupoS == undefined 
                     || subtipoS == null || tecnicoS == null || tipoS == null || usuarioSA == "" 
-                    || estadoS == null || fInicio == "" || fFin == ""){
+                    || iEncuesta == "" || estadoS == null || fInicio == "" || fFin == ""){
                 $("#mensajeModal").html('<i class="fas fa-exclamation-triangle" style="color: #F87011;font-size: 24pt;margin-right: 30px;"></i> Tiene campos sin llenar');
                 $("#modalMensaje").modal();
             }
@@ -181,7 +186,13 @@ $(document).ready(function() {
     $(document).on('click','.cargarTogleUsuarios', function(){
         $("#myModalCS").modal();
     });
-    
+});
+
+/*Activar toggle de cargar usuarios en crearSolicitudAdmin.jsp */
+$(document).ready(function() {
+    $(document).on('click','#encuesta_cs', function(){
+        $("#modalEncuesta").modal();
+    });
 });
 
 /*Activar estilo de tabla*/
@@ -231,7 +242,7 @@ function cargarEstiloT() {
 /*Permite cargar el usuario seleccionado en el toggle en crearSolicitudAdmin.jsp*/
 $(document).ready(function() {
     $(document).on('click','#cargarIdUSA', function(){
-        limitarChecks();
+        //limitarChecks();
         var selected = '';    
         $('#idsUSA input[type=checkbox]').each(function(){
             if(this.checked){
@@ -242,6 +253,22 @@ $(document).ready(function() {
     $('#idUserSolicitaA').attr('value', selected);
     });         
 });  
+
+/*Permite cargar la encuesta seleccionado en el toggle en crearSolicitudAdmin.jsp*/
+$(document).ready(function() {
+    $(document).on('click','#cargarIdEcuesta', function(){
+        //limitarChecksEncuesta();
+        var selected = '';    
+        $('#formItemsEncuesta input[type=checkbox]').each(function(){
+            if(this.checked){
+                selected += $(this).val();
+            } 
+        }); 
+    document.getElementById("encuesta_cs").value= selected;
+    $('#encuesta_cs').attr('value', selected);
+    });         
+});  
+
 
 /*filtrar subtipo por tipo*/
 function filtrarSubtipo(value){
@@ -303,6 +330,19 @@ function limitarChecks() {
       {
          $(this).prop("checked", "");
          alert("Solo puede seleccionar: "+ limit+" usuario");
+     }
+  });
+};
+
+/*limitar numero de checks de encuesta en crearSolicitudAdmin.jsp*/
+function limitarChecksEncuesta() {
+   $("input[name='encuesta-checkbox']").change(function () {
+      var limit = 1;
+      var cantidadCkb = $("input[name='encuesta-checkbox']:checked").length;
+      if (cantidadCkb > limit) 
+      {
+         $(this).prop("checked", "");
+         alert("Solo puede seleccionar: "+ limit+" encuesta");
      }
   });
 };

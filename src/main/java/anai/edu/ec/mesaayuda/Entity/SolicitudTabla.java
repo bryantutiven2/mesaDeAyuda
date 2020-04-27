@@ -23,6 +23,7 @@ public class SolicitudTabla {
     private String estadoSolicitud;
     private String estadoSolicitudTecnico;
     private String idSubtipo;
+    private Integer idEncuesta;
 
     public SolicitudTabla() {
         super();
@@ -247,6 +248,14 @@ public class SolicitudTabla {
         this.idSubtipo = idSubtipo;
     }
 
+    public Integer getIdEncuesta() {
+        return idEncuesta;
+    }
+
+    public void setIdEncuesta(Integer idEncuesta) {
+        this.idEncuesta = idEncuesta;
+    }
+    
     @Override
     public String toString() {
         return "SolicitudTabla{" + "id=" + id + ", descripcion=" + descripcion + ", userSolicitaAyuda=" + userSolicitaAyuda + ", fechaInicio=" + fechaInicio + ", fechaFin=" + fechaFin + ", fechaInicioTecnico=" + fechaInicioTecnico + ", fechaFinTecnico=" + fechaFinTecnico + ", estadoSolicitudTecnico=" + estadoSolicitudTecnico + '}';

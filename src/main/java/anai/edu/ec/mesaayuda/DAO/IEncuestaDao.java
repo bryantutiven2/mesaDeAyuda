@@ -13,5 +13,5 @@ public interface IEncuestaDao {
     Boolean actualizar(Encuesta o);
     Boolean eliminar(Encuesta o);
     List<Encuesta> obtenerElementos();
-    Encuesta obtenerElemento(Encuesta id);
+    Encuesta obtenerElemento(Integer id);
 }

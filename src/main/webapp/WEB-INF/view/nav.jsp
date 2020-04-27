@@ -11,18 +11,20 @@
     <ul class="navbar-nav ml-auto">
         <li class="dropdown dropdown-menu-right" style="margin-top: 5%; width: 50px; margin-right: 15px;">
             <a class="dropdown-toggle count-info"  data-toggle="dropdown" href="#" aria-expanded="true" style="color: gray;">
-                <i class="fa fa-bell"></i>  <span class="label label-primary" id="cont-notificacion">8</span>
+                <i class="fa fa-bell"></i> <span class="label label-primary" id="cont-notificacion"></span>
             </a>
 
-            <ul class="dropdown-menu dropdown-menu-right dropdown-alerts">
-                <li>
+            <ul class="dropdown-menu dropdown-menu-right dropdown-alerts" id="encuestaMenu">
+                <!--<li>-->
+                    <!--
                     <a class="dropdown-item item-a" href="#">
                         <div>
-                            <i class="fa fa-envelope fa-fw" ></i> You have 16 messages
+                            <i class="fas fa-clipboard"></i> You have 16 messages
                         </div>
                     </a>
-                </li>
-                <li class="divider"></li>
+                    -->
+                <!--</li>-->
+                <!--<li class="divider"></li>-->
             </ul>
 
         </li>
@@ -45,7 +47,7 @@
                 <li class="divider"></li>
                 <li>
                     <div class="text-center">
-                        <a class="dropdown-item item-a" id="logoutU" href="${pageContext.request.contextPath}/login">Cerrar Sesión &nbsp;<i class="fa fa-sign-out"></i></a>
+                        <a class="dropdown-item" id="logoutU" href="${pageContext.request.contextPath}/login">Cerrar Sesión &nbsp;<i class="fa fa-sign-out"></i></a>
                     </div>
 
                 </li>

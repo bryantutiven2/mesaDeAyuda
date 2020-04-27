@@ -22,4 +22,5 @@ public interface ISolicitudDao{
     List<SolicitudAyuda> buscarPorEstado(String estado, Integer idUser);
     List<SolicitudAyuda> cargarSolicitudesTecnico(Integer idUser, String estado);
     List<SolicitudAyuda> solicitudesDashboardTecnico(String idGrupo);
+    List<SolicitudAyuda> obtenerSolicitudEncuesta(Integer idUserSA);
 }

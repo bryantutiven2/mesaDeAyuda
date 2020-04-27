@@ -63,6 +63,8 @@ public class SolicitudImpl implements ISolicitudDao{
                                             + "where gru.idGrupo= :idGrupo and (sa.estadoSolicitudTecnico = 'inactiva' or "
                                             + "sa.estadoSolicitudTecnico = 'proceso' or sa.estadoSolicitudTecnico = 'reevaluar' "
                                             + "or (sa.estadoSolicitudTecnico = 'finalizada' and  TO_CHAR(sa.fechaFinTecnico) =  TO_CHAR(current_date)))";
+    private final String cargarSolicitudesEncuesta = "from SolicitudAyuda sa join fetch sa.usuarioByIdUserSolicitaAyuda usa join fetch sa.encuesta "
+                                            + "where sa.estadoSolicitud = 'finalizada' and sa.estadoEncuesta = 0 and usa.idUsuario= :idUserSA";
     
     @Override
     public Boolean insertar(SolicitudAyuda o) {
@@ -306,6 +308,26 @@ public class SolicitudImpl implements ISolicitudDao{
             HibernateUtil.cerrarSession();
         }
         return listaSolicitud;
+    }
+
+    @Override
+    public List<SolicitudAyuda> obtenerSolicitudEncuesta(Integer idUserSA) {
+        List<SolicitudAyuda> listaSolicitud = new ArrayList<>();
+        Query query = null;
+        try{
+            HibernateUtil.abrirSession();
+            Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+            query = session.createQuery(cargarSolicitudesEncuesta, SolicitudAyuda.class);
+            query.setParameter("idUserSA", idUserSA);
+            listaSolicitud.addAll(query.getResultList());
+        }
+        catch(Exception exc){
+            exc.printStackTrace();
+        }
+        finally{
+            HibernateUtil.cerrarSession();
+        }
+        return listaSolicitud;        
     }
     
 }

@@ -63,30 +63,48 @@
                       <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <div class="modal-body ">
-                    <div class="form-row">
-                        <div class="form-group col-md-2">
-                            <label><h6>Subtipo</h6></label>
+                <form id="formRespuestaTecnico" autocomplete="off" style="font-size: 0.95em">
+                    <div class="modal-body ">
+                        <div class="form-row">
+                            <div class="form-group col-md-2">
+                                <label><h6>Subtipo</h6></label>
+                            </div>
+                            <div class="form-group col-md-5">
+                                <select id="selectSubtipo" name="subtipo_CS" class="form-control" model="selected" required>
+                                    <option selected disabled hidden style='display: none' value=''></option>
+                                    <c:forEach items="${listarSubtipo_CS}" var="subtipo">
+                                        <option value="${subtipo.idSubtipo}">${subtipo.nombreSubtipo}</option> 
+                                    </c:forEach>
+                                    <option value='none'>none</option>
+                                </select>
+                            </div>
                         </div>
-                        <div class="form-group col-md-5">
-                            <select id="selectSubtipo" name="subtipo_CS" class="form-control" model="selected" required>
-                                <option selected disabled hidden style='display: none' value=''></option>
-                                <c:forEach items="${listarSubtipo_CS}" var="subtipo">
-                                    <option value="${subtipo.idSubtipo}">${subtipo.nombreSubtipo}</option> 
-                                </c:forEach>
-                                <option value='none'>none</option>
-                            </select>
+                        <div class="form-row">
+                            <textarea class="form-control text-justify" rows="3" id="descripcion_st" name="descripcion_sn" v-model="text" required></textarea>
                         </div>
                     </div>
-                    <form autocomplete="off" style="font-size: 0.95em">
-                        <textarea class="form-control text-justify" rows="3" id="descripcion_st" name="descripcion_sn" v-model="text" required></textarea>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn btn-danger" id="finalSolicitud" data-dismiss="modal">Finalizar</button>
-                    <button type="button" class="btn btn-warning" id="reevaluarSolicitud" data-dismiss="modal">Reevaluar</button>
-                </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn btn-danger" id="finalSolicitud" >Finalizar</button>
+                        <button type="button" class="btn btn-warning" id="reevaluarSolicitud">Reevaluar</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
+    <!-- modal para cargar mensaje -->
+    <div class="modal fade" id="modalMensaje" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body " id="mensajeModal">
+
+                </div>
+            </div>
+        </div>
+    </div>                                
+                                    
 </div>

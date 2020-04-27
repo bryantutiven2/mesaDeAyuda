@@ -59,6 +59,9 @@
 .dropdown-toggle::after { 
     content: none; 
 }
+.dropdown-item {
+    padding: .10rem 0.5rem;
+}
 
 .dropdown-menu {
     border: medium none;
@@ -75,7 +78,7 @@
     z-index: 1000;
 }
 .dropdown-alerts {
-    width: 250px;
+    width: 280px;
     min-width: 0;
 }
 .dropdown-messages, .dropdown-alerts {
@@ -86,7 +89,7 @@
     display: block;
 }
 
-.dropdown-menu .divider {
+.divider {
     height: 1px;
     margin: 9px 0;
     overflow: hidden;
