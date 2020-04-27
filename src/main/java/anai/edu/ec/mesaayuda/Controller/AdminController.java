@@ -193,26 +193,29 @@ public class AdminController {
     
     @RequestMapping(value = { "/nuevasSolicitudes"}, method = RequestMethod.GET)
     public ModelAndView nuevasSolicitudes(HttpServletRequest request, HttpServletResponse response){
-        List<SolicitudTabla> listaTabla = new ArrayList<>();
+        List<Encuesta> listaE = new ArrayList<>();
         String listaIds = null;        
         usuario = obtenerSessionUsuario(request, response);
         String grupo = usuario.getRol().split("_")[1];
         try{
-            List<Encuesta> listaEncuesta = encuestaDao.obtenerElementos();
-            if(listaEncuesta != null){
-                for(Encuesta e: listaEncuesta){
-                    if(e.getEstadoBorrado() == 1)
-                        listaEncuesta.remove(e);
-                }
-                model.addObject("listaEncuesta",listaEncuesta);
-            }
             List<TipoGrupo> listaTipos = tipoDao.obtenerElementos(grupo);
             if(listaTipos != null)
                 model.addObject("listarTiposSN",listaTipos);
             List<Usuario> listaTecnicos = usuarioDao.obtenerElementos(grupo);
             if(listaTecnicos != null)
                 model.addObject("listarTecnicoSN", listaTecnicos);
-            model.addObject("listaNuevasSolicitudes",listaTabla);
+            
+            List<Encuesta> listaEncuesta = encuestaDao.obtenerElementos();
+            if(listaEncuesta.size()>0){
+                for(Encuesta e: listaEncuesta){
+                    if(e.getEstadoBorrado() == 0)
+                        listaE.add(e);
+                }
+                model.addObject("listaEncuesta",listaE);
+            }
+            
+            
+            //model.addObject("listaNuevasSolicitudes",listaTabla);
         }
         catch(Exception exc){
             exc.printStackTrace();

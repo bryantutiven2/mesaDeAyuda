@@ -191,7 +191,7 @@ $(document).ready(function() {
 /*Activar toggle de cargar usuarios en crearSolicitudAdmin.jsp */
 $(document).ready(function() {
     $(document).on('click','#encuesta_cs', function(){
-        $("#modalEncuesta").modal();
+        $("#modalEncuestaSA").modal();
     });
 });
 

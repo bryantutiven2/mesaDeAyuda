@@ -129,7 +129,7 @@ $(document).ready(function () {
 $(document).ready(function() {
     $(document).on('click','#encuesta_cs', function(){
         console.log("se activo otro modal");
-        $("#modalEncuesta").modal();
+        $("#modalEncuestaNA").modal();
     });
 });
 

@@ -46,11 +46,9 @@ public class EncuestaController {
         try{
             List<SolicitudAyuda> listaSolicitud = solicitudDao.obtenerSolicitudEncuesta(idUsuario);
             for(SolicitudAyuda sa: listaSolicitud){
-                System.out.println(sa.getId().getIdSolicitud());
                 String idSolicitud = String.valueOf(sa.getId().getIdGrupo()+"-"+sa.getId().getIdSolicitud());
                 Integer idEncuesta = sa.getEncuesta().getIdEncuesta();
                 Encuesta survay = encuestaDao.obtenerElemento(idEncuesta);
-                System.out.println(survay.getIdEncuesta());
                 listaTabla.add(new EncuestaTabla(
                                 survay.getIdEncuesta(), survay.getNombre(), survay.getDescripcion(),
                                 survay.getCodigoEmbebido(), survay.getCodigoRegistro(),survay.getEstadoBorrado(),idSolicitud));
