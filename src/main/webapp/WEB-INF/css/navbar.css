@@ -89,6 +89,8 @@
     display: block;
 }
 
+
+
 .divider {
     height: 1px;
     margin: 9px 0;
@@ -98,6 +100,10 @@
 
 .texto_subrayado:hover{
     text-decoration: none;
+}
+
+.itemLO:active{
+    background-color: rgb(175, 219, 240);
 }
 
 .item-a:active{

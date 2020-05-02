@@ -48,6 +48,12 @@ public class TecnicoController {
     private ISubtipoDao subtipoDao = new SubtipoImpl();
     private DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
     
+    /***
+     * 
+     * @param request
+     * @param response
+     * @return lista de solicitudes que se les asigno a un técnico
+     */
     @GetMapping( "/cargarSolicitudes")
     public ResponseEntity<Object> cargarSolicitudes(HttpServletRequest request, HttpServletResponse response){
         ServiceResponse<List<SolicitudTabla>> respo = null;
@@ -80,6 +86,14 @@ public class TecnicoController {
         return new ResponseEntity<Object>(respo, HttpStatus.OK);   
     }
     
+    /***
+     * 
+     * @param solicitudT objeto que contiene datos para gestionar una solicitud que se le fue asignada, entre esta la
+     * de comenzar una solicitud, mandar a reevaluar o finalizar la solicitud
+     * @param request
+     * @param response
+     * @return un string de procesada, finalizada o error en uan solciitud
+     */
     @PostMapping( "/actualizarSolicitud" )
     public ResponseEntity<Object> actualizarSolicitudes(@RequestBody SolicitudTabla solicitudT,
                                                         HttpServletRequest request, HttpServletResponse response){
@@ -125,6 +139,13 @@ public class TecnicoController {
         return new ResponseEntity<Object>(respo, HttpStatus.OK);   
     }
     
+    /***
+     * 
+     * @param consultaO objeto con datos necesario para filtrar una solicitud dependiendo de lo que el usuario necesita
+     * @param request
+     * @param response
+     * @return lista de solicitudes
+     */
     @PostMapping( "/filtroConsultarSolicitud" )
     public ResponseEntity<Object> filtroConsultarSolicitud(@RequestBody ConsultaObjeto consultaO,
                                                 HttpServletRequest request, HttpServletResponse response){
@@ -211,6 +232,12 @@ public class TecnicoController {
         return new ResponseEntity<Object>(respo, HttpStatus.OK);
     }
     
+    /***
+     * 
+     * @param request
+     * @param response
+     * @return view of cargarSolcitudesTecnico.jsp
+     */
     @RequestMapping(value = { "/gestionarSolicitudes"}, method = RequestMethod.GET)
     public ModelAndView gestionarSolicitudes(HttpServletRequest request, HttpServletResponse response){
         usuario = obtenerSessionUsuario(request, response);
@@ -222,6 +249,12 @@ public class TecnicoController {
         return model;
     }
     
+    /***
+     * 
+     * @param request
+     * @param response
+     * @return view view con consultaSolicitudesTecnico.jsp
+     */
     @RequestMapping(value = { "/consultarSolicitud" }, method = RequestMethod.GET)
     public ModelAndView consultarSolicitud(HttpServletRequest request, HttpServletResponse response){
         usuario = obtenerSessionUsuario(request, response);
@@ -231,6 +264,9 @@ public class TecnicoController {
         return model;
     }
     
+    /***
+     * Datos necesario para mandar a la vista del navbar
+     */
     private void datosUsuario(){
         String rol = usuario.getRol();
         model.addObject("rol",rol);

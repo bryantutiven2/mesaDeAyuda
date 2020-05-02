@@ -35,6 +35,12 @@ public class DashboardEncuestaController {
     private IEncuestaDao encuestaDao = new EncuestaImpl();
     private IUsuarioDao usuarioDao = new UsuarioImpl();
     
+    /***
+     * 
+     * @param request
+     * @param response
+     * @return list de ecnuestas guaradadas en la base de datos
+     */
     @GetMapping( "/cargarEncuestas")
     public ResponseEntity<Object> cargarEncuestas(HttpServletRequest request, HttpServletResponse response){
         ServiceResponse<List<EncuestaTabla>> respo = null;
@@ -60,6 +66,13 @@ public class DashboardEncuestaController {
         return new ResponseEntity<Object>(respo, HttpStatus.OK);   
     }
     
+    /***
+     * 
+     * @param encuestaO objeto con datos de la encuesta que se va a guardar en la base de datos
+     * @param request
+     * @param response
+     * @return string de exito o error según el resultado de la transaction
+     */
     @PostMapping( "/crearEncuesta" )
     public ResponseEntity<Object> crearEncuesta(@RequestBody EncuestaTabla encuestaO,
                                     HttpServletRequest request, HttpServletResponse response){
@@ -94,6 +107,13 @@ public class DashboardEncuestaController {
         return new ResponseEntity<Object>(respo, HttpStatus.OK);
     }
     
+    /***
+     * 
+     * @param encuestaO objetos con los datos de la encuesta a actualizarse
+     * @param request
+     * @param response
+     * @return string con exito o error según el estado de la transaction
+     */
     @PostMapping( "/actualizarEncuesta" )
     public ResponseEntity<Object> actualizarEncuesta(@RequestBody EncuestaTabla encuestaO,
                                     HttpServletRequest request, HttpServletResponse response){

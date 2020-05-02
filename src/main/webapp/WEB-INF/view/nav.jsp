@@ -15,16 +15,7 @@
             </a>
 
             <ul class="dropdown-menu dropdown-menu-right dropdown-alerts" id="encuestaMenu">
-                <!--<li>-->
-                    <!--
-                    <a class="dropdown-item item-a" href="#">
-                        <div>
-                            <i class="fas fa-clipboard"></i> You have 16 messages
-                        </div>
-                    </a>
-                    -->
-                <!--</li>-->
-                <!--<li class="divider"></li>-->
+                
             </ul>
 
         </li>
@@ -47,21 +38,12 @@
                 <li class="divider"></li>
                 <li>
                     <div class="text-center">
-                        <a class="dropdown-item" id="logoutU" href="${pageContext.request.contextPath}/login">Cerrar Sesión &nbsp;<i class="fa fa-sign-out"></i></a>
+                        <a class="dropdown-item itemLO" id="logoutU" href="${pageContext.request.contextPath}/logout">Cerrar Sesión &nbsp;<i class="fa fa-sign-out"></i></a>
                     </div>
 
                 </li>
             </ul>
 
-            <!--<button class="btn btn-light dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <span id="texto_usuario" style="padding-left: 20px; padding-right: 20px;">${username}</span>
-              </button>
-              <div class="dropdown-menu text-center">
-                  <span class="dropdown-item-text"></span><i class="fas fa-user"></i>&nbsp;${usuario}</span>
-                  <span id="texto_correo" class="dropdown-item-text">${correo}</span>
-                  <div class="dropdown-divider"></div>
-                  <a class="dropdown-item" href="#">Cerrar Sesión &nbsp;<i class="fa fa-sign-out"></i></a>
-              </div>-->
         </li>
     </ul>
 </nav>

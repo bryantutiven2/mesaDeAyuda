@@ -66,6 +66,14 @@ public class AdminController {
     private Boolean retornoSolicitud = null;
     private DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
     
+    /***
+     * Este método permite guardar una solicitud que ha realizado el administrador
+     * El método es un post ajax del lado del cliente
+     * @param solicitudT es un objeto que se recibe del cliente con datos como del grupo, descripción
+     * @param request
+     * @param response
+     * @return Un string de éxito en caso de que se haya guardado la solicitud, error si no se guardo la solicitud
+     */
     @PostMapping( "/enviarSolicitud" )
     public ResponseEntity<Object> enviarSolicitud(@RequestBody SolicitudTabla solicitudT,
                                                 HttpServletRequest request, HttpServletResponse response){
@@ -84,7 +92,6 @@ public class AdminController {
             Integer idSolicitud = solicitudDao.generarIdSolicitud();
             SolicitudAyudaId solicitudAyudaId = new SolicitudAyudaId(idSolicitud, idgrupo);
             SolicitudAyuda objetoSolicitud = new SolicitudAyuda();
-            
             
             if(idgrupo.equals("sist") || idgrupo.equals("mant")){
                 objetoSolicitud.setId(solicitudAyudaId);
@@ -137,6 +144,13 @@ public class AdminController {
         return new ResponseEntity<Object>(respo, HttpStatus.OK);
     }
     
+    /***
+     * Permite obtener las solicitudes nuevas que el administrador debe gestionar como es el caso de asignar un
+     * técnico a una solicitud
+     * @param request
+     * @param response
+     * @return retorna una lista de solicitudes que tienen como estado pendiente o reevaluar
+     */
     @GetMapping( "/cargarNuevasSolicitudes")
     public ResponseEntity<Object> cargarNuevasSolicitudes(HttpServletRequest request, HttpServletResponse response){
         ServiceResponse<List<SolicitudTabla>> respo = null;
@@ -191,6 +205,12 @@ public class AdminController {
         return new ResponseEntity<Object>(respo, HttpStatus.OK);   
     }
     
+    /***
+     * Permite gestionar una solicitud para asignarle el técnico, tipo, fecha posible a arreglar
+     * @param request
+     * @param response
+     * @return un model, una lista de tipos, una lista de tecnicos, lista de encuestas a asignar
+     */
     @RequestMapping(value = { "/nuevasSolicitudes"}, method = RequestMethod.GET)
     public ModelAndView nuevasSolicitudes(HttpServletRequest request, HttpServletResponse response){
         List<Encuesta> listaE = new ArrayList<>();
@@ -214,8 +234,6 @@ public class AdminController {
                 model.addObject("listaEncuesta",listaE);
             }
             
-            
-            //model.addObject("listaNuevasSolicitudes",listaTabla);
         }
         catch(Exception exc){
             exc.printStackTrace();
@@ -226,6 +244,13 @@ public class AdminController {
         return model;
     }
     
+    /***
+     * 
+     * @param solicitudT es el objeto que contiene los datos a ser actualizado en la solicitud
+     * @param request
+     * @param response
+     * @return un String con error, asignada, finalizada dependiendo de que tipo de actualización se realizo
+     */
     @PostMapping( "/actualizarSolicitud" )
     public ResponseEntity<Object> actualizarSolicitud(@RequestBody SolicitudTabla solicitudT,
                                     HttpServletRequest request, HttpServletResponse response){
@@ -279,6 +304,13 @@ public class AdminController {
         return new ResponseEntity<Object>(respo, HttpStatus.OK);
     }
     
+    /***
+     * 
+     * @param request
+     * @param response
+     * @return una lista de objetos con usuarios, tipo de grupos, subtipos, encuestas, de esta manera la vista tendrá
+     * lo necesario para crearse una solicitud
+     */
     @RequestMapping(value = { "/crearSolictud"}, method = RequestMethod.GET)
     public ModelAndView crearSolicitudAdmin(HttpServletRequest request, HttpServletResponse response){
         usuario = obtenerSessionUsuario(request, response);
@@ -305,6 +337,14 @@ public class AdminController {
         return model;
     }
     
+    /***
+     * 
+     * @param consultaO es un objeto que contiene que tipo de datos requiere el cliente
+     * @param request
+     * @param response
+     * @return una lista de solicitados en base a los parametros requeridos, por ejemplo solicitudes realizadas
+     * al grupo sistemas, filtrar solicitudes ya sea pendiente, finalizada, asignada
+     */
     @PostMapping( "/filtroConsultarSolicitud" )
     public ResponseEntity<Object> filtroConsultarSolicitud(@RequestBody ConsultaObjeto consultaO,
                                                 HttpServletRequest request, HttpServletResponse response){
@@ -389,6 +429,12 @@ public class AdminController {
         return new ResponseEntity<Object>(respo, HttpStatus.OK);
     }
     
+    /***
+     * 
+     * @param request
+     * @param response
+     * @return un modelo de la vista de consultar solicitudes escogida en el sidebar
+     */
     @RequestMapping(value = { "/consultarSolicitud" }, method = RequestMethod.GET)
     public ModelAndView consultarSolicitud(HttpServletRequest request, HttpServletResponse response){
         usuario = obtenerSessionUsuario(request, response);
@@ -398,6 +444,12 @@ public class AdminController {
         return model;
     }
     
+    /***
+     * 
+     * @param request
+     * @param response
+     * @return retorna la vista del dashboard técnico por el usuario
+     */
     @RequestMapping(value = { "/consultarDashboardTecnico" }, method = RequestMethod.GET)
     public ModelAndView dashboardTecnico(HttpServletRequest request, HttpServletResponse response){
         usuario = obtenerSessionUsuario(request, response);
@@ -416,8 +468,10 @@ public class AdminController {
         return model;
     }
     
+    /***
+     * asigna al modelo datos del usuario como nombre, correo, en el navbar
+     */
     private void datosUsuario(){
-        
         String rol = usuario.getRol();
         model.addObject("rol",rol);
         model.addObject("username", usuario.getNombre() + " " + usuario.getApellido());

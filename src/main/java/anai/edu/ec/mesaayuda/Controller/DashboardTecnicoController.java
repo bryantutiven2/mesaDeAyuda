@@ -39,6 +39,13 @@ public class DashboardTecnicoController {
     private IUsuarioDao usuarioDao = new UsuarioImpl();
     private DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
 
+    /***
+     * 
+     * @param request
+     * @param response
+     * @return list de técnico con sus solicitudes que tienen como estado inactiva, proceso, reevaluar, y finalizada en caso
+     * de que la solicitud tenga como fechaFinTecnico la fecha del dia actual
+     */
     @GetMapping( "/tecnico")
     public ResponseEntity<Object> cargarNuevasSolicitudes(HttpServletRequest request, HttpServletResponse response){
         ServiceResponse<Map<Integer,List<SolicitudTabla>>> respo = null;

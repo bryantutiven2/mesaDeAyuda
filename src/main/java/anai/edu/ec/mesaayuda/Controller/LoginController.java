@@ -15,6 +15,7 @@ import anai.edu.ec.mesaayuda.Entity.SolicitudTabla;
 import anai.edu.ec.mesaayuda.Entity.Subtipo;
 import anai.edu.ec.mesaayuda.Entity.TipoGrupo;
 import anai.edu.ec.mesaayuda.Entity.Usuario;
+import anai.edu.ec.mesaayuda.Service.SessionUsuario;
 import static anai.edu.ec.mesaayuda.Service.SessionUsuario.crearSessionUsuario;
 import anai.edu.ec.mesaayuda.Util.HibernateUtil;
 import java.text.DateFormat;
@@ -44,20 +45,57 @@ public class LoginController {
     private Boolean retornoLogin = null;
     private String retornoVista = null;
     private ModelAndView model = new ModelAndView();
-//    @RequestMapping(value = "/")
-//    public ModelAndView mostrarLogin() {
-//        ModelAndView mv = new ModelAndView();
-//        mv.setViewName("login");
-//        return mv;
-//    }
     
+    /***
+     * 
+     * @param request
+     * @param response
+     * @return el modelo con la vista de login.jsp
+     */
     @RequestMapping(value = { "/", "login"}, method = RequestMethod.GET)
     public ModelAndView login(HttpServletRequest request, HttpServletResponse response){
         HibernateUtil.getSessionFactory();
+        Usuario usuario = SessionUsuario.obtenerSessionUsuario(request, response);
+        if(usuario != null){
+            String rol = usuario.getRol();
+            if(rol.equals("admin_sist")){
+                AdminController adminModel = new AdminController();
+                model = adminModel.dashboardTecnico(request, response);
+            }
+            else if(rol.equals("general_acad")){
+                UsuarioController usuarioModel = new UsuarioController();
+                model = usuarioModel.crearSolicitud(request, response);
+            }
+            else if(rol.equals("tecnico_sist")){
+                UsuarioController usuarioModel = new UsuarioController();
+                model = usuarioModel.crearSolicitud(request, response);
+            }
+        }
+        else{
+            model.setViewName("login");
+        }
+        return model;
+    }
+    
+    /***
+     * 
+     * @param request
+     * @param response
+     * @return la vista login, cerrando la session del usuario en el servidor
+     */
+    @RequestMapping(value = { "logout" }, method = RequestMethod.GET)
+    public ModelAndView logout(HttpServletRequest request, HttpServletResponse response){
+        SessionUsuario.eliminarSessionUsuario(request, response);
         model.setViewName("login");
         return model;
     }
     
+    /***
+     * 
+     * @param request
+     * @param response
+     * @return el modelo de la vista dependiendo del rol del usuario, ya sea este general, técnico, admin
+     */
     @RequestMapping(value = { "/menuUsuario" }, method = RequestMethod.POST)
     public ModelAndView mostrarMenuUsuario(HttpServletRequest request, HttpServletResponse response){
         List<SolicitudTabla> listaTabla = new ArrayList<>();
@@ -88,5 +126,6 @@ public class LoginController {
         }
         return model;
     }
+    
     
 }

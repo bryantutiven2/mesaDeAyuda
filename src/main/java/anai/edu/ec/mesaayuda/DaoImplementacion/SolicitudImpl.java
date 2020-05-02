@@ -309,6 +309,7 @@ public class SolicitudImpl implements ISolicitudDao{
         }
         return listaSolicitud;
     }
+    
 
     @Override
     public List<SolicitudAyuda> obtenerSolicitudEncuesta(Integer idUserSA) {

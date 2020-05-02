@@ -54,6 +54,12 @@ public class UsuarioController {
     private List<SolicitudAyuda> listaSolicitudAyuda;
     private DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
     
+    /***
+     * 
+     * @param request
+     * @param response
+     * @return la vista de crear solicitud
+     */
     @RequestMapping(value = { "/crearSolicitud" }, method = RequestMethod.GET)
     public ModelAndView crearSolicitud(HttpServletRequest request, HttpServletResponse response){
         List<SolicitudTabla> listaTabla = new ArrayList<>();
@@ -64,6 +70,14 @@ public class UsuarioController {
         return model;
     }
     
+    /***
+     * 
+     * @param solicitudT objeto que contiene datos para crear la solciitud como descripción, grupo, número de vez
+     * de solciitud, ids de anteriores ayudas
+     * @param request
+     * @param response
+     * @return un string de éxito o error según la transation realizada
+     */
     @PostMapping( "/enviarSolicitud" )
     public ResponseEntity<Object> enviarSolicitud(@RequestBody SolicitudTabla solicitudT,
                                                 HttpServletRequest request, HttpServletResponse response){
@@ -104,6 +118,13 @@ public class UsuarioController {
         return new ResponseEntity<Object>(respo, HttpStatus.OK);
     }
     
+    /***
+     * 
+     * @param consultaO objeto que contiene si quiere consultar solicitudes finalizadas dependiendo de un grupo
+     * @param request
+     * @param response
+     * @return una lista de solicitudes
+     */
     @PostMapping( "/solicitudes" )
     public ResponseEntity<Object> solicitudes(@RequestBody ConsultaObjeto consultaO,
                                                 HttpServletRequest request, HttpServletResponse response){
@@ -139,6 +160,14 @@ public class UsuarioController {
         return new ResponseEntity<Object>(respo, HttpStatus.OK);
     }
     
+    /***
+     * 
+     * @param consultaO objeto de datos que se requieren obtener, hacer un filtro total de sistemas, consultar por estado,
+     * grupo
+     * @param request
+     * @param response
+     * @return lista de Solicitudes
+     */
     @PostMapping( "/filtroConsultarSolicitud" )
     public ResponseEntity<Object> filtroConsultarSolicitud(@RequestBody ConsultaObjeto consultaO,
                                                 HttpServletRequest request, HttpServletResponse response){
@@ -200,6 +229,12 @@ public class UsuarioController {
         return new ResponseEntity<Object>(respo, HttpStatus.OK);
     }
     
+    /***
+     * 
+     * @param request
+     * @param response
+     * @return view de consultarSolicitudes.jsp
+     */
     @RequestMapping(value = { "/consultarSolicitud" }, method = RequestMethod.GET)
     public ModelAndView consultarSolicitud(HttpServletRequest request, HttpServletResponse response){
         usuario = obtenerSessionUsuario(request, response);
@@ -210,8 +245,10 @@ public class UsuarioController {
         return model;
     }
     
+    /***
+     * Envía junto al modelo datos del usuario que se usaran en el navbar
+     */
     private void datosUsuario(){
-        
         String rol = usuario.getRol();
         model.addObject("rol",rol);
         model.addObject("username", usuario.getNombre() + " " + usuario.getApellido());

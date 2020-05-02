@@ -37,6 +37,13 @@ public class EncuestaController {
     private IEncuestaDao encuestaDao = new EncuestaImpl();
     private ISolicitudDao solicitudDao = new SolicitudImpl();
     
+    /***
+     * 
+     * @param request
+     * @param response
+     * @return lista de solicitudes con encuestas que debe realizar un usuario
+     * estas encuestas aparecen en el navbar como notificación
+     */
     @GetMapping( "/pendiente")
     public ResponseEntity<Object> cargarPEncuestas(HttpServletRequest request, HttpServletResponse response){
         ServiceResponse<List<EncuestaTabla>> respo = null;
@@ -65,6 +72,14 @@ public class EncuestaController {
         return new ResponseEntity<Object>(respo, HttpStatus.OK);   
     }
     
+    /***
+     * 
+     * @param encuestaO objeto con datos del codigo de solicitud para actualizar el estado de la encuesta 
+     * que ya se ha realizado
+     * @param request
+     * @param response
+     * @return string de exito o error según el estado de la transaction
+     */
     @PostMapping( "/actualizarNEncuesta" )
     public ResponseEntity<Object> actualizarNEncuesta(@RequestBody EncuestaTabla encuestaO,
                                     HttpServletRequest request, HttpServletResponse response){
