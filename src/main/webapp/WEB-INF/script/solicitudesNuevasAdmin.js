@@ -13,7 +13,6 @@ function getAjaxTabla(){
                                 '<th class="id_sn" scope="row" style="font-size: 0.8em">'+dato.id+'</th>'+
                                 '<td class="descrip_sn" style="font-size: 0.8em; max-width: 120px;overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">'+dato.descripcion+'</td>'+
                                 '<td class="user_sn" style="font-size: 0.8em">'+dato.userSolicitaAyuda+'</td>'+
-                                '<td class="descripTecnico_sn" style="font-size: 0.8em; max-width: 120px;overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">'+dato.descripcionTecnico+'</td>'+
                                 '<td class="tecnico_sn" style="font-size: 0.8em">'+dato.userTecnico+'</td>'+
                                 '<td class="n_sn" style="font-size: 0.8em; max-width: 85px">'+dato.n_vez+'</td>'+
                                 '<td class="ids_sn" style="font-size: 0.8em">'+dato.ids_n_vez+'</td>'+
@@ -166,10 +165,10 @@ $(document).ready(function () {
 /*Activar modal de observaciones*/
 $(document).ready(function() {
     $(document).on('click','.crearObservacion', function(){
-        let codSol = $(this).parents("tr").find("th")[0].innerHTML;
-        let datos = {
+        //let codSol = $(this).parents("tr").find("th")[0].innerHTML;
+        /*let datos = {
             idSolicitud: codSol
-        };
+        };*/
         //$(".loader").addClass("hidden");
         //postCargarObservaciones(datos);
         $("#modalObservacion").modal();

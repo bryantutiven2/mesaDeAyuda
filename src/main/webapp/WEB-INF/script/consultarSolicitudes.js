@@ -9,12 +9,24 @@ function postAjaxTabla(datos){
         if(result.status == "success"){
             cargarEstiloT();
             let tableBodyCS = $('#tableConsultarSolicitud').DataTable();
-                $.each(result.data, function(i, dato){
-                    tableBodyCS.row.add([dato.id, dato.descripcion, dato.grupo, dato.tipo, dato.userTecnico,
-                                        dato.fechaInicio, dato.fechaFin, dato.estadoSolicitud]).draw();
-                    
-                });
-                $(".loader").removeClass("hidden"); //remover loader
+            $.each(result.data, function(i, dato){
+                let tr = '<tr>'+
+                            '<td>'+dato.id+'</td>'+
+                            '<td>'+dato.descripcion+'</td>'+
+                            '<td>'+dato.grupo+'</td>'+
+                            '<td>'+dato.tipo+'</td>'+
+                            '<td>'+dato.userTecnico+'</td>'+
+                            '<td>'+dato.fechaInicio+'</td>'+
+                            '<td>'+dato.fechaFin+'</td>'+
+                            '<td>'+dato.estadoSolicitud+'</td>';
+                    tr += '<td class="text-center">'+
+                                '<button type="button" class="btn btn-info btn-sm crearObservacion" style=" font-size: 0.8em;" '+' value="'+dato.id+'"><i class="fas fa-envelope-open-text"></i></button>'+
+                            '</td>';
+                    tr += '</tr>';
+                tableBodyCS.row.add($(tr)).draw();
+
+            });
+            $(".loader").removeClass("hidden"); //remover loader
         }
     },
     error : function(e) {
@@ -41,6 +53,19 @@ $(document).ready(function () {
         }
             
     }); 
+});
+
+/*Activar modal de observaciones*/
+$(document).ready(function() {
+    $(document).on('click','.crearObservacion', function(){
+        //let codSol = $(this).parents("tr").find("th")[0].innerHTML;
+        /*let datos = {
+            idSolicitud: codSol
+        };*/
+        //$(".loader").addClass("hidden");
+        //postCargarObservaciones(datos);
+        $("#modalObservacion").modal();
+    });
 });
 
 /*diseño del table*/

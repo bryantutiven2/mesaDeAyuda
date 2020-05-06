@@ -14,8 +14,20 @@ function postAjaxTabla(datos){
                 cargarEstiloTM();
                 let tableBodyM = $('#tableConsultarSolicitudM').DataTable();
                 $.each(result.data, function(i, dato){
-                    tableBodyM.row.add([dato.id, dato.descripcion, dato.grupo, dato.tipo, dato.userTecnico,
-                                        dato.fechaInicio, dato.fechaFin, dato.estadoSolicitud]).draw();
+                    let tr = '<tr>'+
+                                '<td>'+dato.id+'</td>'+
+                                '<td>'+dato.descripcion+'</td>'+
+                                '<td>'+dato.grupo+'</td>'+
+                                '<td>'+dato.tipo+'</td>'+
+                                '<td>'+dato.userTecnico+'</td>'+
+                                '<td>'+dato.fechaInicio+'</td>'+
+                                '<td>'+dato.fechaFin+'</td>'+
+                                '<td>'+dato.estadoSolicitud+'</td>';
+                        tr += '<td class="text-center">'+
+                                    '<button type="button" class="btn btn-info btn-sm crearObservacion" style=" font-size: 0.8em;" '+' value="'+dato.id+'"><i class="fas fa-envelope-open-text"></i></button>'+
+                                '</td>';
+                        tr += '</tr>';
+                    tableBodyM.row.add($(tr)).draw();
                     
                 });
                 $(".loader").removeClass("hidden"); //remover loader
@@ -27,9 +39,20 @@ function postAjaxTabla(datos){
                 cargarEstiloTR();
                 let tableBodyR = $('#tableConsultarSolicitudR').DataTable();
                 $.each(result.data, function(i, dato){
-                    tableBodyR.row.add([dato.id, dato.descripcion, dato.descripcionTecnico, dato.userSolicitaAyuda,
-                                        dato.fechaInicio, dato.fechaFin, dato.fechaInicioTecnico, dato.fechaFinTecnico,
-                                        dato.estadoSolicitud]).draw();
+                    let tr = '<tr>'+
+                                '<td>'+dato.id+'</td>'+
+                                '<td>'+dato.descripcion+'</td>'+
+                                '<td>'+dato.userSolicitaAyuda+'</td>'+
+                                '<td>'+dato.fechaInicio+'</td>'+
+                                '<td>'+dato.fechaFin+'</td>'+
+                                '<td>'+dato.fechaInicioTecnico+'</td>'+
+                                '<td>'+dato.fechaFinTecnico+'</td>'+
+                                '<td>'+dato.estadoSolicitud+'</td>';
+                        tr += '<td class="text-center">'+
+                                    '<button type="button" class="btn btn-info btn-sm crearObservacion" style=" font-size: 0.8em;" '+' value="'+dato.id+'"><i class="fas fa-envelope-open-text"></i></button>'+
+                                '</td>';
+                        tr += '</tr>';
+                    tableBodyR.row.add($(tr)).draw();
                     
                 });
                 $(".loader").removeClass("hidden"); //remover loader
@@ -59,6 +82,20 @@ $(document).ready(function () {
      });
 });
 
+/*Activar modal de observaciones*/
+$(document).ready(function() {
+    $(document).on('click','.crearObservacion', function(){
+        //let codSol = $(this).parents("tr").find("th")[0].innerHTML;
+        /*let datos = {
+            idSolicitud: codSol
+        };*/
+        //$(".loader").addClass("hidden");
+        //postCargarObservaciones(datos);
+        $("#modalObservacion").modal();
+    });
+});
+
+/* reiniciar casillas de buscar grupo y estado*/
 function reinciarCasillas(){
     let selectBuscar=document.getElementById("buscarGrupo");
     selectBuscar.options[0].selected=true;

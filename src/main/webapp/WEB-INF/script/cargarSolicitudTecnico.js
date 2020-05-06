@@ -53,6 +53,9 @@ function getAjaxTabla(){
                 else{
                     tr+='<td class="text-center"></td>';
                 }
+                tr += '<td class="text-center">'+
+                        '<button type="button" class="btn btn-info btn-sm crearObservacion" style=" font-size: 0.8em;" '+' value="'+dato.id+'"><i class="fas fa-envelope-open-text"></i></button>'+
+                    '</td>';
                 tr+="</tr>";
             });
             $("#bodyTableCargarSolicitudes").html(tr);
@@ -66,6 +69,19 @@ function getAjaxTabla(){
         }
     });
 }
+
+/*Activar modal de observaciones*/
+$(document).ready(function() {
+    $(document).on('click','.crearObservacion', function(){
+        //let codSol = $(this).parents("tr").find("th")[0].innerHTML;
+        /*let datos = {
+            idSolicitud: codSol
+        };*/
+        //$(".loader").addClass("hidden");
+        //postCargarObservaciones(datos);
+        $("#modalObservacion").modal();
+    });
+});
 
 $(document).ready(function () {
     $(document).on('click','.comenzarSolicitud', function(){

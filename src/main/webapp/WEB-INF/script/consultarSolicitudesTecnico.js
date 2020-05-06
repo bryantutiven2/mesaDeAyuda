@@ -10,51 +10,47 @@ function postAjaxTabla(datos){
             //var tableBody = '';
             if(datos.tipoSolicitud == "mSolicitudes"){
                 $('#tableM').show();
-                //$("#bodyTableCargarSolicitudes").empty();
                 cargarEstiloTM();
                 let tableBodyM = $('#tableConsultarSolicitudM').DataTable();
                 $.each(result.data, function(i, dato){
-                    tableBodyM.row.add([dato.id, dato.descripcion, dato.grupo, dato.tipo, dato.userTecnico,
-                                        dato.fechaInicio, dato.fechaFin, dato.estadoSolicitud]).draw();
-                    /*tableBody += "<tr>"+
-                            '<th class="idsolicitud" style="font-size: 0.8em" scope="row">'+dato.id+'</th>'+
-                            '<td style="max-width: 260px; font-size: 0.8em; text-align: justify">'+dato.descripcion+'</td>'+
-                            '<td style="font-size: 0.8em">'+dato.grupo+'</td>'+
-                            '<td style="font-size: 0.8em">'+dato.tipo+'</td>'+
-                            '<td style="font-size: 0.8em">'+dato.userTecnico+'</td>'+
-                            '<td style="font-size: 0.8em">'+dato.fechaInicio+'</td>'+
-                            '<td style="font-size: 0.8em">'+dato.fechaFin+'</td>'+
-                            '<td style="font-size: 0.8em">'+dato.estadoSolicitud+'</td>'+
-                          "</tr>";*/
+                    let tr = '<tr>'+
+                                '<td>'+dato.id+'</td>'+
+                                '<td>'+dato.descripcion+'</td>'+
+                                '<td>'+dato.grupo+'</td>'+
+                                '<td>'+dato.tipo+'</td>'+
+                                '<td>'+dato.userTecnico+'</td>'+
+                                '<td>'+dato.fechaInicio+'</td>'+
+                                '<td>'+dato.fechaFin+'</td>'+
+                                '<td>'+dato.estadoSolicitud+'</td>';
+                        tr += '<td class="text-center">'+
+                                    '<button type="button" class="btn btn-info btn-sm crearObservacion" style=" font-size: 0.8em;" '+' value="'+dato.id+'"><i class="fas fa-envelope-open-text"></i></button>'+
+                                '</td>';
+                        tr += '</tr>';
+                    tableBodyM.row.add($(tr)).draw();
                 });
                 $(".loader").removeClass("hidden"); //remover loader
-                //$("#bodyTableCargarSolicitudes").html(tableBody);
-                //cargarEstiloTM();
             }
             else if(datos.tipoSolicitud == "rSolicitudes"){
                 $('#tableR').show();
-                //$("#bodyTableCargarSolicitudesR").empty();
                 cargarEstiloTR();
                 let tableBodyR = $('#tableConsultarSolicitudR').DataTable();
                 $.each(result.data, function(i, dato){
-                    tableBodyR.row.add([dato.id, dato.descripcion, dato.descripcionTecnico, dato.userSolicitaAyuda,
-                                        dato.fechaInicio, dato.fechaFin, dato.fechaInicioTecnico, dato.fechaFinTecnico,
-                                        dato.estadoSolicitud]).draw();
-                    /*tableBody += "<tr>"+
-                            '<th class="idsolicitud" style="font-size: 0.8em" scope="row">'+dato.id+'</th>'+
-                            '<td style="max-width: 260px; font-size: 0.8em; text-align: justify">'+dato.descripcion+'</td>'+
-                            '<td style="font-size: 0.8em">'+dato.descripcionTecnico+'</td>'+
-                            '<td style="font-size: 0.8em">'+dato.userSolicitaAyuda+'</td>'+
-                            '<td style="font-size: 0.8em">'+dato.fechaInicio+'</td>'+
-                            '<td style="font-size: 0.8em">'+dato.fechaFin+'</td>'+
-                            '<td style="font-size: 0.8em">'+dato.fechaInicioTecnico+'</td>'+
-                            '<td style="font-size: 0.8em">'+dato.fechaFinTecnico+'</td>'+
-                            '<td style="font-size: 0.8em">'+dato.estadoSolicitudTecnico+'</td>'+
-                          "</tr>";*/
+                    let tr = '<tr>'+
+                                '<td>'+dato.id+'</td>'+
+                                '<td>'+dato.descripcion+'</td>'+
+                                '<td>'+dato.userSolicitaAyuda+'</td>'+
+                                '<td>'+dato.fechaInicio+'</td>'+
+                                '<td>'+dato.fechaFin+'</td>'+
+                                '<td>'+dato.fechaInicioTecnico+'</td>'+
+                                '<td>'+dato.fechaFinTecnico+'</td>'+
+                                '<td>'+dato.estadoSolicitud+'</td>';
+                        tr += '<td class="text-center">'+
+                                    '<button type="button" class="btn btn-info btn-sm crearObservacion" style=" font-size: 0.8em;" '+' value="'+dato.id+'"><i class="fas fa-envelope-open-text"></i></button>'+
+                                '</td>';
+                        tr += '</tr>';
+                    tableBodyR.row.add($(tr)).draw();
                 });
                 $(".loader").removeClass("hidden"); //remover loader
-                //$("#bodyTableCargarSolicitudesR").html(tableBody);
-                //cargarEstiloTR();
             }
         }
     },
@@ -78,6 +74,21 @@ $(document).ready(function () {
         }
      });
 });
+
+
+/*Activar modal de observaciones*/
+$(document).ready(function() {
+    $(document).on('click','.crearObservacion', function(){
+        //let codSol = $(this).parents("tr").find("th")[0].innerHTML;
+        /*let datos = {
+            idSolicitud: codSol
+        };*/
+        //$(".loader").addClass("hidden");
+        //postCargarObservaciones(datos);
+        $("#modalObservacion").modal();
+    });
+});
+
 
 $(document).ready(function () {
     $(document).on('click','#cargarSelectC', function(){

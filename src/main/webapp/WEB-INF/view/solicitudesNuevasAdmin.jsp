@@ -25,7 +25,6 @@
                             <th class="th-sm" style="font-size: 0.85em ">Cod</th>
                             <th class="th-sm" style="font-size: 0.85em; max-width: 150px;overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">Descripción</th>
                             <th class="th-sm" style="font-size: 0.85em">Usuario</th>
-                            <th class="th-sm" style="font-size: 0.85em; max-width: 150px;">Mensaje Técnico</th>
                             <th class="th-sm" style="font-size: 0.85em">Técnico</th>
                             <th class="th-sm" style="font-size: 0.85em; max-width: 85px">N° problema</th>
                             <th class="th-sm" style="font-size: 0.85em">Ids n vez</th>
@@ -198,7 +197,7 @@
             </div>
         </div>
     </div>
-    <!-- Modal -->
+    <!-- Modal observacion-->
     <div class="modal fade" id="modalObservacion" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">

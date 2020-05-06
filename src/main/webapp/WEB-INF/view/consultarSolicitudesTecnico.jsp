@@ -90,6 +90,7 @@
                             <th class="th-sm" style="font-size: 0.85em ">Fecha Inicio</th>
                             <th class="th-sm" style="font-size: 0.85em ">Fecha Fin</th>
                             <th class="th-sm" style="font-size: 0.85em ">Estado</th>
+                            <th class="th-sm" style="font-size: 0.85em ">Observación</th>
                         </tr>
                     </thead>
                     <tbody id="bodyTableCargarSolicitudes" style="font-size: 0.85em;">
@@ -103,13 +104,13 @@
                         <tr>
                             <th class="th-sm" style="font-size: 0.85em ">Cod</th>
                             <th class="th-sm" style="font-size: 0.85em; max-width: 260px; text-align: justify">Descripción</th>
-                            <th class="th-sm" style="font-size: 0.85em; max-width: 260px; text-align: justify">Mensaje Técnico</th>
                             <th class="th-sm" style="font-size: 0.85em ">Usuario Solicita Ayuda</th>
                             <th class="th-sm" style="font-size: 0.85em ">Fecha Inicio</th>
                             <th class="th-sm" style="font-size: 0.85em ">Fecha Fin</th>
                             <th class="th-sm" style="font-size: 0.85em ">Fecha Inicio Técnico</th>
                             <th class="th-sm" style="font-size: 0.85em ">Fecha Fin nTécnico</th>
                             <th class="th-sm" style="font-size: 0.85em ">Estado Solicitud</th>
+                            <th class="th-sm" style="font-size: 0.85em ">Observación</th>
                         </tr>
                     </thead>
                     <tbody id="bodyTableCargarSolicitudesR" style="font-size: 0.90em;">
@@ -132,6 +133,50 @@
             <div class="modal-body " id="mensajeModal">
 
             </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal observacion-->
+<div class="modal fade" id="modalObservacion" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="text-center" style="width: 100%;"><h4 class="modal-title" id="exampleModalLabel" style="color: #032345;">Observaciones</h4></div>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" style="overflow-y: auto; height:300px;" id="listaObservaciones">
+                <div class="form-row">
+                    <div class="form-group col-12">
+                        <label style="color: #054182;"> <i> Nombre:</i></label>
+                        <div style="font-size: 0.85em;">kvbsjkvbk</div>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-12">
+                        <label style="color: #054182;"> <i> Nombre:</i></label>
+                        <div style="font-size: 0.85em;">
+                            kvbsjkvbk Lorem ipsum dolor sit amet consectetur adipisicing elit. Architecto 
+                            in cupiditate hic nobis sapiente. Consequuntur reiciendis nesciunt, perspiciatis 
+                            optio labore voluptatem corporis adipisci dolor, illum quia libero autem, aliquam deserunt.
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <form id="" autocomplete="off">
+                <div class="modal-footer justify-content-between ">
+                    <div class="form-row col">
+                        <div class="form-group col-11">
+                            <input type="text" class="form-control" name="observacionM" id="observacionM" required>
+                        </div>
+                        <div class="form-group col-1">
+                            <button type="submit" class="btn-cambiar-color btn btn-primary" id="enviarObservacion"><i class="fas fa-paper-plane"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </form> 
         </div>
     </div>
 </div>
