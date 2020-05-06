@@ -158,7 +158,7 @@ public class AdminController {
         List<SolicitudTabla> listaTabla = new ArrayList<>();
         usuario = obtenerSessionUsuario(request, response);
         String grupo = usuario.getRol().split("_")[1];
-        String estado = "pendiente-reevaluar";
+        String estado = "asignada-pendiente-reevaluar";
         String listaIds = null;
         String userTecnico = null;
         String descripcionTecnico = null;
@@ -283,17 +283,12 @@ public class AdminController {
                     objetoSolicitud.setUsuarioByIdUserAdmin(usuario);
                     objetoSolicitud.setEstadoSolicitud(estadoSolicitudT);
                     objetoSolicitud.setEstadoSolicitudTecnico(estadoSolicitudTecnico);
+                    objetoSolicitud.setMensajeUserTecnico("");
                     objetoSolicitud.setEncuesta(encuesta);
                     objetoSolicitud.setEstadoEncuesta(0);
                     Boolean retorno = solicitudDao.actualizar(objetoSolicitud);
                     if(retorno == true)
                         mensaje = "asignado";
-                }
-                else if(estadoSolicitudT.equals("finalizada")){
-                    objetoSolicitud.setEstadoSolicitud(estadoSolicitudT);
-                    Boolean retorno = solicitudDao.actualizar(objetoSolicitud);
-                    if(retorno == true)
-                        mensaje = "finalizado";
                 }
             }
             respo = new ServiceResponse<>(mensaje);

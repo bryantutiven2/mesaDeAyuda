@@ -6,8 +6,8 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
-<div class="main col pt-2" style="margin-top: 20px">
-    <div class="col-xl-12 col-lg-8 mx-auto">
+<div class="main pt-1" style="margin-top: 20px">
+    <div class="col-xl-12 col-lg-8 col-md-12 col-sm-8  mx-auto">
         <div class="bg-faded rounded p-3">
             <div class="loader">
                 <img src="${pageContext.request.contextPath}/images/spinner-reload.gif" alt="Loading..."/>
@@ -25,12 +25,13 @@
                             <th class="th-sm" style="font-size: 0.85em ">Cod</th>
                             <th class="th-sm" style="font-size: 0.85em; max-width: 150px;overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">Descripción</th>
                             <th class="th-sm" style="font-size: 0.85em">Usuario</th>
-                            <th class="th-sm" style="font-size: 0.85em; max-width: 150px;">Observación Técnico</th>
+                            <th class="th-sm" style="font-size: 0.85em; max-width: 150px;">Mensaje Técnico</th>
                             <th class="th-sm" style="font-size: 0.85em">Técnico</th>
                             <th class="th-sm" style="font-size: 0.85em; max-width: 85px">N° problema</th>
                             <th class="th-sm" style="font-size: 0.85em">Ids n vez</th>
                             <th class="th-sm" style="font-size: 0.85em">Fecha Inicio</th>
                             <th class="th-sm" style="font-size: 0.85em; min-width: 100px">Acción</th>
+                            <th class="th-sm" style="font-size: 0.85em">Observación</th>
                         </tr>
                     </thead>
                     <tbody id="bodyTableCargarNuevasSolicitudes">
@@ -52,7 +53,7 @@
                         </button>
                     </div>
                     <form autocomplete="off" style="font-size: 0.95em">
-                        <div class="modal-body">
+                        <div class="modal-body" style="overflow-y: auto; height:430px;">
                             <div class="col-xl-12 col-lg-10 mx-auto">
                                 <div class="bg-faded rounded p-2">
                                     <!--<form autocomplete="off" style="font-size: 0.95em">-->
@@ -127,11 +128,6 @@
                                                 </div>
                                             </div>  
                                         </div>
-                                        <br /><!--
-                                        <div class="text-center">
-                                            <button type="button" class="btn-cambiar-color btn btn-primary" id="enviarSActualizada" data-dismiss="modal">Asignar Solicitud</button>
-                                        </div>
-                                    </form>-->
                                 </div>
                             </div>
                         </div>
@@ -201,7 +197,50 @@
                 </div>
             </div>
         </div>
-    </div>                                     
+    </div>
+    <!-- Modal -->
+    <div class="modal fade" id="modalObservacion" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <div class="text-center" style="width: 100%;"><h4 class="modal-title" id="exampleModalLabel" style="color: #032345;">Observaciones</h4></div>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" style="overflow-y: auto; height:300px;" id="listaObservaciones">
+                    <div class="form-row">
+                        <div class="form-group col-12">
+                            <label style="color: #054182;"> <i> Nombre:</i></label>
+                            <div style="font-size: 0.85em;">kvbsjkvbk</div>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-12">
+                            <label style="color: #054182;"> <i> Nombre:</i></label>
+                            <div style="font-size: 0.85em;">
+                                kvbsjkvbk Lorem ipsum dolor sit amet consectetur adipisicing elit. Architecto 
+                                in cupiditate hic nobis sapiente. Consequuntur reiciendis nesciunt, perspiciatis 
+                                optio labore voluptatem corporis adipisci dolor, illum quia libero autem, aliquam deserunt.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <form id="" autocomplete="off">
+                    <div class="modal-footer justify-content-between ">
+                        <div class="form-row col">
+                            <div class="form-group col-11">
+                                <input type="text" class="form-control" name="observacionM" id="observacionM" required>
+                            </div>
+                            <div class="form-group col-1">
+                                <button type="submit" class="btn-cambiar-color btn btn-primary" id="enviarObservacion"><i class="fas fa-paper-plane"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                </form> 
+            </div>
+        </div>
+    </div>
 </div>
                         
            

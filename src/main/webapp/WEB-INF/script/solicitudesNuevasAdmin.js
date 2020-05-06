@@ -6,35 +6,48 @@ function getAjaxTabla(){
     async: true,
     success: function(result){
         if(result.status == "success"){
-            $("#bodyTableCargarNuevasSolicitudes").empty();
-            var tr = '';
+            cargarEstiloT();
+            let tableBody = $('#tablaNuevaS').DataTable();
             $.each(result.data, function(i, dato){
-                tr += "<tr>"+
-                        '<th class="id_sn" scope="row" style="font-size: 0.8em">'+dato.id+'</th>'+
-                        '<td class="descrip_sn" style="font-size: 0.8em; max-width: 150px;overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">'+dato.descripcion+'</td>'+
-                        '<td class="user_sn" style="font-size: 0.8em">'+dato.userSolicitaAyuda+'</td>'+
-                        '<td class="descripTecnico_sn" style="font-size: 0.8em; max-width: 150px;overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">'+dato.descripcionTecnico+'</td>'+
-                        '<td class="tecnico_sn" style="font-size: 0.8em">'+dato.userTecnico+'</td>'+
-                        '<td class="n_sn" style="font-size: 0.8em; max-width: 85px">'+dato.n_vez+'</td>'+
-                        '<td class="ids_sn" style="font-size: 0.8em">'+dato.ids_n_vez+'</td>'+
-                        '<td class="fechaInicio_sn" style="font-size: 0.8em">'+dato.fechaInicio+'</td>';
+                let tr = '<tr>'+
+                                '<th class="id_sn" scope="row" style="font-size: 0.8em">'+dato.id+'</th>'+
+                                '<td class="descrip_sn" style="font-size: 0.8em; max-width: 120px;overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">'+dato.descripcion+'</td>'+
+                                '<td class="user_sn" style="font-size: 0.8em">'+dato.userSolicitaAyuda+'</td>'+
+                                '<td class="descripTecnico_sn" style="font-size: 0.8em; max-width: 120px;overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">'+dato.descripcionTecnico+'</td>'+
+                                '<td class="tecnico_sn" style="font-size: 0.8em">'+dato.userTecnico+'</td>'+
+                                '<td class="n_sn" style="font-size: 0.8em; max-width: 85px">'+dato.n_vez+'</td>'+
+                                '<td class="ids_sn" style="font-size: 0.8em">'+dato.ids_n_vez+'</td>'+
+                                '<td class="fechaInicio_sn" style="font-size: 0.8em">'+dato.fechaInicio+'</td>';
+                        
                 if(dato.estadoSolicitud == "pendiente"){
-                    tr+='<td class="text-center">'+
-                            '<button type="button" class="btn btn-success btn-sm asignarSolicitud" style=" font-size: 0.8em;" value="'+dato.id+'"><i class="far fa-edit"></i> Asignar</button>'+
-                        '</td>';
+                          tr += '<td class="text-center">'+
+                                    '<button type="button" class="btn btn-success btn-sm asignarSolicitud" style=" font-size: 0.8em;" value="'+dato.id+'"><i class="far fa-edit"></i> Asignar</button>'+
+                                '</td>'+
+                                '<td class="text-center">'+
+                                    '<button type="button" class="btn btn-info btn-sm crearObservacion" style=" font-size: 0.8em;" '+' value="'+dato.id+'"><i class="fas fa-envelope-open-text"></i></button>'+
+                                '</td>'+
+                              '</tr>';    
+                    tableBody.row.add($(tr)).draw();
                 }
                 else if(dato.estadoSolicitud == "reevaluar"){
-                         tr+='<td class="text-center">'+
-                                 '<button type="button" class="btn btn-info btn-sm finalizarSolicitud" style=" font-size: 0.8em;" '+' value="'+dato.id+'"><i class="far fa-times-circle"></i> Reevaluar</button>'+
-                             '</td>';
+                          tr += '<td class="text-center">'+
+                                    '<button type="button" class="btn btn-warning btn-sm reevaluarSolicitud" style=" font-size: 0.7em;" '+' value="'+dato.id+'"><i class="far fa-times-circle"></i> Reevaluar</button>'+
+                                '</td>'+
+                                '<td class="text-center">'+
+                                    '<button type="button" class="btn btn-info btn-sm crearObservacion" style=" font-size: 0.8em;" '+' value="'+dato.id+'"><i class="fas fa-envelope-open-text"></i></button>'+
+                                '</td>'+
+                              '</tr>';    
+                    tableBody.row.add($(tr)).draw();
                 }
                 else{
-                    tr+='<td class="text-center"></td>';
+                         tr += '<td class="text-center"></td>'+
+                                '<td class="text-center">'+
+                                    '<button type="button" class="btn btn-info btn-sm crearObservacion" style=" font-size: 0.8em;" '+' value="'+dato.id+'"><i class="fas fa-envelope-open-text"></i></button>'+
+                                '</td>'+
+                              '</tr>';    
+                    tableBody.row.add($(tr)).draw();
                 }
-                tr+="</tr>";
             });
-            $("#bodyTableCargarNuevasSolicitudes").html(tr);
-            cargarEstiloT();
         }
     },
     error : function(e) {
@@ -65,6 +78,38 @@ function postAjaxTabla(datos){
                 $("#mensajePost").html("ERROR - No se ha actualizado la solicitud");
             }
             $("#procesoSolicitud").modal();
+        }
+    });
+}
+
+function postCargarObservaciones(datos){
+    $.ajax({
+       type: 'POST',
+       contentType: 'application/json',
+       url: '/mesaayuda/observaciones/cargar',
+       data: JSON.stringify(datos),
+       success: function(response){
+            if(response.status == "success"){
+               $(".loader").removeClass("hidden"); //remover loader
+               $("#listaObservaciones").empty();
+                let listaO = '';
+                $.each(response.data, function(i, dato){
+                    listaO += '<div class="form-row">'+
+                                    '<div class="form-group col-12">'+
+                                        '<label style="color: #054182;"> <i>'+ dato.usuario+':</i></label>'+
+                                        '<div style="font-size: 0.85em;">'+ dato.mensaje+'</div>'+
+                                    '</div>'+
+                                '</div>';
+                });
+                $("#listaObservaciones").html(listaO);
+                $("#modalObservacion").modal();
+            }
+            else if(response.status == "error"){
+                $(".loader").removeClass("hidden"); //remover loader
+                $("#mensajePost").html("ERROR - No se ha actualizado la solicitud");
+            }
+            else
+                $(".loader").removeClass("hidden"); //remover loader
         }
     });
 }
@@ -112,23 +157,28 @@ $(document).ready(function() {
 
 /*finalizar solicitud*/
 $(document).ready(function () {
-    $(document).on('click','.finalizarSolicitud', function(){
-        let cod;
-        $(this).parents("tr").find(".idsolicitud").each(function() {
-            cod = $(this).html();
-        });
-        var datos = {
-            id : cod,
-            estadoSolicitud: 'finalizada'
+    $(document).on('click','.reevaluarSolicitud', function(){
+        llenarCamposModal(this);
+    });
+});
+
+
+/*Activar modal de observaciones*/
+$(document).ready(function() {
+    $(document).on('click','.crearObservacion', function(){
+        let codSol = $(this).parents("tr").find("th")[0].innerHTML;
+        let datos = {
+            idSolicitud: codSol
         };
-        postAjaxTabla(datos);
+        //$(".loader").addClass("hidden");
+        //postCargarObservaciones(datos);
+        $("#modalObservacion").modal();
     });
 });
 
 /*Activar toggle de cargar encuestas en crearSolicitudAdmin.jsp */
 $(document).ready(function() {
     $(document).on('click','#encuesta_cs', function(){
-        console.log("se activo otro modal");
         $("#modalEncuestaNA").modal();
     });
 });
@@ -163,33 +213,38 @@ function limitarChecksEncuesta() {
 /*Permite obtener una fila seleccionada y cargarla en el toggle para asignar un solicitud  un tecnico en solicitudesNuevasAdmin.jsp*/
 $(document).ready(function() {
     $(document).on('click','.asignarSolicitud', function(){
-        
-        $(this).parents("tr").find(".id_sn").each(function() {
-            document.getElementById("codigo_sn").value = $(this).html();
-        });
-        $(this).parents("tr").find(".descrip_sn").each(function() {
-            document.getElementById("descripcion_sn").value = $(this).html();
-        });
-        $(this).parents("tr").find(".user_sn").each(function() {
-            document.getElementById("usuario_sn").value = $(this).html();
-        });
-        $(this).parents("tr").find(".n_sn").each(function() {
-            document.getElementById("n_vez_sn").value = $(this).html();
-        });
-        $(this).parents("tr").find(".ids_sn").each(function() {
-            document.getElementById("idsn_vez_sn").value = $(this).html();
-        });
-        $(this).parents("tr").find(".fechaInicio_sn").each(function() {
-            document.getElementById("fechaInicio_sn").value = $(this).html();
-        });
-        $("#myModalNuevaSolicitud").modal();
+        llenarCamposModal(this);
     });
     
 });
 
+/*Funcion cargar modal de modificar solicitud llenando los campos del mismo modal*/
+function llenarCamposModal(objeto){
+    $(objeto).parents("tr").find(".id_sn").each(function() {
+        document.getElementById("codigo_sn").value = $(this).html();
+    });
+    $(objeto).parents("tr").find(".descrip_sn").each(function() {
+        document.getElementById("descripcion_sn").value = $(this).html();
+    });
+    $(objeto).parents("tr").find(".user_sn").each(function() {
+        document.getElementById("usuario_sn").value = $(this).html();
+    });
+    $(objeto).parents("tr").find(".n_sn").each(function() {
+        document.getElementById("n_vez_sn").value = $(this).html();
+    });
+    $(objeto).parents("tr").find(".ids_sn").each(function() {
+        document.getElementById("idsn_vez_sn").value = $(this).html();
+    });
+    $(objeto).parents("tr").find(".fechaInicio_sn").each(function() {
+        document.getElementById("fechaInicio_sn").value = $(this).html();
+    });
+    $("#myModalNuevaSolicitud").modal();
+}
+
 function cargarEstiloT() {
-  $('#tablaNuevaS').DataTable({
+  let tableBody = $('#tablaNuevaS').DataTable({
       retrieve: true,
+      //"searching": false,
     //para cambiar el lenguaje a español
         "language": {
             "lengthMenu": "Mostrar _MENU_ registros",
@@ -207,6 +262,7 @@ function cargarEstiloT() {
                          "sProcessing":"Procesando...",
         }
     });
+    tableBody.clear().draw();
 };
 
 

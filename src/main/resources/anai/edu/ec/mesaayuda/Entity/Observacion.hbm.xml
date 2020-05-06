@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 05/05/2020 16:37:47 by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="anai.edu.ec.mesaayuda.Entity.Observacion" table="OBSERVACION" schema="MA01" optimistic-lock="version">
+        <id name="idObservacion" type="integer">
+            <column name="ID_OBSERVACION" precision="22" scale="0" />
+            <generator class="sequence">
+                <param name="sequence">observacion_seq</param>
+                <param name="allocation-size">1</param>
+            </generator>
+        </id>
+        <many-to-one name="usuario" class="anai.edu.ec.mesaayuda.Entity.Usuario" fetch="select">
+            <column name="ID_USUARIO" precision="22" scale="0" not-null="true" />
+        </many-to-one>
+        <many-to-one name="solicitudAyuda" class="anai.edu.ec.mesaayuda.Entity.SolicitudAyuda" fetch="select">
+            <column name="ID_SOLICITUD" precision="22" scale="0" not-null="true" />
+            <column name="ID_GRUPO" length="5" not-null="true" />
+        </many-to-one>
+        <property name="mensaje" type="string">
+            <column name="MENSAJE" length="200" not-null="true" />
+        </property>
+        <property name="fechaMensaje" type="date">
+            <column name="FECHA_MENSAJE" length="7" />
+        </property>
+    </class>
+</hibernate-mapping>

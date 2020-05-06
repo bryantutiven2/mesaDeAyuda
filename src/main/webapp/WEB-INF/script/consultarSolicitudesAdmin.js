@@ -16,20 +16,10 @@ function postAjaxTabla(datos){
                 $.each(result.data, function(i, dato){
                     tableBodyM.row.add([dato.id, dato.descripcion, dato.grupo, dato.tipo, dato.userTecnico,
                                         dato.fechaInicio, dato.fechaFin, dato.estadoSolicitud]).draw();
-                    /*tableBody += "<tr>"+
-                            '<th class="idsolicitud" style="font-size: 0.8em" scope="row">'+dato.id+'</th>'+
-                            '<td style="max-width: 260px; font-size: 0.8em; text-align: justify">'+dato.descripcion+'</td>'+
-                            '<td style="font-size: 0.8em">'+dato.grupo+'</td>'+
-                            '<td style="font-size: 0.8em">'+dato.tipo+'</td>'+
-                            '<td style="font-size: 0.8em">'+dato.userTecnico+'</td>'+
-                            '<td style="font-size: 0.8em">'+dato.fechaInicio+'</td>'+
-                            '<td style="font-size: 0.8em">'+dato.fechaFin+'</td>'+
-                            '<td style="font-size: 0.8em">'+dato.estadoSolicitud+'</td>'+
-                          "</tr>";*/
+                    
                 });
                 $(".loader").removeClass("hidden"); //remover loader
-                //$("#bodyTableCargarSolicitudes").html(tableBody);
-                //cargarEstiloTM();
+                
             }
             else if(datos.tipoSolicitud == "rSolicitudes"){
                 $('#tableR').show();
@@ -40,21 +30,10 @@ function postAjaxTabla(datos){
                     tableBodyR.row.add([dato.id, dato.descripcion, dato.descripcionTecnico, dato.userSolicitaAyuda,
                                         dato.fechaInicio, dato.fechaFin, dato.fechaInicioTecnico, dato.fechaFinTecnico,
                                         dato.estadoSolicitud]).draw();
-                    /*tableBody += "<tr>"+
-                            '<th class="idsolicitud" style="font-size: 0.8em" scope="row">'+dato.id+'</th>'+
-                            '<td style="max-width: 260px; font-size: 0.8em; text-align: justify">'+dato.descripcion+'</td>'+
-                            '<td style="font-size: 0.8em">'+dato.descripcionTecnico+'</td>'+
-                            '<td style="font-size: 0.8em">'+dato.userSolicitaAyuda+'</td>'+
-                            '<td style="font-size: 0.8em">'+dato.fechaInicio+'</td>'+
-                            '<td style="font-size: 0.8em">'+dato.fechaFin+'</td>'+
-                            '<td style="font-size: 0.8em">'+dato.fechaInicioTecnico+'</td>'+
-                            '<td style="font-size: 0.8em">'+dato.fechaFinTecnico+'</td>'+
-                            '<td style="font-size: 0.8em">'+dato.estadoSolicitudTecnico+'</td>'+
-                          "</tr>";*/
+                    
                 });
                 $(".loader").removeClass("hidden"); //remover loader
-                //$("#bodyTableCargarSolicitudesR").html(tableBody);
-                //cargarEstiloTR();
+                
             }
         }
     },

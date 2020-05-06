@@ -140,6 +140,7 @@ public class UsuarioController {
             if(listaSolicitudAyuda != null){
                 for(SolicitudAyuda lista : listaSolicitudAyuda){
                     if(!listaIds.contains(lista.getId().getIdSolicitud())){
+                        listaIds.add(lista.getId().getIdSolicitud());
                        if(lista.getTipoGrupo() != null){
                             tipoG = lista.getTipoGrupo().getNombreTipo();
                             listaTabla.add(
