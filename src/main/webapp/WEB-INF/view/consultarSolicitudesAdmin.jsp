@@ -146,25 +146,10 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <div class="modal-body" style="overflow-y: auto; height:300px;" id="listaObservaciones">
-                <div class="form-row">
-                    <div class="form-group col-12">
-                        <label style="color: #054182;"> <i> Nombre:</i></label>
-                        <div style="font-size: 0.85em;">kvbsjkvbk</div>
-                    </div>
-                </div>
-                <div class="form-row">
-                    <div class="form-group col-12">
-                        <label style="color: #054182;"> <i> Nombre:</i></label>
-                        <div style="font-size: 0.85em;">
-                            kvbsjkvbk Lorem ipsum dolor sit amet consectetur adipisicing elit. Architecto 
-                            in cupiditate hic nobis sapiente. Consequuntur reiciendis nesciunt, perspiciatis 
-                            optio labore voluptatem corporis adipisci dolor, illum quia libero autem, aliquam deserunt.
-                        </div>
-                    </div>
-                </div>
+            <div class="modal-body" style="overflow-y: auto; height:300px; overflow-x: hidden;" id="listaObservaciones">
+                
             </div>
-            <form id="" autocomplete="off">
+            <form id="formObservacion" autocomplete="off">
                 <div class="modal-footer justify-content-between ">
                     <div class="form-row col">
                         <div class="form-group col-11">

@@ -1,11 +1,14 @@
 
 package anai.edu.ec.mesaayuda.Controller;
 
+import anai.edu.ec.mesaayuda.DAO.IObservacionDao;
 import anai.edu.ec.mesaayuda.DAO.ISolicitudDao;
 import anai.edu.ec.mesaayuda.DAO.ISubtipoDao;
+import anai.edu.ec.mesaayuda.DaoImplementacion.ObservacionImpl;
 import anai.edu.ec.mesaayuda.DaoImplementacion.SolicitudImpl;
 import anai.edu.ec.mesaayuda.DaoImplementacion.SubtipoImpl;
 import anai.edu.ec.mesaayuda.Entity.ConsultaObjeto;
+import anai.edu.ec.mesaayuda.Entity.Observacion;
 import anai.edu.ec.mesaayuda.Entity.SolicitudAyuda;
 import anai.edu.ec.mesaayuda.Entity.SolicitudAyudaId;
 import anai.edu.ec.mesaayuda.Entity.SolicitudTabla;
@@ -18,6 +21,7 @@ import static anai.edu.ec.mesaayuda.Service.fechaSolicitud.obtenerFecha;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
@@ -47,6 +51,7 @@ public class TecnicoController {
     private List<SolicitudAyuda> listaSolicitudAyuda;
     private ISubtipoDao subtipoDao = new SubtipoImpl();
     private DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+    private IObservacionDao observacionDao = new ObservacionImpl();
     
     /***
      * 
@@ -123,6 +128,18 @@ public class TecnicoController {
                 
                 objetoSolicitud.setEstadoSolicitudTecnico(solicitudT.getEstadoSolicitudTecnico());
                 mensaje = "finalizado";
+                
+                /*insertar mensaje del tecnico como observacion*/
+                String mObservacion = solicitudT.getDescripcionTecnico();
+                Date fechaO = fechaSolicitud.obtenerFecha();
+                SolicitudAyuda solicitudO = solicitudDao.obtenerSolicitudId(solicitudT.getId());
+                Observacion observacionObjeto = new Observacion();
+                observacionObjeto.setMensaje(mObservacion);
+                observacionObjeto.setUsuario(usuario);
+                observacionObjeto.setFechaMensaje(fechaO);
+                observacionObjeto.setSolicitudAyuda(solicitudO);
+                observacionDao.insertar(observacionObjeto);
+                
             }
             Boolean actualizacion = solicitudDao.actualizar(objetoSolicitud);
             if(actualizacion == true){

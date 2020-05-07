@@ -66,7 +66,6 @@ function postAjaxCrearEncuesta(datos){
 }
 
 function postAjaxActualizarEncuesta(datos){
-    console.log(datos);
     $.ajax({
        type: 'POST',
        contentType: 'application/json',

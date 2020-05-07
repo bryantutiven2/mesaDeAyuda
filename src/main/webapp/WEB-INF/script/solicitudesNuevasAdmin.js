@@ -10,7 +10,7 @@ function getAjaxTabla(){
             let tableBody = $('#tablaNuevaS').DataTable();
             $.each(result.data, function(i, dato){
                 let tr = '<tr>'+
-                                '<th class="id_sn" scope="row" style="font-size: 0.8em">'+dato.id+'</th>'+
+                                '<td class="id_sn" scope="row" style="font-size: 0.8em">'+dato.id+'</td>'+
                                 '<td class="descrip_sn" style="font-size: 0.8em; max-width: 120px;overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">'+dato.descripcion+'</td>'+
                                 '<td class="user_sn" style="font-size: 0.8em">'+dato.userSolicitaAyuda+'</td>'+
                                 '<td class="tecnico_sn" style="font-size: 0.8em">'+dato.userTecnico+'</td>'+
@@ -163,17 +163,17 @@ $(document).ready(function () {
 
 
 /*Activar modal de observaciones*/
-$(document).ready(function() {
-    $(document).on('click','.crearObservacion', function(){
+/*$(document).ready(function() {
+    $(document).on('click','.crearObservacion', function(){*/
         //let codSol = $(this).parents("tr").find("th")[0].innerHTML;
         /*let datos = {
             idSolicitud: codSol
         };*/
         //$(".loader").addClass("hidden");
         //postCargarObservaciones(datos);
-        $("#modalObservacion").modal();
-    });
-});
+       // $("#modalObservacion").modal();
+//    });
+//});
 
 /*Activar toggle de cargar encuestas en crearSolicitudAdmin.jsp */
 $(document).ready(function() {

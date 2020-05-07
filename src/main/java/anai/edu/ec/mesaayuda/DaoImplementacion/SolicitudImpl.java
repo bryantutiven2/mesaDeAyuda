@@ -40,6 +40,7 @@ public class SolicitudImpl implements ISolicitudDao{
                                             + "join fetch sa.grupo gru "
                                             + "where usa.idUsuario= :idUser and sa.estadoSolicitud = :estado and gru.idGrupo= : idGrupo";
     private final String selectId = "from SolicitudAyuda sa where sa.id= : id";
+    private final String selectSolicitudId = "from SolicitudAyuda sa join fetch sa.id sid where sid.idSolicitud= : id";
     private final String buscarPorGrupo1 = "from SolicitudAyuda sa join fetch sa.usuarioByIdUserSolicitaAyuda usa "
                                             + "join fetch sa.usuarioByIdUserTecnico "
                                             + "join fetch sa.grupo gru join fetch sa.tipoGrupo "
@@ -329,6 +330,25 @@ public class SolicitudImpl implements ISolicitudDao{
             HibernateUtil.cerrarSession();
         }
         return listaSolicitud;        
+    }
+
+    @Override
+    public SolicitudAyuda obtenerSolicitudId(Integer id) {
+        SolicitudAyuda solicitud = null;
+        try{
+            HibernateUtil.abrirSession();
+            Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+            Query query = session.createQuery(selectSolicitudId, SolicitudAyuda.class);
+            query.setParameter("id", id);
+            solicitud = (SolicitudAyuda)query.uniqueResult();
+        }
+        catch(Exception exc){
+            exc.printStackTrace();
+        }
+        finally{
+            HibernateUtil.cerrarSession();
+        }
+        return solicitud;
     }
     
 }

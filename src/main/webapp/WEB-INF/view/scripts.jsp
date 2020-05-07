@@ -11,11 +11,13 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
 <script src="${pageContext.request.contextPath}/script/sidebar.js" type="text/javascript"></script>
 <script src="${pageContext.request.contextPath}/script/notificacionEncuesta.js" type="text/javascript"></script>
+
 <c:if test="${viewMain == 'crearSolicitud'}">
     <script src="${pageContext.request.contextPath}/script/crearSolicitud.js"></script>
 </c:if>
 <c:if test="${viewMain == 'consultaSolicitudes'}">
     <script src="${pageContext.request.contextPath}/script/consultarSolicitudes.js"></script>
+    <script src="${pageContext.request.contextPath}/script/observacion.js"></script>
 </c:if>
 
 <!-- main contenido usuario Admin-->
@@ -24,9 +26,11 @@
 </c:if>
 <c:if test="${viewMain == 'consultaSolicitudesAdmin'}">
     <script src="${pageContext.request.contextPath}/script/consultarSolicitudesAdmin.js"></script>
+    <script src="${pageContext.request.contextPath}/script/observacion.js"></script>
 </c:if>
 <c:if test="${viewMain == 'solicitudesNuevasAdmin'}">
     <script src="${pageContext.request.contextPath}/script/solicitudesNuevasAdmin.js"></script>
+    <script src="${pageContext.request.contextPath}/script/observacion.js"></script>
 </c:if>
 <c:if test="${viewMain == 'dashboardTecnico'}">
     <script src="${pageContext.request.contextPath}/script/dashboardTecnico.js"></script>
@@ -39,9 +43,11 @@
 <!-- main contenido usuario Tecnico-->
 <c:if test="${viewMain == 'cargarSolicitudesTecnico'}">
     <script src="${pageContext.request.contextPath}/script/cargarSolicitudTecnico.js"></script>
+    <script src="${pageContext.request.contextPath}/script/observacion.js"></script>
 </c:if>
 <c:if test="${viewMain == 'consultaSolicitudesTecnico'}">
     <script src="${pageContext.request.contextPath}/script/consultarSolicitudesTecnico.js"></script>
+    <script src="${pageContext.request.contextPath}/script/observacion.js"></script>
 </c:if>
 
 <script src="${pageContext.request.contextPath}/script/datatables/datatables.js"></script>

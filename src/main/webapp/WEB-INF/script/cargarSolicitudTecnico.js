@@ -35,7 +35,7 @@ function getAjaxTabla(){
             var tr = '';
             $.each(result.data, function(i, dato){
                 tr += "<tr>"+
-                         "<th class='idsolicitud' style='font-size: 0.8em' scope='row'>"+dato.id+"</th>"+
+                         "<td class='idsolicitud' style='font-size: 0.8em' scope='row'>"+dato.id+"</td>"+
                          "<td style='max-width: 260px; font-size: 0.8em; text-align: justify'>"+dato.descripcion+"</td>"+
                          "<td style='font-size: 0.8em'>"+dato.fechaInicio+"</td>"+
                          "<td style='font-size: 0.8em'>"+dato.fechaFin+"</td>"+
@@ -70,19 +70,6 @@ function getAjaxTabla(){
     });
 }
 
-/*Activar modal de observaciones*/
-$(document).ready(function() {
-    $(document).on('click','.crearObservacion', function(){
-        //let codSol = $(this).parents("tr").find("th")[0].innerHTML;
-        /*let datos = {
-            idSolicitud: codSol
-        };*/
-        //$(".loader").addClass("hidden");
-        //postCargarObservaciones(datos);
-        $("#modalObservacion").modal();
-    });
-});
-
 $(document).ready(function () {
     $(document).on('click','.comenzarSolicitud', function(){
         let cod;
@@ -102,7 +89,6 @@ $(document).ready(function () {
     getAjaxTabla();
     $(document).on('click','#recargartabla', function(){
         getAjaxTabla();
-        console.log("se recargo la tabla");
     });
 });
 

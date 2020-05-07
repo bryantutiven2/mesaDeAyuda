@@ -35,6 +35,23 @@ function postAjaxTabla(datos){
     });
 }
 
+/*disable input de observaciones si la solicitud ha sido finalizada*/
+$(document).ready(function() {
+    $(document).on('click','.crearObservacion', function(){
+        let estado = $(this).parents("tr").find("td")[7].innerHTML;
+        console.log(estado);
+        if(estado == 'finalizada'){
+            $("#observacionM").prop('disabled',true);
+            $("#enviarObservacion").prop('disabled',true);
+        }
+        else{
+            $("#observacionM").prop('disabled',false);
+            $("#enviarObservacion").prop('disabled',false);
+        }
+    });
+});
+
+/*cargar solciitudes por estado o grupo*/
 $(document).ready(function () {
     $(document).on('click','#cargarSelectC', function(){
         var option_buscarGrupo = document.getElementById("buscarGrupo").value;
@@ -55,18 +72,6 @@ $(document).ready(function () {
     }); 
 });
 
-/*Activar modal de observaciones*/
-$(document).ready(function() {
-    $(document).on('click','.crearObservacion', function(){
-        //let codSol = $(this).parents("tr").find("th")[0].innerHTML;
-        /*let datos = {
-            idSolicitud: codSol
-        };*/
-        //$(".loader").addClass("hidden");
-        //postCargarObservaciones(datos);
-        $("#modalObservacion").modal();
-    });
-});
 
 /*diseño del table*/
 function cargarEstiloT() {
