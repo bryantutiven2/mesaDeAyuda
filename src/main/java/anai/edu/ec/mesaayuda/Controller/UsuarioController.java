@@ -136,7 +136,7 @@ public class UsuarioController {
         String tipoG;
         String estado = "finalizada";
         try{
-            listaSolicitudAyuda = solicitudDao.obtenerElementos(usuario.getIdUsuario(), idGrupo, estado);
+            //listaSolicitudAyuda = solicitudDao.obtenerElementos(usuario.getIdUsuario(), idGrupo, estado);
             if(listaSolicitudAyuda != null){
                 for(SolicitudAyuda lista : listaSolicitudAyuda){
                     if(!listaIds.contains(lista.getId().getIdSolicitud())){
@@ -188,13 +188,13 @@ public class UsuarioController {
         String grupo = consultaO.getGrupo();
         String estado = consultaO.getEstado();
         try{
-            if(grupos.contains(grupo) && !estados.contains(estado))
+            /*if(grupos.contains(grupo) && !estados.contains(estado))
                 listaSolicitudAyuda = solicitudDao.buscarPorGrupo(grupo, usuario.getIdUsuario());
             else if(!grupos.contains(grupo) && estados.contains(estado))
                 listaSolicitudAyuda = solicitudDao.buscarPorEstado(estado, usuario.getIdUsuario());
             else if(grupos.contains(grupo) && estados.contains(estado)){
                 listaSolicitudAyuda = solicitudDao.obtenerElementos(usuario.getIdUsuario(), grupo, estado);
-            }
+            }*/
             if(listaSolicitudAyuda != null){
                 for(SolicitudAyuda lista : listaSolicitudAyuda){
                     if(!listaIds.contains(lista.getId().getIdSolicitud())){

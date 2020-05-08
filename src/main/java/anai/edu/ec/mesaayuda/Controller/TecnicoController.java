@@ -66,7 +66,7 @@ public class TecnicoController {
         usuario = obtenerSessionUsuario(request, response);
         String estado = "asignada";
         try{
-            listaSolicitudAyuda = solicitudDao.cargarSolicitudesTecnico(usuario.getIdUsuario(), estado);
+            //listaSolicitudAyuda = solicitudDao.cargarSolicitudesTecnico(usuario.getIdUsuario(), estado);
             if(listaSolicitudAyuda != null){
                 for(SolicitudAyuda lista : listaSolicitudAyuda){
                     String userSolicitaAyuda = lista.getUsuarioByIdUserSolicitaAyuda().getNombre() +" "+ lista.getUsuarioByIdUserSolicitaAyuda().getApellido();
@@ -184,13 +184,13 @@ public class TecnicoController {
         String estado = consultaO.getEstado();
         try{
             if(tipoSolicitud.equals("mSolicitudes")){ //mis solicitudes
-                if(grupos.contains(grupo) && !estados.contains(estado))
+                /*if(grupos.contains(grupo) && !estados.contains(estado))
                     listaSolicitudAyuda = solicitudDao.buscarPorGrupo(grupo, usuario.getIdUsuario());
                 else if(!grupos.contains(grupo) && estados.contains(estado))
                     listaSolicitudAyuda = solicitudDao.buscarPorEstado(estado, usuario.getIdUsuario());
                 else if(grupos.contains(grupo) && estados.contains(estado)){
                     listaSolicitudAyuda = solicitudDao.obtenerElementos(usuario.getIdUsuario(), grupo, estado);
-                }
+                }*/
                 if(listaSolicitudAyuda != null){
                     for(SolicitudAyuda lista : listaSolicitudAyuda){
                         if(!listaIds.contains(lista.getId().getIdSolicitud())){
@@ -220,7 +220,7 @@ public class TecnicoController {
             }
             else if(tipoSolicitud.equals("rSolicitudes")){ //solicitudes realizadas
                 String estadoAyuda = "reevaluar-finalizada";
-                listaSolicitudAyuda = solicitudDao.cargarSolicitudesTecnico(usuario.getIdUsuario(), estadoAyuda);
+                //listaSolicitudAyuda = solicitudDao.cargarSolicitudesTecnico(usuario.getIdUsuario(), estadoAyuda);
                 if(listaSolicitudAyuda != null){
                     for(SolicitudAyuda lista : listaSolicitudAyuda){
                         String userSolicitaAyuda = lista.getUsuarioByIdUserSolicitaAyuda().getNombre() +" "+ lista.getUsuarioByIdUserSolicitaAyuda().getApellido();

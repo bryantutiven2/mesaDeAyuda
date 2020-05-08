@@ -37,4 +37,18 @@ public class fechaSolicitud {
         }
         return date;
     }
+    
+    public static Date convertirFechaSimple(String fecha){
+        Date date = null;
+        try{
+            SimpleDateFormat parseFormat = new SimpleDateFormat("dd/MM/yyyy");
+            Date date1 = parseFormat.parse(fecha);
+            SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+            date = dateFormat.parse(dateFormat.format(date1));
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
+        return date;
+    }
 }

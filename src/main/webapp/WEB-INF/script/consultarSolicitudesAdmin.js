@@ -1,5 +1,7 @@
+limitarChecks();
 
 function postAjaxTabla(datos){
+    console.log(datos);
     $.ajax({
     type: "POST",
     contentType: 'application/json',
@@ -8,7 +10,7 @@ function postAjaxTabla(datos){
     success: function(result){
         if(result.status == "success"){
             //var tableBody = '';
-            if(datos.tipoSolicitud == "mSolicitudes"){
+            if(datos.tipoSolicitud == "mSolicitudes" || datos.tipoSolicitud == "uSolicitudes"){
                 $('#tableM').show();
                 //$("#bodyTableCargarSolicitudes").empty();
                 cargarEstiloTM();
@@ -33,7 +35,7 @@ function postAjaxTabla(datos){
                 $(".loader").removeClass("hidden"); //remover loader
                 
             }
-            else if(datos.tipoSolicitud == "rSolicitudes"){
+            else if(datos.tipoSolicitud == "tSolicitudes"){
                 $('#tableR').show();
                 //$("#bodyTableCargarSolicitudesR").empty();
                 cargarEstiloTR();
@@ -68,19 +70,77 @@ function postAjaxTabla(datos){
 }
 $(document).ready(function () {
     $(document).on('click','#testForm', function(){
-        var solicitudR = $('input[name=solicitudesR]:checked', '#testForm').val();
+        let solicitudR = $('input[name=solicitudesR]:checked', '#testForm').val();
+        let selectEstado=document.getElementById("buscarEstado");
+        let op=selectEstado.getElementsByTagName("option");
+        
         if(solicitudR == "mSolicitudes"){
+            op[1].style.display="block";
             reinciarCasillas();
-            $('#filtroGE').show();
+            $('#filtroGrupo').show();
+            $('#filtroEstado').show();
+            $('#filtroUsuario').hide();
+            $('#filtroTecnico').hide();
             $('#tableR').hide();
         }
-        else if( solicitudR == "rSolicitudes"){
+        else if( solicitudR == "tSolicitudes"){
+            op[1].style.display="none";
             reinciarCasillas();
-            $('#filtroGE').hide();
+            $('#filtroTecnico').show();
+            $('#filtroGrupo').hide();
+            $('#filtroEstado').show();
+            $('#filtroUsuario').hide();
             $('#tableM').hide();
+        }
+        else if( solicitudR == "uSolicitudes"){
+            op[1].style.display="block";
+            reinciarCasillas();
+            $('#filtroUsuario').show();
+            $('#filtroTecnico').hide();
+            $('#filtroEstado').show();
+            $('#filtroGrupo').hide();
+            $('#tableR').hide();
         }
      });
 });
+
+/*Activar toggle de cargar usuarios en crearSolicitudAdmin.jsp */
+$(document).ready(function() {
+    $(document).on('click','.cargarTogleUsuarios', function(){
+        $("#myModalCS").modal();
+    });
+});
+
+/*datetime picker para fechas desde hasta en consultar solicitudes*/
+$(function () {
+    $('#datetimeDesde').datetimepicker({
+        format: "DD/MM/YYYY"
+    });
+    $('#datetimeHasta').datetimepicker({
+        useCurrent: false,
+        format: "DD/MM/YYYY"
+    });
+    $("#datetimeDesde").on("change.datetimepicker", function (e) {
+        $('#datetimeHasta').datetimepicker('minDate', e.date);
+    });
+    $("#datetimeHasta").on("change.datetimepicker", function (e) {
+        $('#datetimeDesde').datetimepicker('maxDate', e.date);
+    });
+});
+            
+/*limitar numero de checks de usuario solicita ayuda en crearSolicitudAdmin.jsp*/
+function limitarChecks() {
+   $("input[name='adU-checkbox']").change(function () {
+      var limit = 1;
+      var cantidadCkb = $("input[name='adU-checkbox']:checked").length;
+      if (cantidadCkb > limit) 
+      {
+         $(this).prop("checked", "");
+         alert("Solo puede seleccionar: "+ limit+" usuario");
+     }
+  });
+};
+
 
 /*disable input de observaciones si la solicitud ha sido finalizada*/
 $(document).ready(function() {
@@ -104,23 +164,43 @@ function reinciarCasillas(){
     selectBuscar.options[0].selected=true;
     let selectEstado=document.getElementById("buscarEstado");
     selectEstado.options[0].selected=true;
+    let selectTecnico=document.getElementById("selectTecnico");
+    selectTecnico.options[0].selected=true;
+    $('#idUserSolicitaA').val("");
+    $('#dtpDesde').val("");
+    $('#dtpHasta').val("");
 }
 
 $(document).ready(function () {
     $(document).on('click','#cargarSelectC', function(){
-        var solicitudR = $('input[name=solicitudesR]:checked', '#testForm').val();
-        var option_buscarGrupo = document.getElementById("buscarGrupo").value;
-        var option_buscarEstado = document.getElementById("buscarEstado").value;
+        let solicitudR = $('input[name=solicitudesR]:checked', '#testForm').val();
+        let option_buscarGrupo = document.getElementById("buscarGrupo").value;
+        let option_buscarEstado = document.getElementById("buscarEstado").value;
+        let option_tecnico = document.getElementById("selectTecnico").value;
+        let idUSA = $('#idUserSolicitaA').val();
+        let fechaD = $('#dtpDesde').val();
+        let fechaH = $('#dtpHasta').val();
+        
         var datos = {
                 tipoSolicitud: solicitudR,
                 grupo: option_buscarGrupo,
-                estado: option_buscarEstado
+                estado: option_buscarEstado,
+                fechaDesde: fechaD,
+                fechaHasta: fechaH,
+                idUsuarioS: idUSA,
+                idTecnico: option_tecnico
             };
-        if(solicitudR == 'mSolicitudes' && (option_buscarGrupo != "" || option_buscarEstado!= "")){
+            console.log(datos);
+        if(solicitudR == 'mSolicitudes' && (option_buscarGrupo != "" || option_buscarEstado!= "") 
+                && fechaD != '' && fechaH != ''){
             $(".loader").addClass("hidden"); //cargar loader
             postAjaxTabla(datos);
         }
-        else if(solicitudR == 'rSolicitudes' && option_buscarGrupo == "" && option_buscarEstado== ""){
+        else if(solicitudR == 'tSolicitudes' && option_tecnico != "" && fechaD != '' && fechaH != ''){
+            $(".loader").addClass("hidden"); //cargar loader
+            postAjaxTabla(datos);
+        }
+        else if(solicitudR == 'uSolicitudes' && idUSA != "" && fechaD != '' && fechaH != ''){
             $(".loader").addClass("hidden"); //cargar loader
             postAjaxTabla(datos);
         }
@@ -131,6 +211,44 @@ $(document).ready(function () {
         
     }); 
 });
+
+/*Activar estilo de tabla usuarios solicita ayuda*/
+$(document).ready(function () {
+  $('#dtUsuariosSA').DataTable({
+      retrieve: true,
+    //para cambiar el lenguaje a español
+        "language": {
+            "lengthMenu": "Mostrar _MENU_ registros",
+            "zeroRecords": "No se encontraron resultados",
+            "info": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+            "infoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+            "infoFiltered": "(filtrado de un total de _MAX_ registros)",
+            "sSearch": "Buscar:",
+            "oPaginate": {
+                "sFirst": "Primero",
+                "sLast":"Último",
+                "sNext":"Siguiente",
+                "sPrevious": "Anterior"
+                         },
+                         "sProcessing":"Procesando...",
+        }
+    });
+});
+
+/*Permite cargar el usuario seleccionado en el toggle en crearSolicitudAdmin.jsp*/
+$(document).ready(function() {
+    $(document).on('click','#cargarIdUSA', function(){
+        //limitarChecks();
+        var selected = '';    
+        $('#idsUSA input[type=checkbox]').each(function(){
+            if(this.checked){
+                selected += $(this).val();
+            } 
+        }); 
+    document.getElementById("idUserSolicitaA").value= selected;
+    $('#idUserSolicitaA').attr('value', selected);
+    });         
+});  
 
 /*diseño del table*/
 function cargarEstiloTM() {

@@ -24,6 +24,7 @@ import anai.edu.ec.mesaayuda.Entity.TipoGrupo;
 import anai.edu.ec.mesaayuda.Entity.Usuario;
 import anai.edu.ec.mesaayuda.Service.ServiceResponse;
 import static anai.edu.ec.mesaayuda.Service.SessionUsuario.obtenerSessionUsuario;
+import anai.edu.ec.mesaayuda.Service.fechaSolicitud;
 import static anai.edu.ec.mesaayuda.Service.fechaSolicitud.convertirFecha;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -343,6 +344,7 @@ public class AdminController {
     @PostMapping( "/filtroConsultarSolicitud" )
     public ResponseEntity<Object> filtroConsultarSolicitud(@RequestBody ConsultaObjeto consultaO,
                                                 HttpServletRequest request, HttpServletResponse response){
+        consultaO.toString();
         List<SolicitudTabla> listaTabla = new ArrayList<>();
         ServiceResponse<List<SolicitudTabla>> respo = null;
         HashSet<Integer> listaIds = new HashSet<Integer>();
@@ -355,18 +357,21 @@ public class AdminController {
         estados.add("reevaluar");
         estados.add("finalizada");
         usuario = obtenerSessionUsuario(request, response);
-        String fechaF, userTecnico, tipoG;
+        String fechaIT, fechaFT, fechaF, userTecnico, tipoG, descripT;
         String tipoSolicitud = consultaO.getTipoSolicitud();
-        String grupo = consultaO.getGrupo();
-        String estado = consultaO.getEstado();
+        Date fechaD = fechaSolicitud.convertirFechaSimple(consultaO.getFechaDesde());
+        Date fechaH = fechaSolicitud.convertirFechaSimple(consultaO.getFechaHasta());
         try{
             if(tipoSolicitud.equals("mSolicitudes")){ //mis solicitudes
+                consultaO.toString();
+                String grupo = consultaO.getGrupo();
+                String estado = consultaO.getEstado();
                 if(grupos.contains(grupo) && !estados.contains(estado))
-                    listaSolicitudAyuda = solicitudDao.buscarPorGrupo(grupo, usuario.getIdUsuario());
+                    listaSolicitudAyuda = solicitudDao.buscarPorGrupo(grupo, usuario.getIdUsuario(), fechaD, fechaH);
                 else if(!grupos.contains(grupo) && estados.contains(estado))
-                    listaSolicitudAyuda = solicitudDao.buscarPorEstado(estado, usuario.getIdUsuario());
+                    listaSolicitudAyuda = solicitudDao.buscarPorEstado(estado, usuario.getIdUsuario(), fechaD, fechaH);
                 else if(grupos.contains(grupo) && estados.contains(estado)){
-                    listaSolicitudAyuda = solicitudDao.obtenerElementos(usuario.getIdUsuario(), grupo, estado);
+                    listaSolicitudAyuda = solicitudDao.obtenerElementos(usuario.getIdUsuario(), grupo, estado, fechaD, fechaH);
                 }
                 if(listaSolicitudAyuda != null){
                     for(SolicitudAyuda lista : listaSolicitudAyuda){
@@ -395,25 +400,85 @@ public class AdminController {
                     respo = new ServiceResponse<>("success",listaTabla);
                 }
             }
-            else if(tipoSolicitud.equals("rSolicitudes")){ //solicitudes realizadas
-                String estadoAyuda = "reevaluar-finalizada";
-                listaSolicitudAyuda = solicitudDao.cargarSolicitudesTecnico(usuario.getIdUsuario(), estadoAyuda);
+            else if(tipoSolicitud.equals("tSolicitudes")){ //solicitudes realizadas
+                String estadoAyuda;
+                Integer idTecnico = consultaO.getIdTecnico();
+                Usuario usuarioTecnico = usuarioDao.obtenerElemento(idTecnico);
+                if(estados.contains(consultaO.getEstado()))
+                    estadoAyuda = consultaO.getEstado();
+                else 
+                    estadoAyuda = "asignada-reevaluar-finalizada";
+                listaSolicitudAyuda = solicitudDao.cargarSolicitudesTecnico(usuarioTecnico.getIdUsuario(), estadoAyuda, fechaD, fechaH);
                 if(listaSolicitudAyuda != null){
                     for(SolicitudAyuda lista : listaSolicitudAyuda){
-                        String userSolicitaAyuda = lista.getUsuarioByIdUserSolicitaAyuda().getNombre() +" "+ lista.getUsuarioByIdUserSolicitaAyuda().getApellido();
-                        listaTabla.add(
-                            new SolicitudTabla(
-                                    lista.getId().getIdSolicitud(), lista.getDescripcion(), lista.getMensajeUserTecnico(),userSolicitaAyuda,
-                                    String.valueOf(dateFormat.format(lista.getFechaInicio())),
-                                    String.valueOf(dateFormat.format(lista.getFechaFin())),
-                                    String.valueOf(dateFormat.format(lista.getFechaInicioTecnico())),
-                                    String.valueOf(dateFormat.format(lista.getFechaFinTecnico())),
-                                    lista.getEstadoSolicitudTecnico(), lista.getEstadoSolicitud()
-                            )); 
+                        if(!listaIds.contains(lista.getId().getIdSolicitud())){
+                            listaIds.add(lista.getId().getIdSolicitud());
+                            String userSolicitaAyuda = lista.getUsuarioByIdUserSolicitaAyuda().getNombre() +" "+ lista.getUsuarioByIdUserSolicitaAyuda().getApellido();
+                            if(lista.getFechaInicioTecnico() != null)
+                                    fechaIT = String.valueOf(dateFormat.format(lista.getFechaInicioTecnico()));
+                            else
+                                fechaIT = "";
+                            if(lista.getFechaFin() != null)
+                                    fechaF = String.valueOf(dateFormat.format(lista.getFechaFin()));
+                            else
+                                fechaF = "";
+                            if(lista.getFechaFinTecnico() != null)
+                                    fechaFT = String.valueOf(dateFormat.format(lista.getFechaFinTecnico()));
+                            else
+                                fechaFT = "";
+                            if(lista.getMensajeUserTecnico() != null)
+                                    descripT = lista.getMensajeUserTecnico();
+                            else
+                                descripT = "";
+                            listaTabla.add(
+                                new SolicitudTabla(
+                                        lista.getId().getIdSolicitud(), lista.getDescripcion(), descripT,userSolicitaAyuda,
+                                        String.valueOf(dateFormat.format(lista.getFechaInicio())),
+                                        fechaF, fechaIT, fechaFT, lista.getEstadoSolicitudTecnico(), lista.getEstadoSolicitud()
+                                )); 
+                        }
                     }
                 }
                 respo = new ServiceResponse<>("success",listaTabla);
             }
+            else if(tipoSolicitud.equals("uSolicitudes")){ //solicitudes realizadas
+                String estadoAyuda;
+                Integer idUsuario = consultaO.getIdUsuarioS();
+                Usuario usuarioSolicitaA = usuarioDao.obtenerElemento(idUsuario);
+                String grupoId = usuario.getRol().split("_")[1];
+                if(estados.contains(consultaO.getEstado()))
+                    estadoAyuda = consultaO.getEstado();
+                else 
+                    estadoAyuda = "pendiente-asignada-reevaluar-finalizada";
+                listaSolicitudAyuda = solicitudDao.obtenerElementos(usuarioSolicitaA.getIdUsuario(), grupoId, estadoAyuda, fechaD, fechaH);
+                if(listaSolicitudAyuda != null){
+                    for(SolicitudAyuda lista : listaSolicitudAyuda){
+                         if(!listaIds.contains(lista.getId().getIdSolicitud())){
+                            listaIds.add(lista.getId().getIdSolicitud());
+                            String userSolicitaAyuda = usuarioSolicitaA.getNombre() +" "+ usuarioSolicitaA.getApellido();
+                            if(lista.getFechaFin() != null)
+                                fechaF = String.valueOf(dateFormat.format(lista.getFechaFin()));
+                            else
+                                fechaF = "";
+                            if(lista.getUsuarioByIdUserTecnico() != null)
+                                userTecnico = lista.getUsuarioByIdUserTecnico().getNombre() + " " + lista.getUsuarioByIdUserTecnico().getApellido();
+                            else
+                                userTecnico = "";
+                            if(lista.getTipoGrupo() != null)
+                                tipoG = lista.getTipoGrupo().getNombreTipo();
+                            else
+                                tipoG = "";
+                            listaTabla.add(
+                                new SolicitudTabla(lista.getId().getIdSolicitud(), lista.getGrupo().getNombreGrupo(),
+                                        tipoG, lista.getDescripcion(), userTecnico,
+                                        String.valueOf(dateFormat.format(lista.getFechaInicio())),
+                                        fechaF, lista.getEstadoSolicitud()));
+                         }
+                    }
+                }
+                respo = new ServiceResponse<>("success",listaTabla);
+            }
+            
             else{
                 respo = new ServiceResponse<>("success",null);
             }
@@ -433,6 +498,11 @@ public class AdminController {
     @RequestMapping(value = { "/consultarSolicitud" }, method = RequestMethod.GET)
     public ModelAndView consultarSolicitud(HttpServletRequest request, HttpServletResponse response){
         usuario = obtenerSessionUsuario(request, response);
+        String grupoId = usuario.getRol().split("_")[1];
+        List<Usuario> listaTecnicos = usuarioDao.obtenerElementos(grupoId);
+        List<Usuario> listaUsuarios = usuarioDao.obtenerUsuarios();
+        model.addObject("listarTecnicoCS", listaTecnicos);
+        model.addObject("listaUsuariosSA", listaUsuarios);
         datosUsuario();
         model.addObject("viewMain","consultaSolicitudesAdmin");
         model.setViewName("menuUsuario");

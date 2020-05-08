@@ -12,6 +12,7 @@ import anai.edu.ec.mesaayuda.Enum.EstadoSolicitud;
 import anai.edu.ec.mesaayuda.Util.HibernateUtil;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import org.hibernate.SQLQuery;
@@ -66,6 +67,7 @@ public class SolicitudImpl implements ISolicitudDao{
                                             + "or (sa.estadoSolicitudTecnico = 'finalizada' and  TO_CHAR(sa.fechaFinTecnico) =  TO_CHAR(current_date)))";
     private final String cargarSolicitudesEncuesta = "from SolicitudAyuda sa join fetch sa.usuarioByIdUserSolicitaAyuda usa join fetch sa.encuesta "
                                             + "where sa.estadoSolicitud = 'finalizada' and sa.estadoEncuesta = 0 and usa.idUsuario= :idUserSA";
+    private final String rangoFechaDH = " and (TO_DATE(TO_CHAR(sa.fechaInicio), 'dd/mm/YYYY') BETWEEN :fechaD and :fechaH)";
     
     @Override
     public Boolean insertar(SolicitudAyuda o) {
@@ -187,21 +189,40 @@ public class SolicitudImpl implements ISolicitudDao{
     }
 
     @Override
-    public List<SolicitudAyuda> buscarPorGrupo(String grupo, Integer idUserSA) {
-        List<SolicitudAyuda> listaSolicitud = null;
+    public List<SolicitudAyuda> buscarPorGrupo(String grupo, Integer idUserSA, Date fechaD, Date fechaH) {
+        List<SolicitudAyuda> listaSolicitud = new ArrayList<>();
         Query query = null;
         try{
+            
             HibernateUtil.abrirSession();
             Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-            query = session.createQuery(buscarPorGrupo1, SolicitudAyuda.class);
-            query.setParameter("grupo", grupo);
-            query.setParameter("idUserSA", idUserSA);
-            listaSolicitud = query.getResultList();
-            
-            query = session.createQuery(buscarPorGrupo2, SolicitudAyuda.class);
-            query.setParameter("grupo", grupo);
-            query.setParameter("idUserSA", idUserSA);
-            listaSolicitud.addAll(query.getResultList()); 
+            if(fechaD != null && fechaH != null){
+                query = session.createQuery(buscarPorGrupo1+rangoFechaDH, SolicitudAyuda.class);
+                query.setParameter("grupo", grupo);
+                query.setParameter("idUserSA", idUserSA);
+                query.setParameter("fechaD", fechaD);
+                query.setParameter("fechaH", fechaH);
+                listaSolicitud.addAll(query.getResultList());
+
+                query = session.createQuery(buscarPorGrupo2+rangoFechaDH, SolicitudAyuda.class);
+                query.setParameter("grupo", grupo);
+                query.setParameter("idUserSA", idUserSA);
+                query.setParameter("fechaD", fechaD);
+                query.setParameter("fechaH", fechaH);
+                listaSolicitud.addAll(query.getResultList());
+            }
+            else{
+                query = session.createQuery(buscarPorGrupo1, SolicitudAyuda.class);
+                query.setParameter("grupo", grupo);
+                query.setParameter("idUserSA", idUserSA);
+                listaSolicitud.addAll(query.getResultList());
+
+                query = session.createQuery(buscarPorGrupo2, SolicitudAyuda.class);
+                query.setParameter("grupo", grupo);
+                query.setParameter("idUserSA", idUserSA);
+                listaSolicitud.addAll(query.getResultList());
+            }
+             
         }
         catch(Exception exc){
             exc.printStackTrace();
@@ -213,21 +234,39 @@ public class SolicitudImpl implements ISolicitudDao{
     }
 
     @Override
-    public List<SolicitudAyuda> buscarPorEstado(String estado, Integer idUserSA) {
-        List<SolicitudAyuda> listaSolicitud = null;
+    public List<SolicitudAyuda> buscarPorEstado(String estado, Integer idUserSA, Date fechaD, Date fechaH) {
+        List<SolicitudAyuda> listaSolicitud = new ArrayList<>();
         Query query = null;
         try{
             HibernateUtil.abrirSession();
             Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-            query = session.createQuery(bucsarPorEstado1, SolicitudAyuda.class);
-            query.setParameter("estado", estado);
-            query.setParameter("idUserSA", idUserSA);
-            listaSolicitud = query.getResultList();
+            if(fechaD != null && fechaH != null){
+                query = session.createQuery(bucsarPorEstado1+rangoFechaDH, SolicitudAyuda.class);
+                query.setParameter("estado", estado);
+                query.setParameter("idUserSA", idUserSA);
+                query.setParameter("fechaD", fechaD);
+                query.setParameter("fechaH", fechaH);
+                listaSolicitud.addAll(query.getResultList());
+
+                query = session.createQuery(bucsarPorEstado2+rangoFechaDH, SolicitudAyuda.class);
+                query.setParameter("estado", estado);
+                query.setParameter("idUserSA", idUserSA);
+                query.setParameter("fechaD", fechaD);
+                query.setParameter("fechaH", fechaH);
+                listaSolicitud.addAll(query.getResultList()); 
+            }
+            else{
+                query = session.createQuery(bucsarPorEstado1, SolicitudAyuda.class);
+                query.setParameter("estado", estado);
+                query.setParameter("idUserSA", idUserSA);
+                listaSolicitud.addAll(query.getResultList());
+
+                query = session.createQuery(bucsarPorEstado2, SolicitudAyuda.class);
+                query.setParameter("estado", estado);
+                query.setParameter("idUserSA", idUserSA);
+                listaSolicitud.addAll(query.getResultList()); 
+            }
             
-            query = session.createQuery(bucsarPorEstado2, SolicitudAyuda.class);
-            query.setParameter("estado", estado);
-            query.setParameter("idUserSA", idUserSA);
-            listaSolicitud.addAll(query.getResultList()); 
         }
         catch(Exception exc){
             exc.printStackTrace();
@@ -239,23 +278,50 @@ public class SolicitudImpl implements ISolicitudDao{
     }
 
     @Override
-    public List<SolicitudAyuda> obtenerElementos(Integer idUser, String idGrupo, String estado) {
-        List<SolicitudAyuda> listaSolicitud = null;
+    public List<SolicitudAyuda> obtenerElementos(Integer idUser, String idGrupo, String estado, Date fechaD, Date fechaH) {
+        List<SolicitudAyuda> listaSolicitud = new ArrayList<>();
         Query query = null;
+        String bE1, bE2;
         try{
+            ArrayList<String> estados = new ArrayList<>();
+            estados.addAll(Arrays.asList(estado.split("-")));
             HibernateUtil.abrirSession();
             Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-            query = session.createQuery(obtenerSolicitudesUserSa, SolicitudAyuda.class);
-            query.setParameter("idUser", idUser);
-            query.setParameter("estado", estado);
-            query.setParameter("idGrupo", idGrupo);
-            listaSolicitud = query.getResultList();
+            if(fechaD != null && fechaH != null){
+                for(int i = 0; i < estados.size(); i++){
+                    query = session.createQuery(obtenerSolicitudesUserSa+rangoFechaDH, SolicitudAyuda.class);
+                    query.setParameter("idUser", idUser);
+                    query.setParameter("estado", estados.get(i));
+                    query.setParameter("idGrupo", idGrupo);
+                    query.setParameter("fechaD", fechaD);
+                    query.setParameter("fechaH", fechaH);
+                    listaSolicitud.addAll(query.getResultList());
+
+                    query = session.createQuery(obtenerSolicitudesUserSa2+rangoFechaDH, SolicitudAyuda.class);
+                    query.setParameter("idUser", idUser);
+                    query.setParameter("estado", estados.get(i));
+                    query.setParameter("idGrupo", idGrupo);
+                    query.setParameter("fechaD", fechaD);
+                    query.setParameter("fechaH", fechaH);
+                    listaSolicitud.addAll(query.getResultList());
+                }
+            }
+            else{
+                for(int i = 0; i < estados.size(); i++){
+                    query = session.createQuery(obtenerSolicitudesUserSa, SolicitudAyuda.class);
+                    query.setParameter("idUser", idUser);
+                    query.setParameter("estado", estados.get(i));
+                    query.setParameter("idGrupo", idGrupo);
+                    listaSolicitud.addAll(query.getResultList());
+
+                    query = session.createQuery(obtenerSolicitudesUserSa2, SolicitudAyuda.class);
+                    query.setParameter("idUser", idUser);
+                    query.setParameter("estado", estados.get(i));
+                    query.setParameter("idGrupo", idGrupo);
+                    listaSolicitud.addAll(query.getResultList());
+                }
+            }
             
-            query = session.createQuery(obtenerSolicitudesUserSa2, SolicitudAyuda.class);
-            query.setParameter("idUser", idUser);
-            query.setParameter("estado", estado);
-            query.setParameter("idGrupo", idGrupo);
-            listaSolicitud.addAll(query.getResultList());
         }
         catch(Exception exc){
             exc.printStackTrace();
@@ -267,7 +333,7 @@ public class SolicitudImpl implements ISolicitudDao{
     }
 
     @Override
-    public List<SolicitudAyuda> cargarSolicitudesTecnico(Integer idUser, String estado) {
+    public List<SolicitudAyuda> cargarSolicitudesTecnico(Integer idUser, String estado, Date fechaD, Date fechaH) {
         List<SolicitudAyuda> listaSolicitud = new ArrayList<>();
         Query query = null;
         try{
@@ -275,12 +341,25 @@ public class SolicitudImpl implements ISolicitudDao{
             estados.addAll(Arrays.asList(estado.split("-")));
             HibernateUtil.abrirSession();
             Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-            for(int i = 0; i < estados.size(); i++){
-                query = session.createQuery(cargarSolicitudesTecnico, SolicitudAyuda.class);
-                query.setParameter("idUser", idUser);
-                query.setParameter("estado", estados.get(i));
-                listaSolicitud.addAll(query.getResultList());
+            if(fechaD != null && fechaH != null){
+                for(int i = 0; i < estados.size(); i++){
+                    query = session.createQuery(cargarSolicitudesTecnico+rangoFechaDH, SolicitudAyuda.class);
+                    query.setParameter("idUser", idUser);
+                    query.setParameter("estado", estados.get(i));
+                    query.setParameter("fechaD", fechaD);
+                    query.setParameter("fechaH", fechaH);
+                    listaSolicitud.addAll(query.getResultList());
+              } 
             }
+            else{
+                for(int i = 0; i < estados.size(); i++){
+                    query = session.createQuery(cargarSolicitudesTecnico, SolicitudAyuda.class);
+                    query.setParameter("idUser", idUser);
+                    query.setParameter("estado", estados.get(i));
+                    listaSolicitud.addAll(query.getResultList());
+              }  
+            }
+            
         }
         catch(Exception exc){
             exc.printStackTrace();

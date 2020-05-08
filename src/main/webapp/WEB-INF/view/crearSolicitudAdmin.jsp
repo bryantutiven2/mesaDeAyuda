@@ -94,7 +94,7 @@
                         <div class="form-group col-md-2"></div>
                         <div class="form-group col-md-3">
                             <label><h6>Usuario Solicita Ayuda</h6></label>
-                            <input type="text" class="form-control cargarTogleUsuarios" name="idUserSolicitaA" id="idUserSolicitaA" required>
+                            <input type="text" class="form-control cargarTogleUsuarios" name="idUserSolicitaA" id="idUserSolicitaA" readonly required>
                         </div>
                     </div>
                 </div>
@@ -143,7 +143,7 @@
                         <div class="form-group col-md-5">
                             <div class="form-row">
                                 <label class="col-md-6" style="padding-top: 0.9%;"><h6>Encuesta</h6></label>
-                                <input type="text" class="form-control col-md-6" name="encuesta_cs" id="encuesta_cs" required>
+                                <input type="text" class="form-control col-md-6" name="encuesta_cs" id="encuesta_cs" readonly required>
                             </div>
                         </div>
                     </div>
