@@ -151,31 +151,6 @@ $(document).ready(function() {
         $(".loader").addClass("hidden");
         postAjaxTabla(datos);
     });
-    /*
-    $(document).on('click','#enviarSActualizada', function(){
-        let idD = document.getElementById("codigo_sn").value;
-        let tipoD = document.getElementById("selectTipo").value;
-        let fechaFinD = document.getElementById("fechaFin_sn").value;
-        let userTecnicoD = document.getElementById("selectTecnico").value;
-        let iEncuesta = $('#encuesta_cs').val();
-        let datos ={
-            id : idD,
-            tipo: tipoD,
-            userTecnico: userTecnicoD,
-            fechaFin: fechaFinD,
-            estadoSolicitud: 'asignada',
-            idEncuesta: iEncuesta
-            };
-        if(idD != '' && tipoD != '' && fechaFinD != '' && userTecnicoD!= '' && iEncuesta != ''){
-            $(".loader").addClass("hidden");
-            postAjaxTabla(datos);
-        }
-        else{
-            //$("#mensajePost").html('<i class="fas fa-exclamation-triangle" style="color: #F87011;font-size: 24pt;margin-right: 30px;"></i> Tiene campos sin llenar, por favor llenarlos.');
-            $("#procesoSolicitud").modal(); 
-        }
-    });
-    */
 });
 
 /*reinciair form de actualizar solciitud*/
