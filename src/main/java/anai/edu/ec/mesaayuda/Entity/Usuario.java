@@ -26,16 +26,17 @@ public class Usuario  implements java.io.Serializable {
 
 
      private Integer idUsuario;
+     private Departamento departamento;
      private TipoGrupo tipoGrupo;
      private String nombre;
      private String apellido;
      private String usuario;
      private String contrasena;
      private String correo;
-     private String departamento;
      private String rol;
      private Integer estadoBorrado;
      private Set<SolicitudAyuda> solicitudAyudasForIdUserTecnico = new HashSet<SolicitudAyuda>(0);
+     private Set<Observacion> observacions = new HashSet<Observacion>(0);
      private Set<SolicitudAyuda> solicitudAyudasForIdUserAdmin = new HashSet<SolicitudAyuda>(0);
      private Set<SolicitudAyuda> solicitudAyudasForIdUserSolicitaAyuda = new HashSet<SolicitudAyuda>(0);
 
@@ -53,7 +54,7 @@ public class Usuario  implements java.io.Serializable {
         this.correo = correo;
         this.rol = rol;
     }
-    public Usuario(Integer idUsuario, TipoGrupo tipoGrupo, String nombre, String apellido, String usuario, String contrasena, String correo, String departamento, String rol, Integer estadoBorrado, Set<SolicitudAyuda> solicitudAyudasForIdUserTecnico, Set<SolicitudAyuda> solicitudAyudasForIdUserAdmin, Set<SolicitudAyuda> solicitudAyudasForIdUserSolicitaAyuda) {
+    public Usuario(Integer idUsuario, TipoGrupo tipoGrupo, String nombre, String apellido, String usuario, String contrasena, String correo, Departamento departamento, String rol, Integer estadoBorrado, Set<SolicitudAyuda> solicitudAyudasForIdUserTecnico, Set<SolicitudAyuda> solicitudAyudasForIdUserAdmin, Set<SolicitudAyuda> solicitudAyudasForIdUserSolicitaAyuda) {
        this.idUsuario = idUsuario;
        this.tipoGrupo = tipoGrupo;
        this.nombre = nombre;
@@ -62,6 +63,21 @@ public class Usuario  implements java.io.Serializable {
        this.contrasena = contrasena;
        this.correo = correo;
        this.departamento = departamento;
+       this.rol = rol;
+       this.estadoBorrado = estadoBorrado;
+       this.solicitudAyudasForIdUserTecnico = solicitudAyudasForIdUserTecnico;
+       this.solicitudAyudasForIdUserAdmin = solicitudAyudasForIdUserAdmin;
+       this.solicitudAyudasForIdUserSolicitaAyuda = solicitudAyudasForIdUserSolicitaAyuda;
+    }
+    
+    public Usuario(Integer idUsuario, TipoGrupo tipoGrupo, String nombre, String apellido, String usuario, String contrasena, String correo, String rol, Integer estadoBorrado, Set<SolicitudAyuda> solicitudAyudasForIdUserTecnico, Set<SolicitudAyuda> solicitudAyudasForIdUserAdmin, Set<SolicitudAyuda> solicitudAyudasForIdUserSolicitaAyuda) {
+       this.idUsuario = idUsuario;
+       this.tipoGrupo = tipoGrupo;
+       this.nombre = nombre;
+       this.apellido = apellido;
+       this.usuario = usuario;
+       this.contrasena = contrasena;
+       this.correo = correo;
        this.rol = rol;
        this.estadoBorrado = estadoBorrado;
        this.solicitudAyudasForIdUserTecnico = solicitudAyudasForIdUserTecnico;
@@ -143,11 +159,11 @@ public class Usuario  implements java.io.Serializable {
 
     
     @Column(name="DEPARTAMENTO", length=50)
-    public String getDepartamento() {
+    public Departamento getDepartamento() {
         return this.departamento;
     }
     
-    public void setDepartamento(String departamento) {
+    public void setDepartamento(Departamento departamento) {
         this.departamento = departamento;
     }
 
@@ -201,10 +217,9 @@ public class Usuario  implements java.io.Serializable {
     @Override
     public String toString() {
         if(tipoGrupo == null)
-            return "Usuario{" + "idUsuario=" + idUsuario + ", nombre=" + nombre + ", apellido=" + apellido + ", usuario=" + usuario + ", contrasena=" + contrasena + ", correo=" + correo + ", departamento=" + departamento + ", rol=" + rol + ", estadoBorrado=" + estadoBorrado + '}';
-        return "Usuario{" + "idUsuario=" + idUsuario + ", tipoGrupo=" + tipoGrupo.toString() + ", nombre=" + nombre + ", apellido=" + apellido + ", usuario=" + usuario + ", contrasena=" + contrasena + ", correo=" + correo + ", departamento=" + departamento + ", rol=" + rol + ", estadoBorrado=" + estadoBorrado + '}';
+            return "Usuario{" + "idUsuario=" + idUsuario + ", nombre=" + nombre + ", apellido=" + apellido + ", usuario=" + usuario + ", contrasena=" + contrasena + ", correo=" + correo + ", rol=" + rol + ", estadoBorrado=" + estadoBorrado + '}';
+        return "Usuario{" + "idUsuario=" + idUsuario + ", tipoGrupo=" + tipoGrupo.toString() + ", nombre=" + nombre + ", apellido=" + apellido + ", usuario=" + usuario + ", contrasena=" + contrasena + ", correo=" + correo + ", rol=" + rol + ", estadoBorrado=" + estadoBorrado + '}';
     }
-    
     
 }
 

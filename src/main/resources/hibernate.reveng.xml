@@ -4,6 +4,7 @@
 <hibernate-reverse-engineering>
   <schema-selection match-schema="MA01"/>
   <table-filter match-name="TIPO_GRUPO"/>
+  <table-filter match-name="DEPARTAMENTO"/>
   <table-filter match-name="ENCUESTA"/>
   <table-filter match-name="OBSERVACION"/>
   <table-filter match-name="GRUPO"/>

@@ -1,5 +1,12 @@
 alter session set nls_date_format = 'DD/MM/YYYY hh24:mi:ss';
 
+CREATE TABLE departamento(
+  id_departamento INTEGER  NOT NULL,
+  nombre_departamento VARCHAR2(100) NOT NULL,
+  estado_borrado INTEGER DEFAULT 0,
+  PRIMARY KEY(id_departamento)
+);
+
 CREATE TABLE grupo(
   id_grupo VARCHAR(5) NOT NULL,
   nombre_grupo VARCHAR2(50) NOT NULL,
@@ -36,14 +43,17 @@ CREATE TABLE usuario(
   usuario VARCHAR2(50) NOT NULL UNIQUE,
   contrasena VARCHAR(50) NOT NULL,
   correo VARCHAR2(200) NOT NULL UNIQUE,
-  departamento VARCHAR2(50),
   rol VARCHAR2(50) NOT NULL,
   estado_borrado INTEGER DEFAULT 0,
   id_tipo INTEGER,
+  id_departamento INTEGER NOT NULL,
   PRIMARY KEY(id_usuario),
   CONSTRAINT fk_id_tipo_u
     FOREIGN KEY (id_tipo)
-    REFERENCES tipo_grupo(id_tipo)
+    REFERENCES tipo_grupo(id_tipo),
+  CONSTRAINT fk_id_departamento
+    FOREIGN KEY (id_departamento)
+    REFERENCES departamento(id_departamento)
 );
 
 CREATE TABLE encuesta (

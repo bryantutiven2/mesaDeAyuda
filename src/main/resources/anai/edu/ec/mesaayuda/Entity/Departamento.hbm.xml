@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 09/05/2020 17:30:01 by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="anai.edu.ec.mesaayuda.Entity.Departamento" table="DEPARTAMENTO" schema="MA01" optimistic-lock="version">
+        <id name="idDepartamento" type="big_decimal">
+            <column name="ID_DEPARTAMENTO" precision="22" scale="0" />
+            <generator class="sequence">
+                <param name="sequence">departamento_seq</param>
+            </generator>
+        </id>
+        <property name="nombreDepartamento" type="string">
+            <column name="NOMBRE_DEPARTAMENTO" length="100" not-null="true" />
+        </property>
+        <property name="estadoBorrado" type="integer">
+            <column name="ESTADO_BORRADO" precision="22" scale="0" />
+        </property>
+        <set name="usuarios" table="USUARIO" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="ID_DEPARTAMENTO" precision="22" scale="0" not-null="true" />
+            </key>
+            <one-to-many class="anai.edu.ec.mesaayuda.Entity.Usuario" />
+        </set>
+    </class>
+</hibernate-mapping>

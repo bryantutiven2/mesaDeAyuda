@@ -17,6 +17,7 @@
     <mapping resource="anai/edu/ec/mesaayuda/Entity/Grupo.hbm.xml"/>
     <mapping resource="anai/edu/ec/mesaayuda/Entity/Observacion.hbm.xml"/>
     <mapping resource="anai/edu/ec/mesaayuda/Entity/Usuario.hbm.xml"/>
+    <mapping resource="anai/edu/ec/mesaayuda/Entity/Departamento.hbm.xml"/>
     <mapping resource="anai/edu/ec/mesaayuda/Entity/SolicitudAyuda.hbm.xml"/>
     <mapping resource="anai/edu/ec/mesaayuda/Entity/Auditoria.hbm.xml"/>
     <mapping resource="anai/edu/ec/mesaayuda/Entity/Encuesta.hbm.xml"/>

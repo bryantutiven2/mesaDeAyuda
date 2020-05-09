@@ -122,11 +122,8 @@ public class UsuarioImpl implements IUsuarioDao{
     public Usuario verificarUsuario(String user, String password) {
         Usuario usuario = null;
         try{
-            //HibernateUtil.abrirSession();
-            //long startTime = System.nanoTime();
+            HibernateUtil.abrirSession();
             Session session = HibernateUtil.getSessionFactory().openSession();
-            //long endTime = System.nanoTime() - startTime;
-            //System.out.println(endTime);
             Query query = session.createQuery(selectUser, Usuario.class);
             query.setParameter("user", user);
             query.setParameter("password", password);
