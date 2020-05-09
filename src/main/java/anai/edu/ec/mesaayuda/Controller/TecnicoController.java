@@ -66,7 +66,7 @@ public class TecnicoController {
         usuario = obtenerSessionUsuario(request, response);
         String estado = "asignada";
         try{
-            //listaSolicitudAyuda = solicitudDao.cargarSolicitudesTecnico(usuario.getIdUsuario(), estado);
+            listaSolicitudAyuda = solicitudDao.cargarSolicitudesTecnico(usuario.getIdUsuario(), estado, null, null);
             if(listaSolicitudAyuda != null){
                 for(SolicitudAyuda lista : listaSolicitudAyuda){
                     String userSolicitaAyuda = lista.getUsuarioByIdUserSolicitaAyuda().getNombre() +" "+ lista.getUsuarioByIdUserSolicitaAyuda().getApellido();
@@ -178,19 +178,21 @@ public class TecnicoController {
         estados.add("reevaluar");
         estados.add("finalizada");
         usuario = obtenerSessionUsuario(request, response);
-        String fechaF, userTecnico, tipoG;
+        String fechaIT, fechaFT, fechaF, userTecnico, tipoG, descripT;
         String tipoSolicitud = consultaO.getTipoSolicitud();
         String grupo = consultaO.getGrupo();
         String estado = consultaO.getEstado();
+        Date fechaD = fechaSolicitud.convertirFechaSimple(consultaO.getFechaDesde());
+        Date fechaH = fechaSolicitud.convertirFechaSimple(consultaO.getFechaHasta());
         try{
             if(tipoSolicitud.equals("mSolicitudes")){ //mis solicitudes
-                /*if(grupos.contains(grupo) && !estados.contains(estado))
-                    listaSolicitudAyuda = solicitudDao.buscarPorGrupo(grupo, usuario.getIdUsuario());
+                if(grupos.contains(grupo) && !estados.contains(estado))
+                    listaSolicitudAyuda = solicitudDao.buscarPorGrupo(grupo, usuario.getIdUsuario(), fechaD, fechaH);
                 else if(!grupos.contains(grupo) && estados.contains(estado))
-                    listaSolicitudAyuda = solicitudDao.buscarPorEstado(estado, usuario.getIdUsuario());
+                    listaSolicitudAyuda = solicitudDao.buscarPorEstado(estado, usuario.getIdUsuario(), fechaD, fechaH);
                 else if(grupos.contains(grupo) && estados.contains(estado)){
-                    listaSolicitudAyuda = solicitudDao.obtenerElementos(usuario.getIdUsuario(), grupo, estado);
-                }*/
+                    listaSolicitudAyuda = solicitudDao.obtenerElementos(usuario.getIdUsuario(), grupo, estado, fechaD, fechaH);
+                }
                 if(listaSolicitudAyuda != null){
                     for(SolicitudAyuda lista : listaSolicitudAyuda){
                         if(!listaIds.contains(lista.getId().getIdSolicitud())){
@@ -218,21 +220,42 @@ public class TecnicoController {
                     respo = new ServiceResponse<>("success",listaTabla);
                 }
             }
-            else if(tipoSolicitud.equals("rSolicitudes")){ //solicitudes realizadas
-                String estadoAyuda = "reevaluar-finalizada";
-                //listaSolicitudAyuda = solicitudDao.cargarSolicitudesTecnico(usuario.getIdUsuario(), estadoAyuda);
+            else if(tipoSolicitud.equals("tSolicitudes")){ //solicitudes realizadas
+                String estadoAyuda;
+                Integer idTecnico = consultaO.getIdTecnico();
+                if(estados.contains(consultaO.getEstado()))
+                    estadoAyuda = consultaO.getEstado();
+                else 
+                    estadoAyuda = "asignada-reevaluar-finalizada";
+                listaSolicitudAyuda = solicitudDao.cargarSolicitudesTecnico(usuario.getIdUsuario(), estadoAyuda, fechaD, fechaH);
                 if(listaSolicitudAyuda != null){
                     for(SolicitudAyuda lista : listaSolicitudAyuda){
-                        String userSolicitaAyuda = lista.getUsuarioByIdUserSolicitaAyuda().getNombre() +" "+ lista.getUsuarioByIdUserSolicitaAyuda().getApellido();
-                        listaTabla.add(
-                            new SolicitudTabla(
-                                    lista.getId().getIdSolicitud(), lista.getDescripcion(), lista.getMensajeUserTecnico(),userSolicitaAyuda,
-                                    String.valueOf(dateFormat.format(lista.getFechaInicio())),
-                                    String.valueOf(dateFormat.format(lista.getFechaFin())),
-                                    String.valueOf(dateFormat.format(lista.getFechaInicioTecnico())),
-                                    String.valueOf(dateFormat.format(lista.getFechaFinTecnico())),
-                                    lista.getEstadoSolicitudTecnico(), lista.getEstadoSolicitud()
-                            )); 
+                        if(!listaIds.contains(lista.getId().getIdSolicitud())){
+                            listaIds.add(lista.getId().getIdSolicitud());
+                            String userSolicitaAyuda = lista.getUsuarioByIdUserSolicitaAyuda().getNombre() +" "+ lista.getUsuarioByIdUserSolicitaAyuda().getApellido();
+                            if(lista.getFechaInicioTecnico() != null)
+                                    fechaIT = String.valueOf(dateFormat.format(lista.getFechaInicioTecnico()));
+                            else
+                                fechaIT = "";
+                            if(lista.getFechaFin() != null)
+                                    fechaF = String.valueOf(dateFormat.format(lista.getFechaFin()));
+                            else
+                                fechaF = "";
+                            if(lista.getFechaFinTecnico() != null)
+                                    fechaFT = String.valueOf(dateFormat.format(lista.getFechaFinTecnico()));
+                            else
+                                fechaFT = "";
+                            if(lista.getMensajeUserTecnico() != null)
+                                    descripT = lista.getMensajeUserTecnico();
+                            else
+                                descripT = "";
+                            listaTabla.add(
+                                new SolicitudTabla(
+                                        lista.getId().getIdSolicitud(), lista.getDescripcion(), descripT,userSolicitaAyuda,
+                                        String.valueOf(dateFormat.format(lista.getFechaInicio())),
+                                        fechaF, fechaIT, fechaFT, lista.getEstadoSolicitudTecnico(), lista.getEstadoSolicitud()
+                                )); 
+                        }
                     }
                 }
                 respo = new ServiceResponse<>("success",listaTabla);
@@ -285,8 +308,11 @@ public class TecnicoController {
      * Datos necesario para mandar a la vista del navbar
      */
     private void datosUsuario(){
-        String rol = usuario.getRol();
+        String rol = usuario.getRol().split("_")[0];
+        String tipo = usuario.getRol().split("_")[1];
+        model.addObject("tipoAdmin",tipo);
         model.addObject("rol",rol);
+        model.addObject("tipoRolU",rol);
         model.addObject("username", usuario.getNombre() + " " + usuario.getApellido());
         model.addObject("usuario", usuario.getUsuario());
         model.addObject("correo", usuario.getCorreo());

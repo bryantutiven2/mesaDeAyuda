@@ -46,7 +46,7 @@
                                                 <label>Id usuario: </label>
                                             </div>
                                             <div class="form-group col-4">
-                                                <input type="text" class="form-control cargarTogleUsuarios" name="idUserSolicitaA" id="idUserSolicitaA" readonly required>
+                                                <input type="text" class="form-control cargarTogleUsuarios" name="idUserSolicitaA" id="idUserSolicitaA" required readonly>
                                             </div>
                                         </div>
                                     </div>

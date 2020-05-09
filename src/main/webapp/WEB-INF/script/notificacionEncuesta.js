@@ -32,16 +32,29 @@ $(document).ready(function () {
                 });
                 $("#encuestaMenu").html(tr);
                 $('#cont-notificacion').text(cont);
+                
             }
             else if(result.status == "vacio"){
                 $('#cont-notificacion').text(0);
                 $("#encuestaMenu").html("<strong>No tiene encuestas a llenar</strong>");
+            }
+            /*valiacion de numero de encuestas para bloquear boton de crear solicitud si tiene encuestas pendientes*/
+            let contadorN =  $('#cont-notificacion').text();
+            let tipoRolU = $('#tipoRolU').val();
+            if(contadorN > 0 && tipoRolU != 'tecnico' && tipoRolU != 'admin' && tipoRolU != undefined){
+                $("#enviarSolicitud").prop('disabled',true);
+                $("#mensajeModal").html('<Strong>Usted tiene solicitudes pendientes. Por favor proceda a llenarlas!!!</strong>');
+                $("#modalMensaje").modal();
+            }
+            else if(contadorN == 0){
+                $("#enviarSolicitud").prop('disabled',false);
             }
         },
         error : function(e) {
                 $("#encuestaMenu").html("<strong>Error</strong>");
             }
         });
+        
     }
     function postAjaxConfirmar(datosC){
         $.ajax({

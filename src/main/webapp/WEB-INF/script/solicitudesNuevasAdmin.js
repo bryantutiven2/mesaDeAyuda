@@ -62,12 +62,16 @@ function postAjaxTabla(datos){
        url: '/mesaayuda/admin/actualizarSolicitud',
        data: JSON.stringify(datos),
        success: function(response){
+           $("#myModalNuevaSolicitud").modal('hide');
+           $("#mensajePost").empty();
             if(response.status == "asignado"){
+               reiniciarForm();
                getAjaxTabla();
                $(".loader").removeClass("hidden"); //remover loader
                $("#mensajePost").html("La solicitud se ha asigando exitosamente");
             }
             if(response.status == "finalizado"){
+               reiniciarForm();
                getAjaxTabla();
                $(".loader").removeClass("hidden"); //remover loader
                $("#mensajePost").html("La solicitud se ha finalizado exitosamente");
@@ -129,6 +133,25 @@ $(function () {
 
 /* Asignar solicitud*/
 $(document).ready(function() {
+    $("#formNsolicitudA").submit(function(e){
+        e.preventDefault();
+        let idD = document.getElementById("codigo_sn").value;
+        let tipoD = document.getElementById("selectTipo").value;
+        let fechaFinD = document.getElementById("fechaFin_sn").value;
+        let userTecnicoD = document.getElementById("selectTecnico").value;
+        let iEncuesta = $('#encuesta_cs').val();
+        let datos ={
+            id : idD,
+            tipo: tipoD,
+            userTecnico: userTecnicoD,
+            fechaFin: fechaFinD,
+            estadoSolicitud: 'asignada',
+            idEncuesta: iEncuesta
+            };
+        $(".loader").addClass("hidden");
+        postAjaxTabla(datos);
+    });
+    /*
     $(document).on('click','#enviarSActualizada', function(){
         let idD = document.getElementById("codigo_sn").value;
         let tipoD = document.getElementById("selectTipo").value;
@@ -143,17 +166,32 @@ $(document).ready(function() {
             estadoSolicitud: 'asignada',
             idEncuesta: iEncuesta
             };
-        var selectTecnico=document.getElementById("selectTecnico");
-        selectTecnico.options[0].selected=true;
-        var selectTipo=document.getElementById("selectTipo");
-        selectTipo.options[0].selected=true;
-        $("#fechaFin_sn").val("");
-        $('#encuesta_cs').val("");
-        $(".loader").addClass("hidden");
-        postAjaxTabla(datos);
+        if(idD != '' && tipoD != '' && fechaFinD != '' && userTecnicoD!= '' && iEncuesta != ''){
+            $(".loader").addClass("hidden");
+            postAjaxTabla(datos);
+        }
+        else{
+            //$("#mensajePost").html('<i class="fas fa-exclamation-triangle" style="color: #F87011;font-size: 24pt;margin-right: 30px;"></i> Tiene campos sin llenar, por favor llenarlos.');
+            $("#procesoSolicitud").modal(); 
+        }
     });
+    */
 });
 
+/*reinciair form de actualizar solciitud*/
+function reiniciarForm(){
+    let selectTecnico=document.getElementById("selectTecnico");
+    selectTecnico.options[0].selected=true;
+    let selectTipo=document.getElementById("selectTipo");
+    selectTipo.options[0].selected=true;
+    $("#fechaFin_sn").val("");
+    $('#encuesta_cs').val("");
+    $('#formItemsEncuesta input[type=checkbox]').each(function(){
+        if(this.checked){
+            $(this).prop("checked", false);
+        } 
+    });
+};
 /*finalizar solicitud*/
 $(document).ready(function () {
     $(document).on('click','.reevaluarSolicitud', function(){
@@ -161,19 +199,6 @@ $(document).ready(function () {
     });
 });
 
-
-/*Activar modal de observaciones*/
-/*$(document).ready(function() {
-    $(document).on('click','.crearObservacion', function(){*/
-        //let codSol = $(this).parents("tr").find("th")[0].innerHTML;
-        /*let datos = {
-            idSolicitud: codSol
-        };*/
-        //$(".loader").addClass("hidden");
-        //postCargarObservaciones(datos);
-       // $("#modalObservacion").modal();
-//    });
-//});
 
 /*Activar toggle de cargar encuestas en crearSolicitudAdmin.jsp */
 $(document).ready(function() {

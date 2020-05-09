@@ -30,7 +30,7 @@ function postAjaxTabla(datos){
                 });
                 $(".loader").removeClass("hidden"); //remover loader
             }
-            else if(datos.tipoSolicitud == "rSolicitudes"){
+            else if(datos.tipoSolicitud == "tSolicitudes"){
                 $('#tableR').show();
                 cargarEstiloTR();
                 let tableBodyR = $('#tableConsultarSolicitudR').DataTable();
@@ -61,18 +61,41 @@ function postAjaxTabla(datos){
 }
 $(document).ready(function () {
     $(document).on('click','#testForm', function(){
-        var solicitudR = $('input[name=solicitudesR]:checked', '#testForm').val();
+        let solicitudR = $('input[name=solicitudesR]:checked', '#testForm').val();
+        let selectEstado=document.getElementById("buscarEstado");
+        let op=selectEstado.getElementsByTagName("option");
         if(solicitudR == "mSolicitudes"){
+            op[1].style.display="block";
             reinciarCasillas();
-            $('#filtroGE').show();
+            $('#filtroGrupo').show();
+            $('#filtroEstado').show();
             $('#tableR').hide();
         }
-        else if( solicitudR == "rSolicitudes"){
+        else if( solicitudR == "tSolicitudes"){
+            op[1].style.display="none";
             reinciarCasillas();
-            $('#filtroGE').hide();
+            $('#filtroGrupo').hide();
+            $('#filtroEstado').show();
             $('#tableM').hide();
         }
      });
+});
+
+/*datetime picker para fechas desde hasta en consultar solicitudes*/
+$(function () {
+    $('#datetimeDesde').datetimepicker({
+        format: "DD/MM/YYYY"
+    });
+    $('#datetimeHasta').datetimepicker({
+        useCurrent: false,
+        format: "DD/MM/YYYY"
+    });
+    $("#datetimeDesde").on("change.datetimepicker", function (e) {
+        $('#datetimeHasta').datetimepicker('minDate', e.date);
+    });
+    $("#datetimeHasta").on("change.datetimepicker", function (e) {
+        $('#datetimeDesde').datetimepicker('maxDate', e.date);
+    });
 });
 
 /*disable input de observaciones si la solicitud ha sido finalizada*/
@@ -93,19 +116,23 @@ $(document).ready(function() {
 
 $(document).ready(function () {
     $(document).on('click','#cargarSelectC', function(){
-        var solicitudR = $('input[name=solicitudesR]:checked', '#testForm').val();
-        var option_buscarGrupo = document.getElementById("buscarGrupo").value;
-        var option_buscarEstado = document.getElementById("buscarEstado").value;
-        var datos = {
+        let solicitudR = $('input[name=solicitudesR]:checked', '#testForm').val();
+        let option_buscarGrupo = document.getElementById("buscarGrupo").value;
+        let option_buscarEstado = document.getElementById("buscarEstado").value;
+        let fechaD = $('#dtpDesde').val();
+        let fechaH = $('#dtpHasta').val();
+        let datos = {
                 tipoSolicitud: solicitudR,
                 grupo: option_buscarGrupo,
-                estado: option_buscarEstado
+                estado: option_buscarEstado,
+                fechaDesde: fechaD,
+                fechaHasta: fechaH
             };
-        if(solicitudR == 'mSolicitudes' && (option_buscarGrupo != "" || option_buscarEstado!= "")){
+        if(solicitudR == 'mSolicitudes' && (option_buscarGrupo != "" || option_buscarEstado!= "") && fechaD != '' && fechaH != ''){
             $(".loader").addClass("hidden"); //cargar loader
             postAjaxTabla(datos);
         }
-        else if(solicitudR == 'rSolicitudes' && option_buscarGrupo == "" && option_buscarEstado== ""){
+        else if(solicitudR == 'tSolicitudes' && fechaD != '' && fechaH != ''){
             $(".loader").addClass("hidden"); //cargar loader
             postAjaxTabla(datos);
         }
@@ -121,6 +148,8 @@ function reinciarCasillas(){
     selectBuscar.options[0].selected=true;
     let selectEstado=document.getElementById("buscarEstado");
     selectEstado.options[0].selected=true;
+    $('#dtpDesde').val("");
+    $('#dtpHasta').val("");
 }
 
 /*diseño del table*/

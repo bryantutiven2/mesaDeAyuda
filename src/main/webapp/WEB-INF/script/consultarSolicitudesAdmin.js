@@ -169,7 +169,19 @@ function reinciarCasillas(){
     $('#idUserSolicitaA').val("");
     $('#dtpDesde').val("");
     $('#dtpHasta').val("");
+    $('#idsUSA input[type=checkbox]').each(function(){
+        if(this.checked){
+            $(this).prop("checked", false);
+        } 
+    });
 }
+
+/*reiniciar input usuario solicita ayuda*/
+$(document).ready(function() {
+    $(document).on('click','#resetSelectC', function(){
+        $('#idUserSolicitaA').val("");
+    });
+});
 
 $(document).ready(function () {
     $(document).on('click','#cargarSelectC', function(){
@@ -181,7 +193,7 @@ $(document).ready(function () {
         let fechaD = $('#dtpDesde').val();
         let fechaH = $('#dtpHasta').val();
         
-        var datos = {
+        let datos = {
                 tipoSolicitud: solicitudR,
                 grupo: option_buscarGrupo,
                 estado: option_buscarEstado,

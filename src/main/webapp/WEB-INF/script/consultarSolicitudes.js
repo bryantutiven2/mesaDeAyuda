@@ -54,13 +54,17 @@ $(document).ready(function() {
 /*cargar solciitudes por estado o grupo*/
 $(document).ready(function () {
     $(document).on('click','#cargarSelectC', function(){
-        var option_buscarGrupo = document.getElementById("buscarGrupo").value;
-        var option_buscarEstado = document.getElementById("buscarEstado").value;
-        var datos = {
+        let option_buscarGrupo = document.getElementById("buscarGrupo").value;
+        let option_buscarEstado = document.getElementById("buscarEstado").value;
+        let fechaD = $('#dtpDesde').val();
+        let fechaH = $('#dtpHasta').val();
+        let datos = {
                 grupo: option_buscarGrupo,
-                estado: option_buscarEstado
+                estado: option_buscarEstado,
+                fechaDesde: fechaD,
+                fechaHasta: fechaH
             };
-        if(option_buscarGrupo != "" || option_buscarEstado!= ""){
+        if((option_buscarGrupo != "" || option_buscarEstado!= "") && fechaD!= "" && fechaH != ""){
             $(".loader").addClass("hidden"); //cargar loader
             postAjaxTabla(datos);
         }
@@ -72,6 +76,22 @@ $(document).ready(function () {
     }); 
 });
 
+/*datetime picker para fechas desde hasta en consultar solicitudes*/
+$(function () {
+    $('#datetimeDesde').datetimepicker({
+        format: "DD/MM/YYYY"
+    });
+    $('#datetimeHasta').datetimepicker({
+        useCurrent: false,
+        format: "DD/MM/YYYY"
+    });
+    $("#datetimeDesde").on("change.datetimepicker", function (e) {
+        $('#datetimeHasta').datetimepicker('minDate', e.date);
+    });
+    $("#datetimeHasta").on("change.datetimepicker", function (e) {
+        $('#datetimeDesde').datetimepicker('maxDate', e.date);
+    });
+});
 
 /*diseño del table*/
 function cargarEstiloT() {

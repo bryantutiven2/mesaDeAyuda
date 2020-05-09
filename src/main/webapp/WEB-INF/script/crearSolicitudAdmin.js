@@ -52,7 +52,7 @@ function postAjaxEnviarSolicitud(datos){
            $("#mensajeModal").empty();
             if(response.status == "success"){
                $("#mensajeModal").html('<i class="fas fa-check-circle" style="color: #02D90C;font-size: 24pt;margin-right: 30px;"></i> Se ha enviado con éxito la solicitud');
-               reinciarForm();
+               reiniciarForm();
                $(".loader").removeClass("hidden"); //remover loader
                $("#modalMensaje").modal();
             }
@@ -71,7 +71,7 @@ function postAjaxEnviarSolicitud(datos){
     });
 }
 /* Reniciar formulario*/
-function reinciarForm(){
+function reiniciarForm(){
     let selectNvez=document.getElementById("reincidencia");
     selectNvez.options[0].selected=true;
     $('#ids_aydudaas').val("");
@@ -89,6 +89,16 @@ function reinciarForm(){
     $('#encuesta_cs').val("");
     $('#fechaInicio_cs').val("");
     $('#fechaFin_cs').val("");
+    $('#formItemsEncuesta input[type=checkbox]').each(function(){
+        if(this.checked){
+            $(this).prop("checked", false);
+        } 
+    });
+    $('#idsUSA input[type=checkbox]').each(function(){
+        if(this.checked){
+            $(this).prop("checked", false);
+        } 
+    }); 
 }
 
 /*enviar solicitud desde usuario*/

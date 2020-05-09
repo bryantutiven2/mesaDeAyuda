@@ -537,8 +537,11 @@ public class AdminController {
      * asigna al modelo datos del usuario como nombre, correo, en el navbar
      */
     private void datosUsuario(){
-        String rol = usuario.getRol();
+        String rol = usuario.getRol().split("_")[0];
+        String tipo = usuario.getRol().split("_")[1];
         model.addObject("rol",rol);
+        model.addObject("tipoAdmin",tipo);
+        model.addObject("tipoRolU",rol);
         model.addObject("username", usuario.getNombre() + " " + usuario.getApellido());
         model.addObject("usuario", usuario.getUsuario());
         model.addObject("correo", usuario.getCorreo());

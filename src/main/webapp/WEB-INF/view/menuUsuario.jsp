@@ -76,7 +76,7 @@
                             </div>
                         </div>
                     </div>
-                    <!-- modal para Confirmar ecnuesta -->
+                    <!-- modal para Confirmar encuesta -->
                     <div class="modal fade" id="modalConfirmar" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
                         <div class="modal-dialog" role="document">
                             <div class="modal-content">

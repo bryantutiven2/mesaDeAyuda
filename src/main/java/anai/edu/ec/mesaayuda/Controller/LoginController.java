@@ -57,16 +57,16 @@ public class LoginController {
         HibernateUtil.getSessionFactory();
         Usuario usuario = SessionUsuario.obtenerSessionUsuario(request, response);
         if(usuario != null){
-            String rol = usuario.getRol();
-            if(rol.equals("admin_sist")){
+            String rol = usuario.getRol().split("_")[0];
+            if(rol.equals("admin")){
                 AdminController adminModel = new AdminController();
                 model = adminModel.dashboardTecnico(request, response);
             }
-            else if(rol.equals("general_acad")){
+            else if(rol.equals("general")){
                 UsuarioController usuarioModel = new UsuarioController();
                 model = usuarioModel.crearSolicitud(request, response);
             }
-            else if(rol.equals("tecnico_sist")){
+            else if(rol.equals("tecnico")){
                 UsuarioController usuarioModel = new UsuarioController();
                 model = usuarioModel.crearSolicitud(request, response);
             }
@@ -104,18 +104,16 @@ public class LoginController {
         usuario = usuarioDao.verificarUsuario(user, pass);
         if(usuario != null){
             crearSessionUsuario(request, response, usuario);
-            String rol = usuario.getRol();
-            DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-            
-            if(rol.equals("admin_sist")){
+            String rol = usuario.getRol().split("_")[0];
+            if(rol.equals("admin")){
                 AdminController adminModel = new AdminController();
                 model = adminModel.dashboardTecnico(request, response);
             }
-            else if(rol.equals("general_acad")){
+            else if(rol.equals("general")){
                 UsuarioController usuarioModel = new UsuarioController();
                 model = usuarioModel.crearSolicitud(request, response);
             }
-            else if(rol.equals("tecnico_sist")){
+            else if(rol.equals("tecnico")){
                 UsuarioController usuarioModel = new UsuarioController();
                 model = usuarioModel.crearSolicitud(request, response);
             }

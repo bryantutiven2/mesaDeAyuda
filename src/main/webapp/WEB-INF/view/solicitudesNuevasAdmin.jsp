@@ -51,7 +51,7 @@
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
-                    <form autocomplete="off" style="font-size: 0.95em">
+                    <form id="formNsolicitudA" autocomplete="off" style="font-size: 0.95em">
                         <div class="modal-body" style="overflow-y: auto; height:430px;">
                             <div class="col-xl-12 col-lg-10 mx-auto">
                                 <div class="bg-faded rounded p-2">
@@ -106,7 +106,7 @@
                                             <div class="form-group col-md-1"></div>
                                             <div class="form-group col-md-3">
                                                 <label>Encuesta</label>
-                                                <input type="text" class="form-control" name="encuesta_cs" id="encuesta_cs" required>
+                                                <input type="text" class="form-control" name="encuesta_cs" id="encuesta_cs" readonly required>
                                             </div>
                                         </div>
                                         <div class="form-row">
@@ -119,7 +119,7 @@
                                                 <label>Fecha Fin</label>
                                                 <div class="form-group">
                                                     <div class="input-group date" id="dtPicker" data-target-input="nearest">
-                                                        <input type="text" id="fechaFin_sn" name="fechaFin_sn" class="form-control datetimepicker-input" data-target="#dtPicker" required="true"/>
+                                                        <input type="text" id="fechaFin_sn" name="fechaFin_sn" class="form-control datetimepicker-input" data-target="#dtPicker" required/>
                                                         <div class="input-group-append" data-target="#dtPicker" data-toggle="datetimepicker">
                                                             <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                                                         </div>
@@ -131,7 +131,7 @@
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn-cambiar-color btn btn-primary" id="enviarSActualizada" data-dismiss="modal">Asignar Solicitud</button>
+                            <button type="submit" class="btn-cambiar-color btn btn-primary" id="enviarSActualizada">Asignar Solicitud</button>
                             <!--<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>-->
                         </div>
                     </form>

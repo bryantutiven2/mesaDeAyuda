@@ -13,63 +13,99 @@
             <form style="font-size: 0.95em" autocomplete="off">
                 <div class="card">
                     <div class="card-body">
-                        <div class="form-row">
-                            <div class="form-group col-md-1"></div>
-                            <div class="form-group col-md-1">
-                                <label>Buscar: </label>
-                            </div>
-                            <div class="form-group col-md-3">
-                                <fieldset id="testForm">
-                                    <div class="form-group col-md-11" required>
-                                        <input selected disabled hidden style='display: none' type="radio" id="grupoSistemaCS" name="grupo" value="" required>
-                                        <div>
-                                            <input type="radio" name="solicitudesR" id="g1" value="mSolicitudes">
-                                            <label for="sistemas">Mis Solicitudes</label>
-                                        </div>
-                                        <div>
-                                            <input type="radio" name="solicitudesR" id="g2" value="rSolicitudes">
-                                            <label for="mantenimiento">Solicitudes Gestionadas</label>
-                                        </div>
-                                    </div>
-                                </fieldset> 
-                            </div>
-                            <div class="form-group col-md-1"></div>
-                            <div class="form-group col-md-5" id="filtroGE" style="display: none">
-                                <div class="form-row">
-                                    <div class="form-group col-md-4">
-                                        <label>Buscar por grupo: </label>
-                                    </div>
-                                    <div class="form-group col-md-1"></div>
-                                    <div class="form-group col-md-5">
-                                        <select  name="buscarGrupo" id="buscarGrupo" class="form-control" model="selected">
-                                            <option selected disabled hidden style='display: none' value=''></option>
-                                            <option value="sist">Sistemas</option>   
-                                            <option value="mant">Mantenimiento</option>
-                                        </select>
-                                    </div>
+                        <div class="form-row" style="padding-left: 30px;">
+                            <div class="form-row col-6">
+                                <div class="form-group col-3">
+                                    <label>Buscar por: </label>
                                 </div>
-                                <div class="form-row">
-                                    <div class="form-group col-md-4">
-                                        <label>Buscar por Estado: </label>
-                                    </div>
-                                    <div class="form-group col-md-1"></div>
-                                    <div class="form-group col-md-5">
-                                        <select  name="buscarEstado" id="buscarEstado" class="form-control" model="selected">
-                                            <option selected disabled hidden style='display: none' value=''></option>
-                                            <option value="pendiente">Pendiente</option>   
-                                            <option value="asignada">Asignada</option>
-                                            <option value="finalizada">Finalizada</option>
-                                        </select>
+                                <div class="form-group col-9">
+                                    <fieldset id="testForm">
+                                        <div class="form-group col-md-11" required>
+                                            <input selected disabled hidden style='display: none' type="radio" id="grupoSistemaCS" name="grupo" value="" required>
+                                            <div>
+                                                <input type="radio" name="solicitudesR" id="g1" value="mSolicitudes">
+                                                <label for="">Mis Solicitudes</label>
+                                            </div>
+                                            <div>
+                                                <input type="radio" name="solicitudesR" id="g2" value="tSolicitudes">
+                                                <label for="">Solicitudes Gestionadas</label>
+                                            </div>
+                                        </div>
+                                    </fieldset> 
+                                </div>
+                            </div>
+                            <div class="form-row col-6">
+                                <div class="form-row col-12">
+                                    <div class="form-group col">
+                                        <div class="form-row" id="filtroGrupo" style="display: none;">
+                                            <div class="form-group col-3">
+                                                <label>Grupo: </label>
+                                            </div>
+                                            <div class="form-group col-4">
+                                                <select  name="buscarGrupo" id="buscarGrupo" class="form-control" model="selected">
+                                                    <option selected disabled hidden style='display: none' value=''></option>
+                                                    <option value="sist">Sistemas</option>   
+                                                    <option value="mant">Mantenimiento</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="form-row" id="filtroEstado" style="display: none;">
+                                            <div class="form-group col-3">
+                                                <label>Estado: </label>
+                                            </div>
+                                            <div class="form-group col-4">
+                                                <select  name="buscarEstado" id="buscarEstado" class="form-control" model="selected">
+                                                    <option selected disabled hidden style='display: none' value=''></option>
+                                                    <option value="pendiente">Pendiente</option>   
+                                                    <option value="asignada">Asignada</option>
+                                                    <option value="reevaluar">Reevaluar</option>
+                                                    <option value="finalizada">Finalizada</option>
+                                                </select>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
+                        <div class="form-row" style="padding-left: 30px;">
+                            <div class="form-row col-5">
+                                <div class="form-group col-4">
+                                    <label>Desde: </label>
+                                </div>
+                                <div class="form-group col-7">
+                                    <div class="form-group">
+                                        <div class="input-group date" id="datetimeDesde" data-target-input="nearest">
+                                            <input type="text" id="dtpDesde" class="form-control datetimepicker-input" data-target="#datetimeDesde"/>
+                                             <div class="input-group-append" data-target="#datetimeDesde" data-toggle="datetimepicker">
+                                                 <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                                             </div>
+                                         </div>
+                                     </div>
+                                </div>
+                            </div>
+                            <div class="form-row col-5">
+                                <div class="form-group col-4">
+                                    <label>Hasta: </label>
+                                </div>
+                                <div class="form-group col-7">
+                                    <div class="form-group">
+                                        <div class="input-group date" id="datetimeHasta" data-target-input="nearest">
+                                             <input type="text"id="dtpHasta" class="form-control datetimepicker-input" data-target="#datetimeHasta"/>
+                                             <div class="input-group-append" data-target="#datetimeHasta" data-toggle="datetimepicker">
+                                                 <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                                             </div>
+                                         </div>
+                                     </div>
+                                </div>
+                            </div>
+                        </div>                            
+                        <div class="form-row col" style="padding-left: 30px;">
+                            <div class="text-center" style="width: 100%">
+                                <button type="button" class="btn-cambiar-color btn btn-primary"  id="cargarSelectC" style="margin-right: 15px;"><i class="fas fa-search"></i> Cargar</button>
+                                <button type="reset" class="btn-cambiar-color btn btn-primary"  id="resetSelectC"><i class="fas fa-undo"></i></button>
+                            </div>
+                        </div>
                     </div>
-                </div>
-                <br>
-                <div class="text-center">
-                    <button type="button" class="btn-cambiar-color btn btn-primary"  id="cargarSelectC" style="margin-right: 15px;"><i class="fas fa-search"></i> Cargar</button>
-                    <button type="reset" class="btn-cambiar-color btn btn-primary"  id="resetSelectC"><i class="fas fa-undo"></i></button>
                 </div>
             </form>
             

@@ -21,7 +21,7 @@
             <!--
                 Seccion Administrador
             -->
-            <c:if test="${rol == 'admin_sist'}">
+            <c:if test="${rol == 'admin'}">
                 <li>
                     <a href="${pageContext.request.contextPath}/admin/consultarDashboardTecnico" class="activar referenciaA list-group-item">
                         <div class="d-flex w-100 justify-content-start align-items-center">
@@ -30,14 +30,16 @@
                         </div>
                     </a>
                 </li>
-                <li>
-                    <a href="${pageContext.request.contextPath}/admin/consultarDashboardEncuesta" class="referenciaA list-group-item">
-                        <div class="d-flex w-100 justify-content-start align-items-center">
-                            <i class="fas fa-poll"></i>
-                            <span class="eleccion" style="padding-left: 10px">Dashboard Encuesta</span>
-                        </div>
-                    </a>
-                </li>
+                <c:if test="${tipoAdmin == 'sist'}">
+                    <li>
+                        <a href="${pageContext.request.contextPath}/admin/consultarDashboardEncuesta" class="referenciaA list-group-item">
+                            <div class="d-flex w-100 justify-content-start align-items-center">
+                                <i class="fas fa-poll"></i>
+                                <span class="eleccion" style="padding-left: 10px">Dashboard Encuesta</span>
+                            </div>
+                        </a>
+                    </li>
+                </c:if>
                 <li>
                     <a href="${pageContext.request.contextPath}/admin/crearSolictud" class="referenciaA list-group-item">
                         <div class="d-flex w-100 justify-content-start align-items-center">
@@ -74,7 +76,7 @@
             <!--
                 Seccion Usuario general
             -->
-            <c:if test="${rol == 'general_acad'}">
+            <c:if test="${rol == 'general'}">
                 <li>
                     <a href="${pageContext.request.contextPath}/usuario/crearSolicitud" class="activar referenciaA list-group-item">
                         <div class="d-flex w-100 justify-content-start align-items-center">
@@ -95,7 +97,7 @@
             <!--
                 Seccion Usuario tecnico sistema
             -->
-            <c:if test="${rol == 'tecnico_sist'}">
+            <c:if test="${rol == 'tecnico'}">
                 <li>
                     <a href="${pageContext.request.contextPath}/usuario/crearSolicitud" class="activar referenciaA list-group-item">
                         <div class="d-flex w-100 justify-content-start align-items-center">

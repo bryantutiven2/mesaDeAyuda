@@ -5,6 +5,9 @@
 --%>
 
 <div>
+    <div style="display: none;">
+        <input type="text" name="tipoRolU" id="tipoRolU" value=${tipoRolU}>
+    </div>
     <h2 class="mt-4 text-center">Crear Solicitud de Ayuda</h2>
     <div class="col-xl-8 col-lg-8 col-md-12 mx-auto">
         <div class="bg-faded rounded p-2">
@@ -72,7 +75,9 @@
                 </div>
                 <br />
                 <div class="text-center">
-                    <button type="button" class="btn-cambiar-color btn btn-primary"  id="enviarSolicitud">Enviar Solicitud</button>
+                    <div>
+                        <button type="button" class="btn-cambiar-color btn btn-primary"  id="enviarSolicitud">Enviar Solicitud</button>
+                    </div>
                 </div>
             </form>
         </div>

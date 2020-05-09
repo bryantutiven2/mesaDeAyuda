@@ -136,7 +136,7 @@ public class UsuarioController {
         String tipoG;
         String estado = "finalizada";
         try{
-            //listaSolicitudAyuda = solicitudDao.obtenerElementos(usuario.getIdUsuario(), idGrupo, estado);
+            listaSolicitudAyuda = solicitudDao.obtenerElementos(usuario.getIdUsuario(), idGrupo, estado, null, null);
             if(listaSolicitudAyuda != null){
                 for(SolicitudAyuda lista : listaSolicitudAyuda){
                     if(!listaIds.contains(lista.getId().getIdSolicitud())){
@@ -187,14 +187,16 @@ public class UsuarioController {
         String fechaF, userTecnico, tipoG;
         String grupo = consultaO.getGrupo();
         String estado = consultaO.getEstado();
+        Date fechaD = fechaSolicitud.convertirFechaSimple(consultaO.getFechaDesde());
+        Date fechaH = fechaSolicitud.convertirFechaSimple(consultaO.getFechaHasta());
         try{
-            /*if(grupos.contains(grupo) && !estados.contains(estado))
-                listaSolicitudAyuda = solicitudDao.buscarPorGrupo(grupo, usuario.getIdUsuario());
+            if(grupos.contains(grupo) && !estados.contains(estado))
+                listaSolicitudAyuda = solicitudDao.buscarPorGrupo(grupo, usuario.getIdUsuario(), fechaD, fechaH);
             else if(!grupos.contains(grupo) && estados.contains(estado))
-                listaSolicitudAyuda = solicitudDao.buscarPorEstado(estado, usuario.getIdUsuario());
+                listaSolicitudAyuda = solicitudDao.buscarPorEstado(estado, usuario.getIdUsuario(), fechaD, fechaH);
             else if(grupos.contains(grupo) && estados.contains(estado)){
-                listaSolicitudAyuda = solicitudDao.obtenerElementos(usuario.getIdUsuario(), grupo, estado);
-            }*/
+                listaSolicitudAyuda = solicitudDao.obtenerElementos(usuario.getIdUsuario(), grupo, estado, fechaD, fechaH);
+            }
             if(listaSolicitudAyuda != null){
                 for(SolicitudAyuda lista : listaSolicitudAyuda){
                     if(!listaIds.contains(lista.getId().getIdSolicitud())){
@@ -250,8 +252,11 @@ public class UsuarioController {
      * Envía junto al modelo datos del usuario que se usaran en el navbar
      */
     private void datosUsuario(){
-        String rol = usuario.getRol();
+        String rol = usuario.getRol().split("_")[0];
+        String tipo = usuario.getRol().split("_")[1];
+        model.addObject("tipoAdmin",tipo);
         model.addObject("rol",rol);
+        model.addObject("tipoRolU",rol);
         model.addObject("username", usuario.getNombre() + " " + usuario.getApellido());
         model.addObject("usuario", usuario.getUsuario());
         model.addObject("correo", usuario.getCorreo());
