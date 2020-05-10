@@ -40,6 +40,16 @@
                         </a>
                     </li>
                 </c:if>
+                <c:if test="${tipoAdmin == 'sist'}">
+                    <li>
+                        <a href="${pageContext.request.contextPath}/admin/consultarDashboardUsuario" class="referenciaA list-group-item">
+                            <div class="d-flex w-100 justify-content-start align-items-center">
+                                <i class="fas fa-users"></i>
+                                <span class="eleccion" style="padding-left: 10px">Dashboard Usuario</span>
+                            </div>
+                        </a>
+                    </li>
+                </c:if>            
                 <li>
                     <a href="${pageContext.request.contextPath}/admin/crearSolictud" class="referenciaA list-group-item">
                         <div class="d-flex w-100 justify-content-start align-items-center">

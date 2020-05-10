@@ -1,12 +1,14 @@
 
 package anai.edu.ec.mesaayuda.Controller;
 
+import anai.edu.ec.mesaayuda.DAO.IDepartamentoDao;
 import anai.edu.ec.mesaayuda.DAO.IEncuestaDao;
 import anai.edu.ec.mesaayuda.DAO.IGrupoDao;
 import anai.edu.ec.mesaayuda.DAO.ISolicitudDao;
 import anai.edu.ec.mesaayuda.DAO.ISubtipoDao;
 import anai.edu.ec.mesaayuda.DAO.ITipoGrupoDao;
 import anai.edu.ec.mesaayuda.DAO.IUsuarioDao;
+import anai.edu.ec.mesaayuda.DaoImplementacion.DepartamentoImpl;
 import anai.edu.ec.mesaayuda.DaoImplementacion.EncuestaImpl;
 import anai.edu.ec.mesaayuda.DaoImplementacion.GrupoImpl;
 import anai.edu.ec.mesaayuda.DaoImplementacion.SolicitudImpl;
@@ -14,6 +16,7 @@ import anai.edu.ec.mesaayuda.DaoImplementacion.SubtipoImpl;
 import anai.edu.ec.mesaayuda.DaoImplementacion.TipoGrupoImpl;
 import anai.edu.ec.mesaayuda.DaoImplementacion.UsuarioImpl;
 import anai.edu.ec.mesaayuda.Entity.ConsultaObjeto;
+import anai.edu.ec.mesaayuda.Entity.Departamento;
 import anai.edu.ec.mesaayuda.Entity.Encuesta;
 import anai.edu.ec.mesaayuda.Entity.Grupo;
 import anai.edu.ec.mesaayuda.Entity.SolicitudAyuda;
@@ -58,6 +61,7 @@ public class AdminController {
     private ModelAndView model = new ModelAndView();
     private Usuario usuario;
     private IEncuestaDao encuestaDao = new EncuestaImpl();
+    private IDepartamentoDao departamentoDao = new DepartamentoImpl();
     private IGrupoDao grupoDao = new GrupoImpl();
     private ISubtipoDao subtipoDao = new SubtipoImpl();
     private ISolicitudDao solicitudDao = new SolicitudImpl();
@@ -529,6 +533,20 @@ public class AdminController {
         usuario = obtenerSessionUsuario(request, response);
         datosUsuario();
         model.addObject("viewMain","dashboardEncuesta");
+        model.setViewName("menuUsuario");
+        return model;
+    }
+    
+    @RequestMapping(value = { "/consultarDashboardUsuario" }, method = RequestMethod.GET)
+    public ModelAndView dashboardUsuario(HttpServletRequest request, HttpServletResponse response){
+        usuario = obtenerSessionUsuario(request, response);
+        datosUsuario();
+        String grupoId = usuario.getRol().split("_")[1];
+        List<Departamento> listaDepartamentos = departamentoDao.obtenerElementos();
+        List<TipoGrupo> listaTipos = tipoDao.obtenerElementos(grupoId);
+        model.addObject("listarDepartamento",listaDepartamentos);
+        model.addObject("listarTiposCS",listaTipos);
+        model.addObject("viewMain","dashboardUsuario");
         model.setViewName("menuUsuario");
         return model;
     }

@@ -75,25 +75,6 @@ public class DashboardTecnicoController {
                 }
             }
             
-//            for(Usuario user: listaTecnicos){
-//                List<SolicitudTabla> st = new ArrayList<>();
-//                Integer id = user.getIdUsuario();
-//                if(!listaTecnicoS.containsKey(id)){
-//                    SolicitudTabla solicitud = new SolicitudTabla();
-//                    solicitud.setUserTecnico(user.getNombre() + " " + user.getApellido());
-//                    solicitud.setUserSolicitaAyuda("");
-//                    solicitud.setDescripcion("");
-//                    solicitud.setFechaInicio("");
-//                    solicitud.setFechaFin("");
-//                    solicitud.setEstadoSolicitudTecnico("");
-//                    solicitud.setFechaInicioTecnico("");
-//                    solicitud.setFechaFinTecnico("");
-//                    solicitud.setTipo(user.getTipoGrupo().getNombreTipo());
-//                    st.add(solicitud);
-//                    listaTecnicoS.put(id, st);
-//                }
-//                
-//            }
             respo = new ServiceResponse<>("success",listaTecnicoS);
         }
         catch(Exception exc){

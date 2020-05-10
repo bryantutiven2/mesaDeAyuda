@@ -4,7 +4,7 @@
 <!-- Generated 09/05/2020 17:30:01 by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
     <class name="anai.edu.ec.mesaayuda.Entity.Departamento" table="DEPARTAMENTO" schema="MA01" optimistic-lock="version">
-        <id name="idDepartamento" type="big_decimal">
+        <id name="idDepartamento" type="integer">
             <column name="ID_DEPARTAMENTO" precision="22" scale="0" />
             <generator class="sequence">
                 <param name="sequence">departamento_seq</param>

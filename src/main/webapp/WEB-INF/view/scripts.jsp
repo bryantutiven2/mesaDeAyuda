@@ -38,6 +38,9 @@
 <c:if test="${viewMain == 'dashboardEncuesta'}">
     <script src="${pageContext.request.contextPath}/script/dashboardEncuesta.js"></script>
 </c:if>
+<c:if test="${viewMain == 'dashboardUsuario'}">
+    <script src="${pageContext.request.contextPath}/script/dashboardUsuario.js"></script>
+</c:if>
 
 
 <!-- main contenido usuario Tecnico-->

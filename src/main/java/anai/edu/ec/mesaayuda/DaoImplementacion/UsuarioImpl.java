@@ -6,6 +6,7 @@ import anai.edu.ec.mesaayuda.Entity.Usuario;
 import anai.edu.ec.mesaayuda.Util.HibernateUtil;
 import java.util.List;
 import org.hibernate.Session;
+import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 
 /**
@@ -30,7 +31,26 @@ public class UsuarioImpl implements IUsuarioDao{
     
     @Override
     public Boolean insertar(Usuario o) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Boolean retorno = null;
+        Transaction transaction = null;
+        try{
+            HibernateUtil.abrirSession();
+            Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+            transaction = session.beginTransaction();
+            session.save(o);
+            transaction.commit();
+            retorno = true;
+        }
+        catch(Exception exc){
+            retorno = false;
+            if(transaction != null)
+                transaction.rollback();
+            exc.printStackTrace();
+        }
+        finally{
+            HibernateUtil.cerrarSession();
+        }
+        return retorno;
     }
 
     @Override

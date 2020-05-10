@@ -82,10 +82,6 @@ public class Departamento  implements java.io.Serializable {
     public void setUsuarios(Set<Usuario> usuarios) {
         this.usuarios = usuarios;
     }
-
-
-
-
 }
 
 
