@@ -86,7 +86,7 @@
             <br>
         </div>
     </div>
-    <div class="col-xl-12 col-lg-8 mx-auto">
+    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mx-auto">
         <div class="bg-faded rounded p-3">
             <div class="table-responsive">
                 <table id="tableConsultarSolicitud" class="table table-striped table-bordered" style="width:100%">

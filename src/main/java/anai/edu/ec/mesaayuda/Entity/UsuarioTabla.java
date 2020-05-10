@@ -14,13 +14,24 @@ public class UsuarioTabla {
     private String correo;
     private Integer idDepartamento;
     private String rol;
-    private Integer idTipo;
+    private String idTipo;
 
     public UsuarioTabla() {
         super();
     }
+
+    public UsuarioTabla(Integer idUsuario, String nombre, String apellido, String username, String password, String correo, String rol, String idTipo) {
+        this.idUsuario = idUsuario;
+        this.nombre = nombre;
+        this.apellido = apellido;
+        this.username = username;
+        this.password = password;
+        this.correo = correo;
+        this.rol = rol;
+        this.idTipo = idTipo;
+    }
     
-    public UsuarioTabla(String nombre, String apellido, String username, String password, String correo, Integer idDepartamento, String rol, Integer idTipo) {
+    public UsuarioTabla(String nombre, String apellido, String username, String password, String correo, Integer idDepartamento, String rol, String idTipo) {
         this.nombre = nombre;
         this.apellido = apellido;
         this.username = username;
@@ -31,7 +42,7 @@ public class UsuarioTabla {
         this.idTipo = idTipo;
     }
     
-    public UsuarioTabla(Integer idUsuario, String nombre, String apellido, String username, String password, String correo, Integer idDepartamento, String rol, Integer idTipo) {
+    public UsuarioTabla(Integer idUsuario, String nombre, String apellido, String username, String password, String correo, Integer idDepartamento, String rol, String idTipo) {
         this.idUsuario = idUsuario;
         this.nombre = nombre;
         this.apellido = apellido;
@@ -107,11 +118,11 @@ public class UsuarioTabla {
         this.rol = rol;
     }
 
-    public Integer getIdTipo() {
+    public String getIdTipo() {
         return idTipo;
     }
 
-    public void setIdTipo(Integer idTipo) {
+    public void setIdTipo(String idTipo) {
         this.idTipo = idTipo;
     }
     

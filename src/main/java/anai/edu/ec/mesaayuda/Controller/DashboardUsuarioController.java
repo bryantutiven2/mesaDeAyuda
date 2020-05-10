@@ -15,6 +15,7 @@ import anai.edu.ec.mesaayuda.Entity.UsuarioTabla;
 import anai.edu.ec.mesaayuda.Service.ServiceResponse;
 import static anai.edu.ec.mesaayuda.Service.SessionUsuario.obtenerSessionUsuario;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -52,7 +53,7 @@ public class DashboardUsuarioController {
             String password = usuarioO.getPassword();
             String email = usuarioO.getCorreo();
             Integer idDepartamento = usuarioO.getIdDepartamento();
-            Integer idTipo = usuarioO.getIdTipo();
+            String idTipo = usuarioO.getIdTipo();
             String rol = usuarioO.getRol();
             
             if(idDepartamento != null){
@@ -68,7 +69,7 @@ public class DashboardUsuarioController {
                     usuarioNuevo.setDepartamento(departament);
                 
                 if(idTipo != null){
-                    TipoGrupo tipo = tipoDao.obtenerElemento(idTipo);
+                    TipoGrupo tipo = tipoDao.obtenerElemento(Integer.parseInt(idTipo));
                     usuarioNuevo.setTipoGrupo(tipo);
                 }
                 
@@ -80,6 +81,45 @@ public class DashboardUsuarioController {
             }
             respo = new ServiceResponse<>(mensaje);
             
+        }
+        catch(Exception exc){
+            exc.printStackTrace();
+        }
+        return new ResponseEntity<Object>(respo, HttpStatus.OK);
+    }
+    
+    @PostMapping( "/cargarUsuario" )
+    public ResponseEntity<Object> cargarUsuario(@RequestBody UsuarioTabla usuarioO,
+                                    HttpServletRequest request, HttpServletResponse response){
+        ServiceResponse<List<UsuarioTabla>> respo = null;
+        List<Usuario> listaUsuario = null;
+        HashSet<Integer> setIdUnico = new HashSet<Integer>();
+        List<UsuarioTabla> listaTabla = new ArrayList<>();
+        String mensaje = "error";
+        String tipo;
+        try{
+            
+            Integer idDepartamento = usuarioO.getIdDepartamento();
+            listaUsuario = usuarioDao.filtroUsuario(idDepartamento);
+            if(listaUsuario != null){
+                for(Usuario u : listaUsuario){
+                    if(!setIdUnico.contains(u.getIdUsuario())){
+                        setIdUnico.add(u.getIdUsuario());
+                        if(u.getTipoGrupo() != null)
+                            tipo = u.getTipoGrupo().getNombreTipo();
+                        else
+                            tipo = "";
+                        listaTabla.add(new UsuarioTabla(
+                                u.getIdUsuario(), u.getNombre(), u.getApellido(), u.getUsuario(),
+                                u.getContrasena(), u.getCorreo(), u.getRol(), tipo
+                            ));
+                    }
+                }
+                respo = new ServiceResponse<>("success",listaTabla);
+            }
+            else{
+               respo = new ServiceResponse<>(mensaje,listaTabla); 
+            }
         }
         catch(Exception exc){
             exc.printStackTrace();

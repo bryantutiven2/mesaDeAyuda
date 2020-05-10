@@ -19,4 +19,5 @@ public interface IUsuarioDao{
     List<Usuario> obtenerUsuarios();
     Usuario obtenerElementoUtp(Integer id);
     Usuario verificarUsuario(String user, String password);
+    List<Usuario> filtroUsuario(Integer idDepartamento);
 }

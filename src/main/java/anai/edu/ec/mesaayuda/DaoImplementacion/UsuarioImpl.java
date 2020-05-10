@@ -4,6 +4,7 @@ package anai.edu.ec.mesaayuda.DaoImplementacion;
 import anai.edu.ec.mesaayuda.DAO.IUsuarioDao;
 import anai.edu.ec.mesaayuda.Entity.Usuario;
 import anai.edu.ec.mesaayuda.Util.HibernateUtil;
+import java.util.ArrayList;
 import java.util.List;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -28,6 +29,10 @@ public class UsuarioImpl implements IUsuarioDao{
     private final String selectUtp = "from Usuario u join fetch u.tipoGrupo gru join fetch gru.grupo ";
     private final String selectIdUtp = "from Usuario u join fetch u.tipoGrupo gru join fetch gru.grupo where u.idUsuario= :id";
     
+    private final String filtroUsuarioDepartamento1 = "from Usuario u join fetch u.departamento dep join fetch u.tipoGrupo "
+                                        + "where dep.idDepartamento= :id";
+    private final String filtroUsuarioDepartamento2 = "from Usuario u join fetch u.departamento dep "
+                                        + "where dep.idDepartamento= :id";
     
     @Override
     public Boolean insertar(Usuario o) {
@@ -166,6 +171,29 @@ public class UsuarioImpl implements IUsuarioDao{
             Session session = HibernateUtil.getSessionFactory().getCurrentSession();
             Query query = session.createQuery(selectUsuarios,Usuario.class);
             listaUsuarios = query.getResultList();
+        }
+        catch(Exception exc){
+            exc.printStackTrace();
+        }
+        finally{
+            HibernateUtil.cerrarSession();
+        }
+        return listaUsuarios;
+    }
+
+    @Override
+    public List<Usuario> filtroUsuario(Integer idDepartamento) {
+        List<Usuario> listaUsuarios = new ArrayList<>();
+        try{
+            HibernateUtil.abrirSession();
+            Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+            Query query1 = session.createQuery(filtroUsuarioDepartamento1,Usuario.class);
+            query1.setParameter("id", idDepartamento);
+            listaUsuarios.addAll(query1.getResultList());
+            
+            Query query2 = session.createQuery(filtroUsuarioDepartamento2,Usuario.class);
+            query2.setParameter("id", idDepartamento);
+            listaUsuarios.addAll(query2.getResultList());
         }
         catch(Exception exc){
             exc.printStackTrace();

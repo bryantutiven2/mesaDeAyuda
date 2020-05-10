@@ -22,6 +22,70 @@ function postAjaxCrearUsuario(datos){
     });
 }
 
+function postAjaxCargarUsuarios(datos){
+    $.ajax({
+    type: 'POST',
+    contentType: 'application/json',
+    url: '/mesaayuda/dashboardUsuario/cargarUsuario',
+    data: JSON.stringify(datos),
+    success: function(result){
+        if(result.status == "success"){
+            cargarEstiloT();
+            let tableBody = $('#tableConsultarUsuarioD').DataTable();
+            $.each(result.data, function(i, dato){
+                let tr = '<tr>'+
+                                '<td>'+dato.idUsuario+'</td>'+
+                                '<td>'+dato.nombre+'</td>'+
+                                '<td>'+dato.apellido+'</td>'+
+                                '<td>'+dato.username+'</td>'+
+                                '<td>'+dato.password+'</td>'+
+                                '<td>'+dato.correo+'</td>'+
+                                '<td>'+dato.rol+'</td>'+
+                                '<td>'+dato.idTipo+'</td>'+
+                                "<td>"+
+                                    "<div class='text-center'>"+
+                                        "<div class='btn-group'>"+
+                                            "<button class='btn btn-primary btn-sm btnEditar'>"+
+                                                "<i class='fas fa-edit'></i> Editar"+
+                                            "</button>"+
+                                        "</div>"+
+                                    "</div>"+
+                                "</td>"+
+                        '</tr>';
+                $(".loader").removeClass("hidden"); //remover loader
+                tableBody.row.add($(tr)).draw();
+            });
+        }
+        if(result.status == "error"){
+            $(".loader").removeClass("hidden"); //remover loader
+            $("#bodyTableEncuesta").html('<strong>No hay usuarios</strong>');
+        }
+    },
+    error : function(e) {
+        $(".loader").removeClass("hidden"); //remover loader
+        $("#bodyTableEncuesta").html("<strong>Error</strong>");
+        }
+    });
+}
+/*
+$(document).ready(function(){
+   $(document).on('click','#ocultarCU', function(){
+       
+   });
+});*/
+$(document).ready(function(){
+    $("#formFiltroU").submit(function(e){
+        e.preventDefault();
+        let datos;
+        let codDepartamento = document.getElementById("departamentoUsuario").value;
+        datos = {
+            idDepartamento: codDepartamento
+        };
+        $('#tableConsultarUsuarioD').show();
+        $(".loader").addClass("hidden");
+        postAjaxCargarUsuarios(datos);
+    });
+});
 $(document).ready(function(){
     $("#formUsuarioD").submit(function(e){
         e.preventDefault();
@@ -46,7 +110,6 @@ $(document).ready(function(){
             rol: rolU,
             idTipo: tipo
         };
-        console.log(datos);
         $(".loader").addClass("hidden");
         postAjaxCrearUsuario(datos);
     });
@@ -65,3 +128,27 @@ function reiniciaForm(){
     let tipo = document.getElementById("tipoUser");
     tipo.options[0].selected=true;
 }
+
+function cargarEstiloT() {
+  let tableBody = $('#tableConsultarUsuarioD').DataTable({
+      retrieve: true,
+      //"searching": false,
+    //para cambiar el lenguaje a español
+        "language": {
+            "lengthMenu": "Mostrar _MENU_ registros",
+            "zeroRecords": "No se encontraron resultados",
+            "info": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+            "infoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+            "infoFiltered": "(filtrado de un total de _MAX_ registros)",
+            "sSearch": "Buscar:",
+            "oPaginate": {
+                "sFirst": "Primero",
+                "sLast":"Último",
+                "sNext":"Siguiente",
+                "sPrevious": "Anterior"
+                         },
+                         "sProcessing":"Procesando...",
+        }
+    });
+    tableBody.clear().draw();
+};
