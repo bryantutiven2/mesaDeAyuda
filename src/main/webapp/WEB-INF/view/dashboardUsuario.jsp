@@ -8,12 +8,10 @@
     <div class="loader">
         <img src="${pageContext.request.contextPath}/images/spinner-reload.gif" alt="Loading..."/>
     </div>
-    <!--
-    <div class="text-center">
-        <button type="submit" class="btn-cambiar-color btn btn-primary"  id="ocultarCU"><i class="fas fa-eye" id="eyeO"></i></button>
+    <div style="padding-left: 30px; padding-top: 15px;">
+        <span style="font-size: 1.25em;"><i class="fas fa-eye" id="eyeO" style="color: #054182"></i></span>
     </div>
-    -->
-    <div class="col-xl-12 col-lg-12 col-md-12 mx-auto">
+    <div class="col-xl-12 col-lg-12 col-md-12 mx-auto" id="divCrearUsuario">
         <div class="bg-faded rounded p-3">
             <form id= "formUsuarioD" style="font-size: 0.95em" autocomplete="off">
                 <div class="card" style="font-size: 0.85em;">
@@ -110,8 +108,18 @@
                             </div>
                         </div>
                         <div class="form-row" style="padding-left: 20px;">
-                            <div class="text-center" style="width: 100%;">
-                                <button type="submit" class="btn-cambiar-color btn btn-primary"  id="crearUsuario">Guardar</button>
+                            <div class="form-row col-12">
+                                <div class="form-group col-4"></div>
+                                <div class="form-group col-2">
+                                    <div class="text-center">
+                                        <button type="submit" class="btn-cambiar-color btn btn-primary"  id="crearUsuario"><i class="fas fa-save"></i> Guardar</button>
+                                    </div>
+                                </div>
+                                <div class="form-group col-1">
+                                    <div class="text-center">
+                                        <button type="reset" class="btn-cambiar-color btn btn-primary"  id="resetFormUsuario"><i class="fas fa-redo-alt"></i></button>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>

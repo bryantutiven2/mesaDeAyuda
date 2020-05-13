@@ -1,4 +1,15 @@
+/*ocultar div para crear o actualiza usuario*/
+$( document ).ready(function() {
+    $(document).on("click", '#eyeO', function(){
+        if ($('#divCrearUsuario').is(':visible')) {
+            $('#divCrearUsuario').hide();
+        } else {
+            $('#divCrearUsuario').show();
+        }
+    });
+});
 
+/*solicitud ajax con método post para crear usuarios*/
 function postAjaxCrearUsuario(datos){
     $.ajax({
        type: 'POST',
@@ -22,6 +33,7 @@ function postAjaxCrearUsuario(datos){
     });
 }
 
+/*solicitud ajax para cargar usuarios en datatable con método getw*/
 function postAjaxCargarUsuarios(datos){
     $.ajax({
     type: 'POST',
@@ -67,12 +79,7 @@ function postAjaxCargarUsuarios(datos){
         }
     });
 }
-/*
-$(document).ready(function(){
-   $(document).on('click','#ocultarCU', function(){
-       
-   });
-});*/
+/*hacer la consulat de usuarios por departamento*/
 $(document).ready(function(){
     $("#formFiltroU").submit(function(e){
         e.preventDefault();
@@ -86,6 +93,8 @@ $(document).ready(function(){
         postAjaxCargarUsuarios(datos);
     });
 });
+
+/*crear el json usuario para crear un usuario*/
 $(document).ready(function(){
     $("#formUsuarioD").submit(function(e){
         e.preventDefault();
@@ -132,7 +141,6 @@ function reiniciaForm(){
 function cargarEstiloT() {
   let tableBody = $('#tableConsultarUsuarioD').DataTable({
       retrieve: true,
-      //"searching": false,
     //para cambiar el lenguaje a español
         "language": {
             "lengthMenu": "Mostrar _MENU_ registros",

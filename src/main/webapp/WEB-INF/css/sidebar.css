@@ -71,6 +71,10 @@ button.btn-cambiar-color:hover{
     border-color: #1d5ea3;
     color: #f0f1f2e5;
 }
+
+/*ocultar div eye*/
+
+
 /*Ocultar sidebar cuando la pantalla sea pequeña*/
 @media screen and (max-width: 900px){
     .sidebar{

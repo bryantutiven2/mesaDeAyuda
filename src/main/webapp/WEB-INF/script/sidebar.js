@@ -26,8 +26,8 @@ $( document ).ready(function() {
             localStorage.removeItem('estado');
             
         }
-        });
-  });
+    });
+});
 
 $( document ).ready(function() {
     var seleccionSidebar = localStorage.getItem("activarSeleccion");
