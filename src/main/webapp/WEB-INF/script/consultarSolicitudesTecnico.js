@@ -84,9 +84,11 @@ $(document).ready(function () {
 /*datetime picker para fechas desde hasta en consultar solicitudes*/
 $(function () {
     $('#datetimeDesde').datetimepicker({
+        defaultDate: new Date(),
         format: "DD/MM/YYYY"
     });
     $('#datetimeHasta').datetimepicker({
+        defaultDate: new Date(),
         useCurrent: false,
         format: "DD/MM/YYYY"
     });
@@ -102,7 +104,6 @@ $(function () {
 $(document).ready(function() {
     $(document).on('click','.crearObservacion', function(){
         let estado = $(this).parents("tr").find("td")[7].innerHTML;
-        console.log(estado);
         if(estado == 'finalizada'){
             $("#observacionM").prop('disabled',true);
             $("#enviarObservacion").prop('disabled',true);
@@ -148,8 +149,15 @@ function reinciarCasillas(){
     selectBuscar.options[0].selected=true;
     let selectEstado=document.getElementById("buscarEstado");
     selectEstado.options[0].selected=true;
-    $('#dtpDesde').val("");
-    $('#dtpHasta').val("");
+    $('#datetimeDesde').datetimepicker({
+        defaultDate: new Date(),
+        format: "DD/MM/YYYY"
+    });
+    $('#datetimeHasta').datetimepicker({
+        defaultDate: new Date(),
+        useCurrent: false,
+        format: "DD/MM/YYYY"
+    });
 }
 
 /*diseño del table*/

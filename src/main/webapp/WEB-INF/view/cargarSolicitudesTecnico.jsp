@@ -18,16 +18,17 @@
             </div>
             <br>
             <div class="table-responsive">
-                <table id="tableCargarSolicitud" class="table table-striped table-bordered" style="width:100%">
+                <table id="tableCargarSolicitud" class="table table-striped table-bordered" style="width:100%;font-size: 0.85em">
                     <thead>
                         <tr>
-                            <th class="th-sm" style="font-size: 0.85em ">Cod</th>
-                            <th class="th-sm" style="font-size: 0.85em; max-width: 260px; text-align: justify">Descripción</th>
-                            <th class="th-sm" style="font-size: 0.85em ">Fecha Inicio</th>
-                            <th class="th-sm" style="font-size: 0.85em ">Fecha Fin</th>
-                            <th class="th-sm" style="font-size: 0.85em ">Usuario Solicita Ayuda</th>
-                            <th class="th-sm" style="font-size: 0.85em ">Acción</th>
-                            <th class="th-sm" style="font-size: 0.85em ">Observación</th>
+                            <th class="th-sm">Cod</th>
+                            <th class="th-sm">Descripción</th>
+                            <th class="th-sm">Fecha Inicio</th>
+                            <th class="th-sm">Fecha Fin</th>
+                            <th class="th-sm">Usuario Solicita A.</th>
+                            <th class="th-sm" style="display: none">tipo</th>
+                            <th class="th-sm">Acción</th>
+                            <th class="th-sm">Observación</th>
                         </tr>
                     </thead>
                     <tbody id="bodyTableCargarSolicitudes">
@@ -74,7 +75,7 @@
                                 <select id="selectSubtipo" name="subtipo_CS" class="form-control" model="selected" required>
                                     <option selected disabled hidden style='display: none' value=''></option>
                                     <c:forEach items="${listarSubtipo_CS}" var="subtipo">
-                                        <option value="${subtipo.idSubtipo}">${subtipo.nombreSubtipo}</option> 
+                                        <option value="${subtipo.tipoGrupo.idTipo}-${subtipo.idSubtipo}">${subtipo.nombreSubtipo}</option> 
                                     </c:forEach>
                                     <option value='none'>none</option>
                                 </select>

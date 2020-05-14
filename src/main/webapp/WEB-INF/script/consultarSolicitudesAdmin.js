@@ -114,9 +114,11 @@ $(document).ready(function() {
 /*datetime picker para fechas desde hasta en consultar solicitudes*/
 $(function () {
     $('#datetimeDesde').datetimepicker({
+        defaultDate: new Date(),
         format: "DD/MM/YYYY"
     });
     $('#datetimeHasta').datetimepicker({
+        defaultDate: new Date(),
         useCurrent: false,
         format: "DD/MM/YYYY"
     });
@@ -167,8 +169,16 @@ function reinciarCasillas(){
     let selectTecnico=document.getElementById("selectTecnico");
     selectTecnico.options[0].selected=true;
     $('#idUserSolicitaA').val("");
-    $('#dtpDesde').val("");
-    $('#dtpHasta').val("");
+    $('#datetimeDesde').datetimepicker({
+        defaultDate: new Date(),
+        format: "DD/MM/YYYY"
+    });
+    $('#datetimeHasta').datetimepicker({
+        defaultDate: new Date(),
+        useCurrent: false,
+        format: "DD/MM/YYYY"
+    });
+    
     $('#idsUSA input[type=checkbox]').each(function(){
         if(this.checked){
             $(this).prop("checked", false);

@@ -11,6 +11,7 @@ function myFunction() {
         }
      }
 };
+
 /*solicitud ajax post para cargar solicitudes dependiendo del grupo escogido */
 function postAjaxTablaSolicitudes(datos){
     $.ajax({
@@ -87,8 +88,15 @@ function reiniciarForm(){
     estadoSolicitud.options[0].selected=true;
     $('#idUserSolicitaA').val("");
     $('#encuesta_cs').val("");
-    $('#fechaInicio_cs').val("");
-    $('#fechaFin_cs').val("");
+    $('#dtPickerFI').datetimepicker({
+        defaultDate: new Date(),
+        format: "DD/MM/YYYY hh:mm a"
+    });
+    $('#dtPickerFF').datetimepicker({
+        defaultDate: new Date(),
+        useCurrent: false,
+        format: "DD/MM/YYYY hh:mm a"
+    });
     $('#formItemsEncuesta input[type=checkbox]').each(function(){
         if(this.checked){
             $(this).prop("checked", false);
@@ -129,7 +137,7 @@ $( document ).ready(function() {
         else if(grupoS=="sist"){
             if(nvez != null && descripcionT != "" && grupoS != undefined 
                     && subtipoS != null && tecnicoS != null && tipoS != null && usuarioSA != "" 
-                    && estadoS != null && fInicio != "" && fFin != "" && iEncuesta != ""){
+                    && estadoS != null && fInicio != "" && fFin != ""){
                 datos={
                     grupo: grupoS,
                     n_vez: nvez,
@@ -149,7 +157,7 @@ $( document ).ready(function() {
             }
             else if(nvez == null || descripcionT == "" || grupoS == undefined 
                     || subtipoS == null || tecnicoS == null || tipoS == null || usuarioSA == "" 
-                    || iEncuesta == "" || estadoS == null || fInicio == "" || fFin == ""){
+                    || estadoS == null || fInicio == "" || fFin == ""){
                 $("#mensajeModal").html('<i class="fas fa-exclamation-triangle" style="color: #F87011;font-size: 24pt;margin-right: 30px;"></i> Tiene campos sin llenar');
                 $("#modalMensaje").modal();
             }
@@ -177,17 +185,19 @@ $( document ).ready(function() {
 /*DateTimePicker para fecha inicio y fin en crearSolicitudAdmin.jsp*/
 $(function () {
     $('#dtPickerFI').datetimepicker({
+        defaultDate: new Date(),
         format: "DD/MM/YYYY hh:mm a"
     });
     $('#dtPickerFF').datetimepicker({
-        format: "DD/MM/YYYY hh:mm a",
-        useCurrent: false
+        defaultDate: new Date(),
+        useCurrent: false,
+        format: "DD/MM/YYYY hh:mm a"
     });
     $("#dtPickerFI").on("change.datetimepicker", function (e) {
         $('#dtPickerFF').datetimepicker('minDate', e.date);
     });
     $("#dtPickerFF").on("change.datetimepicker", function (e) {
-        $('dtPickerFI').datetimepicker('maxDate', e.date);
+        $('#dtPickerFI').datetimepicker('maxDate', e.date);
     });
 });
 
@@ -280,7 +290,7 @@ $(document).ready(function() {
 });  
 
 
-/*filtrar subtipo por tipo*/
+/*filtrar subtipo por tipo
 function filtrarSubtipo(value){
     var select=document.getElementById("selectSubtipo");
     // Cogemos el listado de opciones en un array de valores
@@ -299,7 +309,7 @@ function filtrarSubtipo(value){
         }
     }
 };  
-
+*/
 /*cambiar interfaz dependiendo del tipo de grupo a escoger en crearSolicitudAdmin.jsp*/
 
 $( document ).ready(function() {
@@ -312,7 +322,7 @@ $( document ).ready(function() {
             $('.crearAdmin').show();
             $('.idsA').hide();
             select.options[0].selected=true;
-            for (var i = 2; i < op.length; i++) {
+            for (var i = 1; i < op.length; i++) {
                 $(op[i]).hide();
             }
         }
@@ -320,7 +330,7 @@ $( document ).ready(function() {
             $('.crearAdmin').hide();
             $('.idsA').show();
             select.options[0].selected=true;
-            for (var i = 2; i < op.length; i++) {
+            for (var i = 1; i < op.length; i++) {
                 $(op[i]).show();
             }
             datos={
@@ -375,7 +385,7 @@ $(document).ready(function() {
 /*limitar numero de checks en solicitudes*/
 function limitarChecksIds() {
    $("input[name='ug-checkbox']").change(function () {
-      let limit = document.getElementById("reincidencia").value;
+      let limit = document.getElementById("reincidencia").value - 1;
       let cantidadCkb = $("input[name='ug-checkbox']:checked").length;
       if (cantidadCkb > limit) 
       {

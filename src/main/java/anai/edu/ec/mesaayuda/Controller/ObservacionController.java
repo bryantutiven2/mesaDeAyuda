@@ -14,6 +14,8 @@ import anai.edu.ec.mesaayuda.Entity.Usuario;
 import anai.edu.ec.mesaayuda.Service.ServiceResponse;
 import static anai.edu.ec.mesaayuda.Service.SessionUsuario.obtenerSessionUsuario;
 import anai.edu.ec.mesaayuda.Service.fechaSolicitud;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -39,6 +41,7 @@ public class ObservacionController {
     private IUsuarioDao usuarioDao = new UsuarioImpl();
     private IObservacionDao observacionDao = new ObservacionImpl();
     private ISolicitudDao solicitudDao = new SolicitudImpl();
+    private DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
     
     @PostMapping( "/cargarObservaciones")
     public ResponseEntity<Object> cargarEncuestas(@RequestBody ObservacionTabla observacionO,
@@ -53,6 +56,7 @@ public class ObservacionController {
                 ObservacionTabla mensajeO = new ObservacionTabla();
                 mensajeO.setUsuario(usuarioNombre);
                 mensajeO.setMensaje(o.getMensaje());
+                mensajeO.setFecha(dateFormat.format(o.getFechaMensaje()));
                 listaTabla.add(mensajeO);
             }
             if(listaObservaciones != null)

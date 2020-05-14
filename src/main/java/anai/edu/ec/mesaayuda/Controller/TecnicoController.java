@@ -70,13 +70,17 @@ public class TecnicoController {
             if(listaSolicitudAyuda != null){
                 for(SolicitudAyuda lista : listaSolicitudAyuda){
                     String userSolicitaAyuda = lista.getUsuarioByIdUserSolicitaAyuda().getNombre() +" "+ lista.getUsuarioByIdUserSolicitaAyuda().getApellido();
-                   listaTabla.add(
-                        new SolicitudTabla(
-                                lista.getId().getIdSolicitud(), lista.getDescripcion(), userSolicitaAyuda,
-                                String.valueOf(dateFormat.format(lista.getFechaInicio())),
-                                String.valueOf(dateFormat.format(lista.getFechaFin())),
-                                lista.getEstadoSolicitudTecnico()
-                        )); 
+                    SolicitudTabla objetoSolicitudT = new SolicitudTabla();
+                    objetoSolicitudT.setId(lista.getId().getIdSolicitud());
+                    objetoSolicitudT.setDescripcion(lista.getDescripcion());
+                    objetoSolicitudT.setUserSolicitaAyuda(userSolicitaAyuda);
+                    objetoSolicitudT.setFechaInicio(String.valueOf(dateFormat.format(lista.getFechaInicio())));
+                    objetoSolicitudT.setFechaFin(String.valueOf(dateFormat.format(lista.getFechaFin())));
+                    objetoSolicitudT.setEstadoSolicitudTecnico(lista.getEstadoSolicitudTecnico());
+                    objetoSolicitudT.setTipo(String.valueOf(lista.getTipoGrupo().getIdTipo()));
+                    listaTabla.add(
+                                objetoSolicitudT
+                        ); 
                 }
                 respo = new ServiceResponse<>("success",listaTabla);
             }
@@ -281,7 +285,8 @@ public class TecnicoController {
     @RequestMapping(value = { "/gestionarSolicitudes"}, method = RequestMethod.GET)
     public ModelAndView gestionarSolicitudes(HttpServletRequest request, HttpServletResponse response){
         usuario = obtenerSessionUsuario(request, response);
-        List<Subtipo> listaSubtipos = subtipoDao.obtenerElementosPorTipo(usuario.getTipoGrupo().getIdTipo());
+        String grupoId = usuario.getRol().split("_")[1];
+        List<Subtipo> listaSubtipos = subtipoDao.obtenerElementos(grupoId);
         datosUsuario();
         model.addObject("listarSubtipo_CS",listaSubtipos);
         model.addObject("viewMain","cargarSolicitudesTecnico");

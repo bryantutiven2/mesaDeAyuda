@@ -1,3 +1,13 @@
+/*mostrar u ocultar contraseña*/
+function mostrarOcultar() {
+  let pass = document.getElementById("contrasenaUser");
+  if (pass.type === "password") {
+    pass.type = "text";
+  } else {
+    pass.type = "password";
+  }
+}
+
 /*ocultar div para crear o actualiza usuario*/
 $( document ).ready(function() {
     $(document).on("click", '#eyeO', function(){

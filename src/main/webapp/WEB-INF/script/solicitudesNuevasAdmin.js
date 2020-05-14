@@ -10,38 +10,40 @@ function getAjaxTabla(){
             let tableBody = $('#tablaNuevaS').DataTable();
             $.each(result.data, function(i, dato){
                 let tr = '<tr>'+
-                                '<td class="id_sn" scope="row" style="font-size: 0.8em">'+dato.id+'</td>'+
-                                '<td class="descrip_sn" style="font-size: 0.8em; max-width: 120px;overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">'+dato.descripcion+'</td>'+
-                                '<td class="user_sn" style="font-size: 0.8em">'+dato.userSolicitaAyuda+'</td>'+
-                                '<td class="tecnico_sn" style="font-size: 0.8em">'+dato.userTecnico+'</td>'+
-                                '<td class="n_sn" style="font-size: 0.8em; max-width: 85px">'+dato.n_vez+'</td>'+
-                                '<td class="ids_sn" style="font-size: 0.8em">'+dato.ids_n_vez+'</td>'+
-                                '<td class="fechaInicio_sn" style="font-size: 0.8em">'+dato.fechaInicio+'</td>';
+                                '<td class="id_sn" scope="row">'+dato.id+'</td>'+
+                                '<td class="descrip_sn">'+dato.descripcion+'</td>'+
+                                '<td class="user_sn">'+dato.userSolicitaAyuda+'</td>'+
+                                '<td class="tecnico_sn">'+dato.userTecnico+'</td>'+
+                                '<td class="n_sn">'+dato.n_vez+'</td>'+
+                                '<td class="ids_sn">'+dato.ids_n_vez+'</td>'+
+                                '<td class="fechaInicio_sn">'+dato.fechaInicio+'</td>';
                         
                 if(dato.estadoSolicitud == "pendiente"){
                           tr += '<td class="text-center">'+
-                                    '<button type="button" class="btn btn-success btn-sm asignarSolicitud" style=" font-size: 0.8em;" value="'+dato.id+'"><i class="far fa-edit"></i> Asignar</button>'+
+                                    '<button type="button" class="btn btn-success btn-sm asignarSolicitud" style=" font-size: 0.9em;" value="'+dato.id+'"><i class="far fa-edit"></i></button>'+
                                 '</td>'+
                                 '<td class="text-center">'+
-                                    '<button type="button" class="btn btn-info btn-sm crearObservacion" style=" font-size: 0.8em;" '+' value="'+dato.id+'"><i class="fas fa-envelope-open-text"></i></button>'+
+                                    '<button type="button" class="btn btn-info btn-sm crearObservacion" style=" font-size: 0.9em;" '+' value="'+dato.id+'"><i class="fas fa-envelope-open-text"></i></button>'+
                                 '</td>'+
                               '</tr>';    
                     tableBody.row.add($(tr)).draw();
                 }
                 else if(dato.estadoSolicitud == "reevaluar"){
                           tr += '<td class="text-center">'+
-                                    '<button type="button" class="btn btn-warning btn-sm reevaluarSolicitud" style=" font-size: 0.7em;" '+' value="'+dato.id+'"><i class="far fa-times-circle"></i> Reevaluar</button>'+
+                                    '<button type="button" class="btn btn-warning btn-sm reevaluarSolicitud" style=" font-size: 0.9em;" '+' value="'+dato.id+'"><i class="far fa-times-circle"></i></button>'+
                                 '</td>'+
                                 '<td class="text-center">'+
-                                    '<button type="button" class="btn btn-info btn-sm crearObservacion" style=" font-size: 0.8em;" '+' value="'+dato.id+'"><i class="fas fa-envelope-open-text"></i></button>'+
+                                    '<button type="button" class="btn btn-info btn-sm crearObservacion" style=" font-size: 0.9em;" '+' value="'+dato.id+'"><i class="fas fa-envelope-open-text"></i></button>'+
                                 '</td>'+
                               '</tr>';    
                     tableBody.row.add($(tr)).draw();
                 }
                 else{
-                         tr += '<td class="text-center"></td>'+
+                         tr += '<td class="text-center">'+
+                                    '<button type="button" class="btn btn-danger btn-sm asignarSolicitud" style=" font-size: 0.9em;" value="'+dato.id+'"><i class="far fa-edit"></i></button>'+
+                                '</td>'+
                                 '<td class="text-center">'+
-                                    '<button type="button" class="btn btn-info btn-sm crearObservacion" style=" font-size: 0.8em;" '+' value="'+dato.id+'"><i class="fas fa-envelope-open-text"></i></button>'+
+                                    '<button type="button" class="btn btn-info btn-sm crearObservacion" style=" font-size: 0.9em;" '+' value="'+dato.id+'"><i class="fas fa-envelope-open-text"></i></button>'+
                                 '</td>'+
                               '</tr>';    
                     tableBody.row.add($(tr)).draw();
@@ -127,6 +129,7 @@ $(document).ready(function () {
 /*DateTimePicker de fecha fin para solicitudesNuevasAdmin.jsp*/
 $(function () {
     $('#dtPicker').datetimepicker({
+        defaultDate: new Date(),
         format: "DD/MM/YYYY hh:mm a"
     });
 });
@@ -159,7 +162,10 @@ function reiniciarForm(){
     selectTecnico.options[0].selected=true;
     let selectTipo=document.getElementById("selectTipo");
     selectTipo.options[0].selected=true;
-    $("#fechaFin_sn").val("");
+    $('#dtPicker').datetimepicker({
+        defaultDate: new Date(),
+        format: "DD/MM/YYYY hh:mm a"
+    });
     $('#encuesta_cs').val("");
     $('#formItemsEncuesta input[type=checkbox]').each(function(){
         if(this.checked){

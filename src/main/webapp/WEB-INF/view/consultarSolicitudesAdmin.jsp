@@ -124,7 +124,7 @@
                                 <div class="form-group col-7">
                                     <div class="form-group">
                                         <div class="input-group date" id="datetimeHasta" data-target-input="nearest">
-                                             <input type="text"id="dtpHasta" class="form-control datetimepicker-input" data-target="#datetimeHasta"/>
+                                             <input type="text" id="dtpHasta" class="form-control datetimepicker-input" data-target="#datetimeHasta"/>
                                              <div class="input-group-append" data-target="#datetimeHasta" data-toggle="datetimepicker">
                                                  <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                                              </div>
@@ -148,18 +148,18 @@
     <div class="col-xl-12 col-lg-8 mx-auto">
         <div class="bg-faded rounded p-3">
             <div id="tableM" class="table-responsive" style="display: none;">
-                <table id="tableConsultarSolicitudM" class="table table-striped table-bordered" style="width:100%">
+                <table id="tableConsultarSolicitudM" class="table table-striped table-bordered" style="width:100%;font-size: 0.85em">
                     <thead id="headTableCargarSolicitudes">
                         <tr>
-                            <th class="th-sm" style="font-size: 0.85em ">Cod</th>
-                            <th class="th-sm" style="font-size: 0.85em; max-width: 260px; text-align: justify">Descripción</th>
-                            <th class="th-sm" style="font-size: 0.85em ">Grupo</th>
-                            <th class="th-sm" style="font-size: 0.85em ">Tipo</th>
-                            <th class="th-sm" style="font-size: 0.85em ">Técnico</th>
-                            <th class="th-sm" style="font-size: 0.85em ">Fecha Inicio</th>
-                            <th class="th-sm" style="font-size: 0.85em ">Fecha Fin</th>
-                            <th class="th-sm" style="font-size: 0.85em ">Estado</th>
-                            <th class="th-sm" style="font-size: 0.85em ">Observación</th>
+                            <th class="th-sm">Cod</th>
+                            <th class="th-sm">Descripción</th>
+                            <th class="th-sm">Grupo</th>
+                            <th class="th-sm">Tipo</th>
+                            <th class="th-sm">Técnico</th>
+                            <th class="th-sm">Fecha Inicio</th>
+                            <th class="th-sm">Fecha Fin</th>
+                            <th class="th-sm">Estado</th>
+                            <th class="th-sm">Obs</th>
                         </tr>
                     </thead>
                     <tbody id="bodyTableCargarSolicitudes" style="font-size: 0.85em;">
@@ -168,21 +168,21 @@
                 </table>
             </div>
             <div id="tableR" class="table-responsive" style="display: none;">    
-                <table id="tableConsultarSolicitudR" class="table table-striped table-bordered" style="width:100%">
+                <table id="tableConsultarSolicitudR" class="table table-striped table-bordered" style="width:100%;font-size: 0.85em">
                     <thead id="headTableCargarSolicitudesR">
                         <tr>
-                            <th class="th-sm" style="font-size: 0.85em ">Cod</th>
-                            <th class="th-sm" style="font-size: 0.85em; max-width: 260px; text-align: justify">Descripción</th>
-                            <th class="th-sm" style="font-size: 0.85em ">Usuario Solicita Ayuda</th>
-                            <th class="th-sm" style="font-size: 0.85em ">Fecha Inicio</th>
-                            <th class="th-sm" style="font-size: 0.85em ">Fecha Fin</th>
-                            <th class="th-sm" style="font-size: 0.85em ">Fecha Inicio Técnico</th>
-                            <th class="th-sm" style="font-size: 0.85em ">Fecha Fin nTécnico</th>
-                            <th class="th-sm" style="font-size: 0.85em ">Estado Solicitud</th>
-                            <th class="th-sm" style="font-size: 0.85em ">Observación</th>
+                            <th class="th-sm">Cod</th>
+                            <th class="th-sm">Descripción</th>
+                            <th class="th-sm">Usuario Solicita A.</th>
+                            <th class="th-sm">Fecha Inicio</th>
+                            <th class="th-sm">Fecha Fin</th>
+                            <th class="th-sm">Fecha Inicio T.</th>
+                            <th class="th-sm">Fecha Fin T.</th>
+                            <th class="th-sm">Estado Solicitud</th>
+                            <th class="th-sm">Obs</th>
                         </tr>
                     </thead>
-                    <tbody id="bodyTableCargarSolicitudesR" style="font-size: 0.85em;">
+                    <tbody id="bodyTableCargarSolicitudesR">
                         
                     </tbody>
                 </table>

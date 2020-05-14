@@ -119,7 +119,7 @@ $( document ).ready(function() {
 function cargarEstiloT() {
     $('#dtBasicExample').DataTable({
         retrieve: true,
-    //para cambiar el lenguaje a español
+        //para cambiar el lenguaje a español
         "language": {
             "lengthMenu": "Mostrar _MENU_ registros",
             "zeroRecords": "No se encontraron resultados",
@@ -155,7 +155,7 @@ $(document).ready(function() {
 /*limitar numero de checks en crearSolicitud.jsp*/
 function limitarChecks() {
    $("input[name='ug-checkbox']").change(function () {
-      let limit = document.getElementById("reincidencia").value;
+      let limit = document.getElementById("reincidencia").value - 1;
       let cantidadCkb = $("input[name='ug-checkbox']:checked").length;
       if (cantidadCkb > limit) 
       {

@@ -43,7 +43,7 @@ $(document).ready(function () {
             let tipoRolU = $('#tipoRolU').val();
             if(contadorN > 0 && tipoRolU != 'tecnico' && tipoRolU != 'admin' && tipoRolU != undefined){
                 $("#enviarSolicitud").prop('disabled',true);
-                $("#mensajeModal").html('<Strong>Usted tiene solicitudes pendientes. Por favor proceda a llenarlas!!!</strong>');
+                $("#mensajeModal").html('<Strong>Usted tiene encuestas pendientes. Por favor proceda a llenarlas!!!</strong>');
                 $("#modalMensaje").modal();
             }
             else if(contadorN == 0){

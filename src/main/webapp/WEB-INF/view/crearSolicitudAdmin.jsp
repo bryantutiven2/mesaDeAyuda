@@ -20,7 +20,7 @@
                             <label><h6>Grupo</h6></label>
                             <fieldset id="testForm">
                                 <div class="form-group col-md-11" required>
-                                    <input selected disabled hidden style='display: none' type="radio" id="grupoSistemaCS" name="grupo" value="" required>
+                                    <input selected disabled hidden style='display: none' type="radio" name="grupo" value="" required>
                                     <div>
                                         <input type="radio" id="grupoSistemaCS" name="grupo" id="g1" value="sist">
                                         <label for="sistemas">Sistemas</label>
@@ -35,7 +35,7 @@
                         <div class="form-group col-md-1"></div>
                         <div class="crearAdmin form-group col-md-3">
                             <label><h6>Tipo</h6></label>
-                            <select id="selectTipo" name="tipoGrupo_CS" class="form-control" model="selected" onchange="filtrarSubtipo(this.value)" required>
+                            <select id="selectTipo" name="tipoGrupo_CS" class="form-control" model="selected" required>
                                 <option selected disabled hidden style='display: none' value=''></option>
                                 <c:forEach items="${listarTiposCS}" var="tipoGrupo">
                                     <option value="${tipoGrupo.idTipo}">${tipoGrupo.nombreTipo}</option> 
@@ -65,8 +65,7 @@
                         <div class="form-group col-md-3">
                             <label><h6>N° de Reincidencias</h6></label>
                             <select id="reincidencia" name="nvez" class="form-control" model="selected" onchange = "myFunction()" required>
-                                <option selected disabled hidden style='display: none' value=''></option>
-                                <option value="1">1vez</option>   
+                                <option selected value="1">1vez</option>   
                                 <option value="2">2vez</option>
                                 <option value="3">3vez</option>
                                 <option value="4">4vez</option>
@@ -109,7 +108,7 @@
                                 <label class="col-md-4" style="padding-top: 0.9%;"><h6>Fecha Inicio</h6></label>
                                 <div class="form-group">
                                     <div class="input-group date" id="dtPickerFI" data-target-input="nearest">
-                                        <input type="text" id="fechaInicio_cs" name="fechaInicio_cs" class="form-control datetimepicker-input" data-target="#dtPickerFI" required="true"/>
+                                        <input type="text" id="fechaInicio_cs" class="form-control datetimepicker-input" data-target="#dtPickerFI" required/>
                                          <div class="input-group-append" data-target="#dtPickerFI" data-toggle="datetimepicker">
                                              <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                                          </div>
@@ -122,9 +121,8 @@
                                 <label class="col-md-6" style="padding-top: 0.9%;"><h6>Estado Solicitud</h6></label>
                                 <div class="form-group col-md-6">
                                     <select id="estadoSolicitud_cs" name="estado_cs" class="form-control" model="selected" required>
-                                        <option selected disabled hidden style='display: none' value=''></option>
                                         <option value="pendiente">pendiente</option>   
-                                        <option value="asignada">asignada</option>
+                                        <option selected value="asignada">asignada</option>
                                         <option value="finalizada">finalizada</option>
                                     </select>
                                  </div>
@@ -135,7 +133,7 @@
                                 <label class="col-md-4" style="padding-top: 0.9%;"><h6>Fecha Fin</h6></label>
                                 <div class="form-group">
                                     <div class="input-group date" id="dtPickerFF" data-target-input="nearest">
-                                        <input type="text" id="fechaFin_cs" name="fechaFin_cs" class="form-control datetimepicker-input" data-target="#dtPickerFF" required="true"/>
+                                        <input type="text" id="fechaFin_cs" class="form-control datetimepicker-input" data-target="#dtPickerFF" required/>
                                          <div class="input-group-append" data-target="#dtPickerFF" data-toggle="datetimepicker">
                                              <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                                          </div>

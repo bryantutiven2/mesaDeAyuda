@@ -48,7 +48,13 @@
                                     <label style="width: 90px;"><b style="color:red; font-size: 1.25em;">*</b> Contraseña</label>
                                 </div>
                                 <div class="form-group col-2">
-                                    <input type="text" class="form-control form-control-sm" name="contrasenaUser" id="contrasenaUser" maxlength="15" required>
+                                    <div class="form-row col-12">
+                                        <input type="password" class="form-control form-control-sm" name="contrasenaUser" id="contrasenaUser" maxlength="15" required>
+                                        <div class="form-row col-12" style="padding-top: 6px;">
+                                            <input type="checkbox" onclick="mostrarOcultar()">
+                                            <small class="form-text text-muted" style="font-size: 0.8em; margin-left: 8px; margin-top: 0px;"><i>Mostrar Contraseña</i></small>
+                                        </div>
+                                    </div>
                                 </div>
                                 <div class="form-group col-1" style="margin-right: 10px;">
                                     <label><b style="color:red; font-size: 1.25em;">*</b> Correo</label>

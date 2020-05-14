@@ -19,18 +19,18 @@
             </div>
             <br>
             <div class="table-responsive">
-                <table id="tablaNuevaS" class="table table-striped table-bordered" style="width:100%">
+                <table id="tablaNuevaS" class="table table-striped table-bordered" style="width:100%;font-size: 0.85em">
                     <thead>
                         <tr>
-                            <th class="th-sm" style="font-size: 0.85em ">Cod</th>
-                            <th class="th-sm" style="font-size: 0.85em; max-width: 150px;overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">Descripción</th>
-                            <th class="th-sm" style="font-size: 0.85em">Usuario</th>
-                            <th class="th-sm" style="font-size: 0.85em">Técnico</th>
-                            <th class="th-sm" style="font-size: 0.85em; max-width: 85px">N° problema</th>
-                            <th class="th-sm" style="font-size: 0.85em">Ids n vez</th>
-                            <th class="th-sm" style="font-size: 0.85em">Fecha Inicio</th>
-                            <th class="th-sm" style="font-size: 0.85em; min-width: 100px">Acción</th>
-                            <th class="th-sm" style="font-size: 0.85em">Observación</th>
+                            <th class="th-sm">Cod</th>
+                            <th class="th-sm">Descripción</th>
+                            <th class="th-sm">Usuario</th>
+                            <th class="th-sm">Técnico</th>
+                            <th class="th-sm">N° problema</th>
+                            <th class="th-sm">Ids n vez</th>
+                            <th class="th-sm">Fecha Inicio</th>
+                            <th class="th-sm">Acción</th>
+                            <th class="th-sm">Obs</th>
                         </tr>
                     </thead>
                     <tbody id="bodyTableCargarNuevasSolicitudes">

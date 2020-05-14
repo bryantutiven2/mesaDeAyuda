@@ -14,6 +14,7 @@ function postCargarObservaciones(datos){
                                 '<div class="form-group col-12">'+
                                     '<label style="color: #054182;"> <i>'+ dato.usuario +':</i></label>'+
                                     '<div style="font-size: 0.85em;">'+dato.mensaje +'</div>'+
+                                    '<div style="font-size: 0.8em;;text-align: right;"> <small class="form-text text-muted"><i>'+dato.fecha+'</i></small></div>'+
                                 '</div>'+
                             '</div>';
                 });
@@ -33,11 +34,13 @@ function postCrearObservacion(datos){
        url: '/mesaayuda/observacion/crearObservacion',
        data: JSON.stringify(datos),
        success: function(response){
+            let fhActual = moment().format('DD/MM/YYYY hh:mm a');
             if(response.status == "exito"){
                 let div = '<div class="form-row">'+
                                 '<div class="form-group col-12">'+
                                     '<label style="color: #054182;"> <i> Yo:</i></label>'+
                                     '<div style="font-size: 0.85em;">'+datos.mensaje +'</div>'+
+                                    '<div style="font-size: 0.8em;;text-align: right;"> <small class="form-text text-muted"><i>'+fhActual+'</i></small></div>'+
                                 '</div>'+
                             '</div>';
                 $("#listaObservaciones").append(div);

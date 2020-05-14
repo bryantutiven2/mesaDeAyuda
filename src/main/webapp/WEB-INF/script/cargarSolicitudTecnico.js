@@ -35,19 +35,20 @@ function getAjaxTabla(){
             var tr = '';
             $.each(result.data, function(i, dato){
                 tr += "<tr>"+
-                         "<td class='idsolicitud' style='font-size: 0.8em' scope='row'>"+dato.id+"</td>"+
-                         "<td style='max-width: 260px; font-size: 0.8em; text-align: justify'>"+dato.descripcion+"</td>"+
-                         "<td style='font-size: 0.8em'>"+dato.fechaInicio+"</td>"+
-                         "<td style='font-size: 0.8em'>"+dato.fechaFin+"</td>"+
-                         "<td style='font-size: 0.8em'>"+dato.userSolicitaAyuda+"</td>";
+                         "<td class='idsolicitud' scope='row'>"+dato.id+"</td>"+
+                         "<td>"+dato.descripcion+"</td>"+
+                         "<td>"+dato.fechaInicio+"</td>"+
+                         "<td>"+dato.fechaFin+"</td>"+
+                         "<td>"+dato.userSolicitaAyuda+"</td>"+
+                         "<td style='display: none'>"+dato.tipo+"</td>";
                 if(dato.estadoSolicitudTecnico == "inactiva"){
                     tr+='<td class="text-center">'+
-                            '<button type="button" class="btn btn-success btn-sm comenzarSolicitud" style=" font-size: 0.8em;" '+' value="'+dato.id+'"><i class="far fa-edit"></i> Comenzar</button>'+
+                            '<button type="button" class="btn btn-success btn-sm comenzarSolicitud" style=" font-size: 0.75em;" '+' value="'+dato.id+'"><i class="far fa-edit"></i> Comenzar</button>'+
                         '</td>';
                 }
                 else if(dato.estadoSolicitudTecnico == "proceso"){
                          tr+='<td class="text-center">'+
-                                 '<button type="button" class="btn btn-info btn-sm finalizarSolicitud" style=" font-size: 0.8em;" '+' value="'+dato.id+'"><i class="far fa-times-circle"></i> Procesar</button>'+
+                                 '<button type="button" class="btn btn-info btn-sm finalizarSolicitud" style=" font-size: 0.75em;" '+' value="'+dato.id+'"><i class="far fa-times-circle"></i> Procesar</button>'+
                              '</td>';
                 }
                 else{
@@ -70,13 +71,35 @@ function getAjaxTabla(){
     });
 }
 
+function filtrarSubtipo(value){
+    var select=document.getElementById("selectSubtipo");
+    // Cogemos el listado de opciones en un array de valores
+    var op=select.getElementsByTagName("option");
+    // Seleccionamos la primera opción
+    select.options[0].selected=true;
+    // Recorremos todas las opciones del segundo select
+    for (var i = 0; i < op.length; i++) {
+        var subtipo = op[i].value;
+        var res = subtipo.split("-")[0];
+        if(res == value){
+          op[i].style.display="block";
+        }
+        else{
+          op[i].style.display="none";
+        }
+        if(op[i].value == 'none'){
+            op[i].style.display="block";
+        }
+    }
+}; 
+
 $(document).ready(function () {
     $(document).on('click','.comenzarSolicitud', function(){
         let cod;
         $(this).parents("tr").find(".idsolicitud").each(function() {
             cod = $(this).html();
         });
-        var datos = {
+        let datos = {
             id: cod,
             estadoSolicitudTecnico: 'proceso',
             estadoSolicitud: 'null'
@@ -98,6 +121,8 @@ $(document).ready(function () {
         $(this).parents("tr").find(".idsolicitud").each(function() {
             cod = $(this).html();
         });
+        let idTip = $(this).parents("tr").find("td")[5].innerHTML;
+        filtrarSubtipo(idTip);
         localStorage.setItem("idSolicitud",cod);
         $("#finalSolicitudModal").modal();
     });
@@ -156,7 +181,6 @@ $(document).ready(function () {
             $("#finalSolicitudModal").modal('hide');
             postAjaxTabla(datos);
         }
-        
     });
 });
 

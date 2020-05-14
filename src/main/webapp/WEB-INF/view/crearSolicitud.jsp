@@ -44,8 +44,7 @@
                                 <div class="form-row">
                                       <div class="form-group col-md-5">
                                           <select id="reincidencia" name="nvez" class="form-control" required model="selected" onchange = "myFunction()">
-                                              <option selected disabled hidden style='display: none' value=''></option>
-                                              <option value="1">1vez</option>   
+                                              <option selected value="1">1vez</option>   
                                               <option value="2">2vez</option>
                                               <option value="3">3vez</option>
                                               <option value="4">4vez</option>
