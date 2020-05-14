@@ -76,7 +76,7 @@ button.btn-cambiar-color:hover{
 
 
 /*Ocultar sidebar cuando la pantalla sea pequeña*/
-@media screen and (max-width: 900px){
+@media screen and (max-width: 950px){
     .sidebar{
         display:none;
     }

@@ -7,7 +7,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
 <div class="main pt-1" style="margin-top: 20px">
-    <div class="col-xl-12 col-lg-8 col-md-12 col-sm-8  mx-auto">
+    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12  mx-auto">
         <div class="bg-faded rounded p-3">
             <div class="loader">
                 <img src="${pageContext.request.contextPath}/images/spinner-reload.gif" alt="Loading..."/>

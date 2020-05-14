@@ -11,7 +11,7 @@
     <div style="padding-left: 30px; padding-top: 15px;">
         <span style="font-size: 1.25em;"><i class="fas fa-eye" id="eyeO" style="color: #054182"></i></span>
     </div>
-    <div class="col-xl-12 col-lg-12 col-md-12 mx-auto" id="divCrearUsuario">
+    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mx-auto" id="divCrearUsuario">
         <div class="bg-faded rounded p-3">
             <form id= "formUsuarioD" style="font-size: 0.95em" autocomplete="off">
                 <div class="card" style="font-size: 0.85em;">
@@ -133,7 +133,7 @@
             </form>
         </div>
     </div>
-    <div class="col-xl-12 col-lg-12 col-md-12 mx-auto">
+    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12  mx-auto">
         <div class="bg-faded rounded p-3">
             <form id= "formFiltroU" style="font-size: 0.95em" autocomplete="off">
                 <div class="card" style="font-size: 0.85em;">

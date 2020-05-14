@@ -6,7 +6,7 @@
 
 <div>
     <br>
-    <div class="col-xl-12 col-lg-12 col-md-12 mx-auto">
+    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mx-auto">
         <br>
         <button id="agregarEncuesta" type="button" class="btn"><i class="fas fa-plus-square" style="color: #032345; font-size: 2em;"></i></button>
         <div class="bg-faded rounded p-4">

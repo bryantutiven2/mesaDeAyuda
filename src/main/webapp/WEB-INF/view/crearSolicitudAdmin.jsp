@@ -8,7 +8,7 @@
         <input type="text" name="tipoRolU" id="tipoRolU" value=${tipoRolU}>
     </div>
     <h2 class="mt-4 text-center">Crear Solicitud de Ayuda</h2>
-    <div class="col-xl-10 col-lg-12 col-md-12 mx-auto">
+    <div class="col-xl-11 col-lg-12 col-md-12 col-sm-12 mx-auto">
         <div class="bg-faded rounded p-5">
             <div class="loader">
                 <img src="${pageContext.request.contextPath}/images/spinner-reload.gif" alt="Loading..."/>
