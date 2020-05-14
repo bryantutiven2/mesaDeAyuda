@@ -19,6 +19,30 @@ $( document ).ready(function() {
     });
 });
 
+/*solicitud ajax con método post para actualizar usuarios*/
+function postAjaxActualizarUsuario(datos){
+    $.ajax({
+       type: 'POST',
+       contentType: 'application/json',
+       url: '/mesaayuda/dashboardUsuario/actualizarUsuario',
+       data: JSON.stringify(datos),
+       success: function(response){
+            $("#mensajeModal").empty();
+            if(response.status == "exito"){
+                $(".loader").removeClass("hidden"); //remover loader
+                reiniciaForm();
+               $("#mensajeModal").html('<i class="fas fa-check-circle" style="color: #02D90C;font-size: 24pt;margin-right: 30px;"></i> Se ha actualizado el usuario');
+               $("#modalMensaje").modal();
+            }
+            else if(response.status == "error"){
+                $(".loader").removeClass("hidden"); //remover loader
+                $("#mensajeModal").html('<i class="fas fa-times" style="color: #04A9C8;font-size: 24pt;margin-right: 30px;"></i> No se ha podido actualizar el usuario');
+                $("#modalMensaje").modal();
+            }
+        }
+    });
+}
+
 /*solicitud ajax con método post para crear usuarios*/
 function postAjaxCrearUsuario(datos){
     $.ajax({
@@ -67,7 +91,7 @@ function postAjaxCargarUsuarios(datos){
                                 "<td>"+
                                     "<div class='text-center'>"+
                                         "<div class='btn-group'>"+
-                                            "<button class='btn btn-primary btn-sm btnEditar'>"+
+                                            "<button class='btn btn-primary btn-sm btnEditar' style='font-size: 0.9em;'>"+
                                                 "<i class='fas fa-edit'></i> Editar"+
                                             "</button>"+
                                         "</div>"+
@@ -106,6 +130,7 @@ $(document).ready(function(){
 
 /*crear el json usuario para crear un usuario*/
 $(document).ready(function(){
+    let idUsuarioC = '';
     $("#formUsuarioD").submit(function(e){
         e.preventDefault();
         let datos;
@@ -119,18 +144,45 @@ $(document).ready(function(){
         let tipo = document.getElementById("tipoUser").value;
         if(tipo == '')
             tipo = null;
-        datos = {
-            nombre: nombreU,
-            apellido: apellidoU,
-            username: usuario,
-            password: pass,
-            correo: email,
-            idDepartamento: depart,
-            rol: rolU,
-            idTipo: tipo
-        };
-        $(".loader").addClass("hidden");
-        postAjaxCrearUsuario(datos);
+        if(idUsuarioC != ''){
+          datos = {
+                idUsuario: idUsuarioC,
+                nombre: nombreU,
+                apellido: apellidoU,
+                username: usuario,
+                password: pass,
+                correo: email,
+                idDepartamento: depart,
+                rol: rolU,
+                idTipo: tipo
+            };
+            idUsuarioC = '';
+            $(".loader").addClass("hidden");
+            postAjaxActualizarUsuario(datos);
+        }
+        else{
+           datos = {
+                nombre: nombreU,
+                apellido: apellidoU,
+                username: usuario,
+                password: pass,
+                correo: email,
+                idDepartamento: depart,
+                rol: rolU,
+                idTipo: tipo
+            }; 
+            $(".loader").addClass("hidden");
+            postAjaxCrearUsuario(datos);
+        }
+    });
+    $(document).on('click', '.btnEditar', function(){
+        idUsuarioC = $(this).parents("tr").find("td")[0].innerHTML;
+        $('#nombreUser').val($(this).parents("tr").find("td")[1].innerHTML);
+        $('#apellidoUser').val($(this).parents("tr").find("td")[2].innerHTML);
+        $('#nUser').val($(this).parents("tr").find("td")[3].innerHTML);
+        $('#contrasenaUser').val($(this).parents("tr").find("td")[4].innerHTML);
+        $('#correoUser').val($(this).parents("tr").find("td")[5].innerHTML);
+        $('#divCrearUsuario').show();
     });
 });
 

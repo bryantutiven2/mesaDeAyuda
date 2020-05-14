@@ -127,4 +127,52 @@ public class DashboardUsuarioController {
         return new ResponseEntity<Object>(respo, HttpStatus.OK);
     }
     
+    @PostMapping( "/actualizarUsuario" )
+    public ResponseEntity<Object> actualizarUsuario(@RequestBody UsuarioTabla usuarioO,
+                                    HttpServletRequest request, HttpServletResponse response){
+        ServiceResponse<List<Usuario>> respo = null;
+        String mensaje = "error";
+        try{
+            Integer idUsuario = usuarioO.getIdUsuario();
+            String nombre = usuarioO.getNombre();
+            String apellido = usuarioO.getApellido();
+            String username = usuarioO.getUsername();
+            String password = usuarioO.getPassword();
+            String email = usuarioO.getCorreo();
+            Integer idDepartamento = usuarioO.getIdDepartamento();
+            String idTipo = usuarioO.getIdTipo();
+            String rol = usuarioO.getRol();
+            
+            Usuario usuarioA = usuarioDao.obtenerElemento(idUsuario);
+            if(usuarioA != null){
+                usuarioA.setNombre(nombre);
+                usuarioA.setApellido(apellido);
+                usuarioA.setUsuario(username);
+                usuarioA.setContrasena(password);
+                usuarioA.setCorreo(email);
+                usuarioA.setRol(rol);
+                if(idDepartamento != null){
+                    Departamento departament = departamentoDao.obtenerElemento(idDepartamento);
+                    if(departament != null)
+                        usuarioA.setDepartamento(departament);
+
+                    if(idTipo != null){
+                        TipoGrupo tipo = tipoDao.obtenerElemento(Integer.parseInt(idTipo));
+                        usuarioA.setTipoGrupo(tipo);
+                    }
+                    Boolean retorno = usuarioDao.actualizar(usuarioA);
+                    if(retorno == true)
+                        mensaje = "exito";
+                    else if(retorno == false) 
+                        mensaje = "error";
+                } 
+            }
+            respo = new ServiceResponse<>(mensaje);
+            
+        }
+        catch(Exception exc){
+            exc.printStackTrace();
+        }
+        return new ResponseEntity<Object>(respo, HttpStatus.OK);
+    }
 }

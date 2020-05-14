@@ -60,7 +60,26 @@ public class UsuarioImpl implements IUsuarioDao{
 
     @Override
     public Boolean actualizar(Usuario o) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Transaction transaction = null;
+        Boolean retorno = null;
+        try{
+            HibernateUtil.abrirSession();
+            Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+            session.update(o);
+            transaction = session.beginTransaction();
+            transaction.commit();
+            retorno = true;
+        }
+        catch(Exception e){
+            if(transaction != null)
+                transaction.rollback();
+            e.printStackTrace();
+            retorno = false;
+        }
+        finally{
+            HibernateUtil.cerrarSession();
+        }
+        return retorno;
     }
 
     @Override
