@@ -8,7 +8,6 @@ package anai.edu.ec.mesaayuda.DaoImplementacion;
 import anai.edu.ec.mesaayuda.DAO.ISolicitudDao;
 import anai.edu.ec.mesaayuda.Entity.SolicitudAyuda;
 import anai.edu.ec.mesaayuda.Entity.SolicitudAyudaId;
-import anai.edu.ec.mesaayuda.Enum.EstadoSolicitud;
 import anai.edu.ec.mesaayuda.Util.HibernateUtil;
 import java.util.ArrayList;
 import java.util.Arrays;

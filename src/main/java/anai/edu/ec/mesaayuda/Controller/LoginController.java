@@ -40,10 +40,7 @@ public class LoginController {
     private ISubtipoDao subtipoDao = new SubtipoImpl();
     private ITipoGrupoDao tipoDao = new TipoGrupoImpl();
     private ISolicitudDao solicitudDao = new SolicitudImpl();
-    private List<SolicitudAyuda> listaSolicitudAyuda;
     private IUsuarioDao usuarioDao = new UsuarioImpl();
-    private Boolean retornoLogin = null;
-    private String retornoVista = null;
     private ModelAndView model = new ModelAndView();
     
     /***

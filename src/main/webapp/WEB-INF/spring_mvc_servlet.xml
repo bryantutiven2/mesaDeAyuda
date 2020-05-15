@@ -20,9 +20,9 @@
         <mvc:resources mapping="/script/**" location="/WEB-INF/script/"/>
 	<!-- Configuracion del view resolver-->
 	<bean
-		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-		<property name="prefix" value="/WEB-INF/view/" />
-		<property name="suffix" value=".jsp" />
+            class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+            <property name="prefix" value="/WEB-INF/view/" />
+            <property name="suffix" value=".jsp" />
 	</bean>
 </beans>
 

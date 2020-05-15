@@ -10,7 +10,6 @@ import anai.edu.ec.mesaayuda.Entity.SolicitudTabla;
 import anai.edu.ec.mesaayuda.Entity.Usuario;
 import anai.edu.ec.mesaayuda.Service.ServiceResponse;
 import static anai.edu.ec.mesaayuda.Service.SessionUsuario.obtenerSessionUsuario;
-import static anai.edu.ec.mesaayuda.main.probar.dateFormat;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;

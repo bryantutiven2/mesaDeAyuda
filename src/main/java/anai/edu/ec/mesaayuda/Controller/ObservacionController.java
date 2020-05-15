@@ -44,7 +44,7 @@ public class ObservacionController {
     private DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
     
     @PostMapping( "/cargarObservaciones")
-    public ResponseEntity<Object> cargarEncuestas(@RequestBody ObservacionTabla observacionO,
+    public ResponseEntity<Object> cargarObservaciones(@RequestBody ObservacionTabla observacionO,
                                                 HttpServletRequest request, HttpServletResponse response){
         ServiceResponse<List<ObservacionTabla>> respo = null;
         List<ObservacionTabla> listaTabla = new ArrayList<>();
@@ -71,7 +71,7 @@ public class ObservacionController {
     }
     
     @PostMapping( "/crearObservacion" )
-    public ResponseEntity<Object> crearEncuesta(@RequestBody ObservacionTabla observacionO,
+    public ResponseEntity<Object> crearObservacion(@RequestBody ObservacionTabla observacionO,
                                     HttpServletRequest request, HttpServletResponse response){
         ServiceResponse<List<ObservacionTabla>> respo = null;
         String mensaje = "error";

@@ -134,7 +134,12 @@ $(document).ready(function () {
     //$('#finalSolicitud').click(function(){
         let cod = localStorage.getItem("idSolicitud");
         let descripcion = $("#descripcion_st").val();
-        let subtipo = document.getElementById("selectSubtipo").value;
+        let st = document.getElementById("selectSubtipo").value;
+        let subtipo;
+        if(st != 'none' )
+            subtipo = st.split('-')[1];
+        else
+            subtipo = st;
         if(descripcion == "" || subtipo == ""){
             $("#mensajeModal").html('<i class="fas fa-exclamation-triangle" style="color: #F87011;font-size: 24pt;margin-right: 30px;"></i> Tiene campos sin llenar');
             $("#modalMensaje").modal();
@@ -162,7 +167,12 @@ $(document).ready(function () {
     //$('#reevaluarSolicitud').click(function(){
         let cod = localStorage.getItem("idSolicitud");
         let descripcion = $("#descripcion_st").val();
-        let subtipo = document.getElementById("selectSubtipo").value;
+        let st = document.getElementById("selectSubtipo").value;
+        let subtipo
+        if(st != 'none' )
+            subtipo = st.split('-')[1];
+        else
+            subtipo = st;
         if(descripcion == "" || subtipo == ""){
             $("#mensajeModal").html('<i class="fas fa-exclamation-triangle" style="color: #F87011;font-size: 24pt;margin-right: 30px;"></i> Tiene campos sin llenar');
             $("#modalMensaje").modal();

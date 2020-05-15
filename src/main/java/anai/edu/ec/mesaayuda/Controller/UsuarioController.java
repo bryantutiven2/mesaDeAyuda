@@ -48,7 +48,6 @@ public class UsuarioController {
     private IGrupoDao grupoDao = new GrupoImpl();
     private String id_nvez = null;
     private Date fechaInicio;
-    private String retornoVista = null;
     private ModelAndView model = new ModelAndView();
     private Usuario usuario;
     private List<SolicitudAyuda> listaSolicitudAyuda;
